@@ -20,6 +20,7 @@ import '../../features/newborn/views/feeding_log_screen.dart';
 import '../../features/newborn/views/diaper_log_screen.dart';
 import '../../features/newborn/views/emergency_reference_screen.dart';
 import '../../features/newborn/views/postpartum_screen.dart';
+import '../../features/newborn/views/baby_foods_screen.dart';
 import '../../features/ai/views/ai_chat_screen.dart';
 import '../../features/community/views/community_screen.dart';
 import '../../features/admin/views/admin_dashboard_screen.dart';
@@ -118,6 +119,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/postpartum',
         builder: (context, state) => const PostpartumScreen(),
+      ),
+      GoRoute(
+        path: '/baby-foods',
+        builder: (context, state) => const BabyFoodsScreen(),
       ),
 
       // Admin shell
