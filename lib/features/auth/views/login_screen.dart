@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
-import '../providers/auth_provider.dart';
+import '../../../core/services/auth_service.dart';
+import '../../../main.dart' show isFirebaseInitialized;
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -13,7 +15,6 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _isLogin = true;
   bool _isLoading = false;
   String? _error;
 
@@ -29,29 +30,35 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       setState(() => _error = 'Please enter an email');
       return;
     }
-    setState(() { _isLoading = true; _error = null; });
-    try {
-      final auth = ref.read(demoAuthServiceProvider);
-      await auth.signIn(
-        _emailController.text.trim(),
-        _passwordController.text,
-      );
-    } catch (e) {
-      setState(() => _error = e.toString());
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+    final result = await AuthService().signIn(
+      email: _emailController.text.trim(),
+      password: _passwordController.text,
+    );
+    if (!mounted) return;
+    if (!result.success) {
+      setState(() {
+        _error = result.error;
+        _isLoading = false;
+      });
     }
   }
 
   Future<void> _quickLogin(String email) async {
-    setState(() { _isLoading = true; _error = null; });
-    try {
-      final auth = ref.read(demoAuthServiceProvider);
-      await auth.signIn(email, 'demo');
-    } catch (e) {
-      setState(() => _error = e.toString());
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+    final result = await AuthService().signIn(email: email, password: 'demo');
+    if (!mounted) return;
+    if (!result.success) {
+      setState(() {
+        _error = result.error;
+        _isLoading = false;
+      });
     }
   }
 
@@ -83,16 +90,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               const SizedBox(height: 24),
               Center(
                 child: Text(
-                  _isLogin ? 'Welcome back' : 'Create account',
+                  'Welcome back',
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
               ),
               const SizedBox(height: 8),
               Center(
                 child: Text(
-                  _isLogin
-                      ? 'Sign in to continue your journey'
-                      : 'Start your parenting journey with Balam',
+                  'Sign in to continue your journey',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: AppColors.textSecondary,
                       ),
@@ -100,8 +105,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
               const SizedBox(height: 32),
 
-              // Demo quick access — Bezos style: remove ALL friction
-              Container(
+              // Demo quick access — only shown in demo mode
+              if (!isFirebaseInitialized) Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -228,7 +233,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           height: 20, width: 20,
                           child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                         )
-                      : Text(_isLogin ? 'Sign In' : 'Sign Up'),
+                      : const Text('Sign In'),
                 ),
               ),
               const SizedBox(height: 24),
@@ -256,12 +261,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               // Toggle login/signup
               Center(
                 child: TextButton(
-                  onPressed: () => setState(() => _isLogin = !_isLogin),
-                  child: Text(
-                    _isLogin
-                        ? "Don't have an account? Sign Up"
-                        : 'Already have an account? Sign In',
-                  ),
+                  onPressed: () => context.push('/signup'),
+                  child: const Text("Don't have an account? Sign Up"),
                 ),
               ),
             ],

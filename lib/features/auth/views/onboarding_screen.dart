@@ -93,7 +93,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             curve: Curves.easeInOut,
                           );
                         } else {
-                          context.go('/login');
+                          context.go('/signup');
                         }
                       },
                       child: Text(
@@ -106,7 +106,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   const SizedBox(height: 12),
                   if (_currentPage < _pages.length - 1)
                     TextButton(
-                      onPressed: () => context.go('/login'),
+                      onPressed: () => context.go('/signup'),
                       child: const Text('Skip'),
                     ),
                 ],

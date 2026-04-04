@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/constants/app_constants.dart';
+import '../../../core/services/auth_service.dart';
 import '../providers/auth_provider.dart';
 import '../../journey/providers/journey_provider.dart';
 
@@ -11,7 +12,8 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(currentUserProvider);
+    final userInfo = ref.watch(currentUserInfoProvider);
+    final demoUser = ref.watch(currentDemoUserProvider);
     final profile = ref.watch(userProfileProvider);
 
     return Scaffold(
@@ -25,8 +27,8 @@ class ProfileScreen extends ConsumerWidget {
               radius: 48,
               backgroundColor: AppColors.primary.withValues(alpha: 0.1),
               child: Text(
-                user?.displayName.isNotEmpty == true
-                    ? user!.displayName[0].toUpperCase()
+                (userInfo.name != null && userInfo.name!.isNotEmpty)
+                    ? userInfo.name![0].toUpperCase()
                     : '👋',
                 style: const TextStyle(fontSize: 32),
               ),
@@ -35,17 +37,17 @@ class ProfileScreen extends ConsumerWidget {
           const SizedBox(height: 16),
           Center(
             child: Text(
-              user?.displayName ?? 'Parent',
+              userInfo.name ?? 'Parent',
               style: Theme.of(context).textTheme.headlineSmall,
             ),
           ),
           Center(
             child: Text(
-              user?.email ?? '',
+              userInfo.email ?? '',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
-          if (user != null)
+          if (demoUser != null)
             Center(
               child: Container(
                 margin: const EdgeInsets.only(top: 8),
@@ -55,7 +57,7 @@ class ProfileScreen extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  user.role.name.toUpperCase(),
+                  demoUser.role.name.toUpperCase(),
                   style: const TextStyle(
                     color: AppColors.secondary,
                     fontWeight: FontWeight.w600,
@@ -188,7 +190,7 @@ class ProfileScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 24),
           OutlinedButton(
-            onPressed: () => ref.read(demoAuthServiceProvider).signOut(),
+            onPressed: () => AuthService().signOut(),
             style: OutlinedButton.styleFrom(
               foregroundColor: AppColors.error,
               side: const BorderSide(color: AppColors.error),

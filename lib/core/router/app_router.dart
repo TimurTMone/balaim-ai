@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../features/auth/views/onboarding_screen.dart';
 import '../../features/auth/views/login_screen.dart';
+import '../../features/auth/views/signup_screen.dart';
 import '../../features/auth/views/stage_selection_screen.dart';
 import '../../features/auth/views/profile_screen.dart';
 import '../../features/auth/providers/auth_provider.dart';
@@ -24,27 +25,29 @@ import '../../features/newborn/views/baby_foods_screen.dart';
 import '../../features/ai/views/ai_chat_screen.dart';
 import '../../features/community/views/community_screen.dart';
 import '../../features/admin/views/admin_dashboard_screen.dart';
+import '../../features/admin/views/admin_metrics_screen.dart';
 import '../../features/professionals/views/professionals_screen.dart';
 import '../../features/marketplace/views/marketplace_screen.dart';
 import '../router/shell_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authStateProvider);
+  final demoUser = ref.watch(currentDemoUserProvider);
 
   return GoRouter(
     initialLocation: '/',
     redirect: (context, state) {
-      final user = authState.valueOrNull;
-      final isLoggedIn = user != null;
+      final isLoggedIn = authState.valueOrNull == true;
       final isAuthRoute = state.matchedLocation == '/onboarding' ||
-          state.matchedLocation == '/login';
+          state.matchedLocation == '/login' ||
+          state.matchedLocation == '/signup';
 
       if (!isLoggedIn && !isAuthRoute) {
         return '/onboarding';
       }
       if (isLoggedIn && isAuthRoute) {
-        // Route admins to admin dashboard
-        if (user.isAdmin) return '/admin';
+        // Route admin demo users to admin dashboard
+        if (demoUser?.isAdmin == true) return '/admin';
         return '/';
       }
       return null;
@@ -58,6 +61,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/login',
         builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: '/signup',
+        builder: (context, state) => const SignupScreen(),
       ),
       GoRoute(
         path: '/stage-select',
@@ -129,6 +136,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/admin',
         builder: (context, state) => const AdminDashboardScreen(),
+      ),
+      GoRoute(
+        path: '/admin/metrics',
+        builder: (context, state) => const AdminMetricsScreen(),
       ),
 
       // Main parent app shell with bottom navigation

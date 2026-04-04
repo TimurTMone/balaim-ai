@@ -1,13 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/constants/app_constants.dart';
+import '../../../core/services/analytics_service.dart';
+import '../../../core/services/auth_service.dart';
+import '../../../core/services/user_profile_service.dart';
+import '../../journey/providers/journey_provider.dart';
 
-class StageSelectionScreen extends StatelessWidget {
+class StageSelectionScreen extends ConsumerWidget {
   const StageSelectionScreen({super.key});
 
+  void _selectStage(BuildContext context, WidgetRef ref, ParentingStage stage) {
+    // Update in-memory profile
+    ref.read(userProfileProvider.notifier).updateStage(stage);
+
+    // Persist to Firestore if user is signed in
+    final uid = AuthService().currentUid;
+    if (uid != null) {
+      UserProfileService().updateProfile(uid: uid, stage: stage.name);
+    }
+
+    // Log analytics
+    AnalyticsService().logStageSelected(stage.name);
+    AnalyticsService().setUserProperties(stage: stage.name);
+
+    // Route pregnant users to due date; others to home
+    if (stage == ParentingStage.pregnant) {
+      context.go('/due-date');
+    } else {
+      context.go('/');
+    }
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -33,28 +60,31 @@ class StageSelectionScreen extends StatelessWidget {
                 stage: ParentingStage.tryingToConceive,
                 icon: Icons.favorite,
                 color: AppColors.stagePrePregnancy,
-                onTap: () => context.go('/'),
+                onTap: () => _selectStage(
+                    context, ref, ParentingStage.tryingToConceive),
               ),
               const SizedBox(height: 12),
               _StageCard(
                 stage: ParentingStage.pregnant,
                 icon: Icons.pregnant_woman,
                 color: AppColors.stagePregnancy,
-                onTap: () => context.go('/'),
+                onTap: () =>
+                    _selectStage(context, ref, ParentingStage.pregnant),
               ),
               const SizedBox(height: 12),
               _StageCard(
                 stage: ParentingStage.newborn,
                 icon: Icons.child_care,
                 color: AppColors.stageNewborn,
-                onTap: () => context.go('/'),
+                onTap: () =>
+                    _selectStage(context, ref, ParentingStage.newborn),
               ),
               const SizedBox(height: 12),
               _StageCard(
                 stage: ParentingStage.toddler,
                 icon: Icons.child_friendly,
                 color: AppColors.stageToddler,
-                onTap: () => context.go('/'),
+                onTap: () => _selectStage(context, ref, ParentingStage.toddler),
               ),
             ],
           ),

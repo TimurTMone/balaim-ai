@@ -1,84 +1,197 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart' as fb;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../main.dart' show isFirebaseInitialized;
 import 'demo_auth_service.dart';
+import 'analytics_service.dart';
 
-/// Unified auth service — uses Firebase when available, falls back to demo mode.
-/// This allows the app to work without Firebase configured.
+/// Unified auth service — Firebase when configured, demo fallback otherwise.
+///
+/// Design:
+/// - Single source of truth for auth state
+/// - Graceful degradation: app works identically in either mode
+/// - When Firebase is on, creates a matching Firestore user doc on signup
 class AuthService {
-  final fb.FirebaseAuth? _firebaseAuth;
-  final DemoAuthService _demoAuth;
-  bool _useFirebase = false;
+  static final AuthService _instance = AuthService._();
+  factory AuthService() => _instance;
+  AuthService._();
 
-  AuthService({fb.FirebaseAuth? firebaseAuth})
-      : _firebaseAuth = firebaseAuth,
-        _demoAuth = DemoAuthService() {
-    _useFirebase = _firebaseAuth != null;
+  final DemoAuthService _demo = DemoAuthService();
+
+  bool get _useFirebase => isFirebaseInitialized;
+
+  // ==========================================================
+  // CURRENT USER
+  // ==========================================================
+
+  String? get currentUid {
+    if (_useFirebase) return fb.FirebaseAuth.instance.currentUser?.uid;
+    return _demo.currentUser?.uid;
   }
 
-  bool get isFirebaseMode => _useFirebase;
-  bool get isDemoMode => !_useFirebase;
-
-  /// Current user email
-  String? get currentUserEmail {
-    if (_useFirebase) return _firebaseAuth!.currentUser?.email;
-    return _demoAuth.currentUser?.email;
+  String? get currentEmail {
+    if (_useFirebase) return fb.FirebaseAuth.instance.currentUser?.email;
+    return _demo.currentUser?.email;
   }
 
-  /// Current user display name
-  String? get currentUserDisplayName {
-    if (_useFirebase) return _firebaseAuth!.currentUser?.displayName;
-    return _demoAuth.currentUser?.displayName;
+  String? get currentDisplayName {
+    if (_useFirebase) return fb.FirebaseAuth.instance.currentUser?.displayName;
+    return _demo.currentUser?.displayName;
   }
 
-  /// Current user UID
-  String? get currentUserUid {
-    if (_useFirebase) return _firebaseAuth!.currentUser?.uid;
-    return _demoAuth.currentUser?.uid;
-  }
+  bool get isSignedIn => currentUid != null;
 
-  /// Auth state stream — emits true when logged in, false when logged out
+  // ==========================================================
+  // AUTH STATE STREAM
+  // ==========================================================
+
   Stream<bool> get authStateChanges {
     if (_useFirebase) {
-      return _firebaseAuth!.authStateChanges().map((user) => user != null);
+      return fb.FirebaseAuth.instance
+          .authStateChanges()
+          .map((user) => user != null);
     }
-    return _demoAuth.authStateChanges.map((user) => user != null);
+    return _demo.authStateChanges.map((user) => user != null);
   }
 
-  /// Sign in with email/password
-  Future<void> signInWithEmail(String email, String password) async {
-    if (_useFirebase) {
-      await _firebaseAuth!.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-    } else {
-      await _demoAuth.signIn(email, password);
+  // ==========================================================
+  // SIGN UP — creates account + Firestore user doc
+  // ==========================================================
+
+  Future<AuthResult> signUp({
+    required String email,
+    required String password,
+    required String displayName,
+  }) async {
+    try {
+      if (_useFirebase) {
+        final cred = await fb.FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+        await cred.user?.updateDisplayName(displayName);
+
+        // Create Firestore user document
+        if (cred.user != null) {
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(cred.user!.uid)
+              .set({
+            'uid': cred.user!.uid,
+            'email': email,
+            'displayName': displayName,
+            'createdAt': FieldValue.serverTimestamp(),
+            'updatedAt': FieldValue.serverTimestamp(),
+            'stage': null,
+            'dueDate': null,
+            'babyBirthDate': null,
+          });
+        }
+
+        AnalyticsService().logSignUp(method: 'email');
+        return AuthResult.success(cred.user!.uid);
+      } else {
+        // Demo mode: create an account with any credentials
+        final user = await _demo.signIn(email, password);
+        AnalyticsService().logSignUp(method: 'demo');
+        return AuthResult.success(user.uid);
+      }
+    } on fb.FirebaseAuthException catch (e) {
+      return AuthResult.failure(_friendlyError(e));
+    } catch (e) {
+      return AuthResult.failure('Something went wrong. Please try again.');
     }
   }
 
-  /// Sign up with email/password
-  Future<void> signUpWithEmail(String email, String password) async {
-    if (_useFirebase) {
-      await _firebaseAuth!.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-    } else {
-      await _demoAuth.signIn(email, password);
+  // ==========================================================
+  // SIGN IN
+  // ==========================================================
+
+  Future<AuthResult> signIn({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      if (_useFirebase) {
+        final cred = await fb.FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password);
+        AnalyticsService().logLogin(method: 'email');
+        return AuthResult.success(cred.user!.uid);
+      } else {
+        final user = await _demo.signIn(email, password);
+        AnalyticsService().logLogin(method: 'demo');
+        return AuthResult.success(user.uid);
+      }
+    } on fb.FirebaseAuthException catch (e) {
+      return AuthResult.failure(_friendlyError(e));
+    } catch (e) {
+      return AuthResult.failure('Something went wrong. Please try again.');
     }
   }
 
-  /// Sign out
+  // ==========================================================
+  // SIGN OUT
+  // ==========================================================
+
   Future<void> signOut() async {
     if (_useFirebase) {
-      await _firebaseAuth!.signOut();
+      await fb.FirebaseAuth.instance.signOut();
     } else {
-      await _demoAuth.signOut();
+      await _demo.signOut();
     }
   }
 
-  /// Switch to demo mode (useful if Firebase fails)
-  void fallbackToDemo() {
-    _useFirebase = false;
+  // ==========================================================
+  // PASSWORD RESET
+  // ==========================================================
+
+  Future<AuthResult> sendPasswordReset(String email) async {
+    try {
+      if (_useFirebase) {
+        await fb.FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+        return AuthResult.success(null);
+      } else {
+        return AuthResult.success(null);
+      }
+    } on fb.FirebaseAuthException catch (e) {
+      return AuthResult.failure(_friendlyError(e));
+    }
   }
+
+  // ==========================================================
+  // ERROR FORMATTING
+  // ==========================================================
+
+  String _friendlyError(fb.FirebaseAuthException e) {
+    switch (e.code) {
+      case 'email-already-in-use':
+        return 'An account already exists with this email.';
+      case 'invalid-email':
+        return 'Please enter a valid email address.';
+      case 'weak-password':
+        return 'Password must be at least 6 characters.';
+      case 'user-not-found':
+      case 'wrong-password':
+      case 'invalid-credential':
+        return 'Incorrect email or password.';
+      case 'too-many-requests':
+        return 'Too many attempts. Try again later.';
+      case 'network-request-failed':
+        return 'Network error. Check your connection.';
+      default:
+        return e.message ?? 'Authentication failed.';
+    }
+  }
+}
+
+class AuthResult {
+  final bool success;
+  final String? uid;
+  final String? error;
+
+  const AuthResult._({required this.success, this.uid, this.error});
+
+  factory AuthResult.success(String? uid) =>
+      AuthResult._(success: true, uid: uid);
+
+  factory AuthResult.failure(String error) =>
+      AuthResult._(success: false, error: error);
 }

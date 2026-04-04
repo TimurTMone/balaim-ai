@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/services/auth_service.dart';
 import '../../auth/providers/auth_provider.dart';
 
 class AdminDashboardScreen extends ConsumerWidget {
@@ -8,7 +10,7 @@ class AdminDashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(currentUserProvider);
+    final userInfo = ref.watch(currentUserInfoProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -16,7 +18,7 @@ class AdminDashboardScreen extends ConsumerWidget {
         title: const Text('Admin Dashboard'),
         actions: [
           TextButton.icon(
-            onPressed: () => ref.read(demoAuthServiceProvider).signOut(),
+            onPressed: () => AuthService().signOut(),
             icon: const Icon(Icons.logout, size: 18),
             label: const Text('Sign Out'),
           ),
@@ -41,7 +43,7 @@ class AdminDashboardScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Welcome, ${user?.displayName ?? 'Admin'}',
+                    'Welcome, ${userInfo.name ?? 'Admin'}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 24,
@@ -113,6 +115,13 @@ class AdminDashboardScreen extends ConsumerWidget {
             // Platform sections
             Text('Platform Management', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 12),
+            _AdminTile(
+              icon: Icons.insights,
+              title: 'Live Metrics',
+              subtitle: 'Real signup counts and growth',
+              color: AppColors.primary,
+              onTap: () => context.push('/admin/metrics'),
+            ),
             _AdminTile(
               icon: Icons.people_outline,
               title: 'User Management',
