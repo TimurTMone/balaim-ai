@@ -13,6 +13,7 @@ import '../../features/journey/views/contraction_timer_screen.dart';
 import '../../features/journey/views/hospital_bag_screen.dart';
 import '../../features/journey/views/birth_plan_screen.dart';
 import '../../features/journey/views/baby_names_screen.dart';
+import '../../features/journey/views/trimester_guide_screen.dart';
 import '../../features/sounds/views/sounds_screen.dart';
 import '../../features/newborn/views/soothing_techniques_screen.dart';
 import '../../features/newborn/views/feeding_log_screen.dart';
@@ -89,6 +90,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/baby-names',
         builder: (context, state) => const BabyNamesScreen(),
+      ),
+      GoRoute(
+        path: '/trimester-guide',
+        builder: (context, state) => const TrimesterGuideScreen(),
       ),
       GoRoute(
         path: '/sounds',

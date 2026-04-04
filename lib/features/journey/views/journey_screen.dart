@@ -300,6 +300,18 @@ class JourneyScreen extends ConsumerWidget {
                   color: AppColors.stagePrePregnancy,
                   onTap: () => context.push('/baby-names'),
                 ),
+                _ToolTile(
+                  icon: Icons.menu_book,
+                  label: 'Trimester\nGuide',
+                  color: AppColors.success,
+                  onTap: () => context.push('/trimester-guide'),
+                ),
+                _ToolTile(
+                  icon: Icons.auto_awesome,
+                  label: 'AI\nChat',
+                  color: AppColors.secondaryDark,
+                  onTap: () => context.go('/ai'),
+                ),
               ],
             ),
             // Recommended products for pregnancy

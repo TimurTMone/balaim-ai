@@ -51,7 +51,15 @@ class BabyMonthData {
   }
 
   static BabyMonthData getMonth(int month) {
-    return _monthData[month.clamp(0, 24)] ?? _monthData[0]!;
+    final clamped = month.clamp(0, 24);
+    if (_monthData.containsKey(clamped)) return _monthData[clamped]!;
+    // Find closest lower month with data
+    final keys = _monthData.keys.toList()..sort();
+    int closest = keys.first;
+    for (final k in keys) {
+      if (k <= clamped) closest = k;
+    }
+    return _monthData[closest]!;
   }
 
   static List<BabyMonthData> getAllMonths() {
@@ -1096,6 +1104,851 @@ class BabyMonthData {
           'Lead screening',
         ],
       ),
+    ),
+
+    // =====================================================
+    // INFANCY fill-ins (5, 7, 8, 10, 11 months)
+    // =====================================================
+    5: BabyMonthData(
+      month: 5,
+      title: 'Rolling & Grabbing',
+      emoji: '🤸',
+      avgWeightKgBoy: 7.5,
+      avgWeightKgGirl: 6.9,
+      avgHeightCmBoy: 65.9,
+      avgHeightCmGirl: 64.0,
+      physicalDevelopment:
+          'Baby rolls both ways. Head control is excellent. They may sit with lots of support. Reaching and grabbing everything is their new superpower.',
+      cognitiveDevelopment:
+          'Recognizes their name. Understands object permanence partially. Shows curiosity about surroundings. May start to anticipate feedings/routines.',
+      socialEmotional:
+          'Laughs and squeals. Knows familiar faces. May show stranger awareness starting. Wants attention and social interaction constantly.',
+      languageDevelopment:
+          'Babbles with more consonants ("ba," "da," "ga"). Squeals in delight. Responds to your tone. Blows raspberries.',
+      milestones: const [
+        MilestoneItem('Rolls both directions consistently', MilestoneCategory.motor),
+        MilestoneItem('Reaches accurately for objects', MilestoneCategory.motor),
+        MilestoneItem('Brings everything to mouth', MilestoneCategory.cognitive),
+        MilestoneItem('Responds to own name', MilestoneCategory.language),
+        MilestoneItem('Laughs out loud', MilestoneCategory.social),
+      ],
+      activities: const [
+        'Supervised tummy time with toys just out of reach',
+        'High-contrast books and mirror play',
+        'Rattles and sensory toys to explore textures',
+        'Sing songs with hand motions',
+        'Read aloud daily — even if it\'s the same book',
+      ],
+      sleep: const SleepGuide(
+        totalHours: '12-16 hours',
+        pattern: '10-11h at night with 1-2 wakes. 3 naps (morning, midday, late afternoon).',
+        tips: [
+          '4-month sleep regression may continue or resolve',
+          'Start introducing a gentle bedtime routine',
+          'Dark room, white noise, consistent wind-down helps',
+          'Some babies sleep through the night, many don\'t — both are normal',
+        ],
+      ),
+      feeding: const FeedingGuide(
+        type: 'Breast milk or formula still primary',
+        frequency: '5-6 feeds per day',
+        amount: '180-240ml per bottle feed',
+        tips: [
+          'Most babies NOT ready for solids until 6 months',
+          'Watch for readiness signs: sits with support, interested in food',
+          'No water before 6 months (except tiny sips for teething)',
+          'Solids before 6 months can displace vital milk calories',
+        ],
+      ),
+      redFlags: const [
+        'Does not roll in either direction',
+        'Does not smile or laugh',
+        'Does not hold head up during tummy time',
+        'Does not reach for objects',
+        'Does not babble or make sounds',
+      ],
+      parentTips: const [
+        'Prep your kitchen for starting solids soon',
+        'Research baby-led weaning vs purees (both are valid)',
+        'High chair time to practice sitting',
+        'Your baby is paying attention to everything you do',
+      ],
+    ),
+
+    7: BabyMonthData(
+      month: 7,
+      title: 'Sitting & Exploring',
+      emoji: '🪑',
+      avgWeightKgBoy: 8.3,
+      avgWeightKgGirl: 7.6,
+      avgHeightCmBoy: 69.2,
+      avgHeightCmGirl: 67.3,
+      physicalDevelopment:
+          'Sits independently without hands for support. May rock on hands and knees (pre-crawl). Can pass objects from one hand to the other. Pincer grasp developing.',
+      cognitiveDevelopment:
+          'Strong sense of object permanence. Looks for dropped items. Explores objects with all senses. Understands simple cause and effect.',
+      socialEmotional:
+          'Clear stranger anxiety. Prefers primary caregivers. Enjoys peek-a-boo. May have favorite toys or comfort items.',
+      languageDevelopment:
+          'Babbles with variety. May imitate speech sounds. Responds to "no" (sometimes). Turns head to follow voices.',
+      milestones: const [
+        MilestoneItem('Sits without support', MilestoneCategory.motor),
+        MilestoneItem('Transfers objects hand to hand', MilestoneCategory.motor),
+        MilestoneItem('Babbles with variety', MilestoneCategory.language),
+        MilestoneItem('Looks for dropped objects', MilestoneCategory.cognitive),
+        MilestoneItem('Shows stranger anxiety', MilestoneCategory.social),
+      ],
+      activities: const [
+        'Sitting play with lots of toys within reach',
+        'Simple games: peek-a-boo, pat-a-cake',
+        'Safe exploration zone on floor',
+        'Finger foods to practice grasping (avoid choking hazards)',
+        'Name body parts daily',
+      ],
+      sleep: const SleepGuide(
+        totalHours: '12-15 hours',
+        pattern: '10-12h at night, 2-3 naps. Many babies drop to 2 naps this month.',
+        tips: [
+          'Nap transition period — expect some crankiness',
+          'Separation anxiety may disrupt sleep',
+          'Keep consistent bedtime routine',
+          'Brief crying is OK at bedtime',
+        ],
+      ),
+      feeding: const FeedingGuide(
+        type: 'Milk + solid foods 1-2x daily',
+        frequency: '4-5 milk feeds + 1-2 meals',
+        amount: '180-240ml milk, 1-4 tablespoons solids',
+        tips: [
+          'Introduce new foods one at a time',
+          'Offer iron-rich foods daily',
+          'Watch for allergic reactions',
+          'Mealtime is messy learning — embrace it',
+        ],
+      ),
+      redFlags: const [
+        'Does not sit with support',
+        'Does not babble',
+        'Does not respond to own name',
+        'Does not show interest in surroundings',
+      ],
+      parentTips: const [
+        'Baby-proof everything at crawling level',
+        'This is a big social month — stranger anxiety is NORMAL',
+        'Don\'t force baby to go to unfamiliar people',
+        'Take lots of photos — they change so fast',
+      ],
+    ),
+
+    8: BabyMonthData(
+      month: 8,
+      title: 'Crawling & Curious',
+      emoji: '🕷️',
+      avgWeightKgBoy: 8.6,
+      avgWeightKgGirl: 7.9,
+      avgHeightCmBoy: 70.6,
+      avgHeightCmGirl: 68.7,
+      physicalDevelopment:
+          'Many babies crawl this month (though 9-10 is common too). Pulls to stand. Sits confidently. Pincer grasp refining. May cruise along furniture.',
+      cognitiveDevelopment:
+          'Understands simple words. Looks for hidden objects. Shows preferences for toys and people. Explores cause-effect constantly.',
+      socialEmotional:
+          'Strong attachment to caregivers. Separation anxiety peaks. Mimics facial expressions. Plays social games actively.',
+      languageDevelopment:
+          '"Mama" and "dada" may emerge (not yet specific). Combines syllables. Responds to gestures like waving.',
+      milestones: const [
+        MilestoneItem('Crawls or scoots', MilestoneCategory.motor),
+        MilestoneItem('Pulls up to standing', MilestoneCategory.motor),
+        MilestoneItem('Uses pincer grasp', MilestoneCategory.motor),
+        MilestoneItem('Says "mama"/"dada" non-specifically', MilestoneCategory.language),
+        MilestoneItem('Responds to own name consistently', MilestoneCategory.language),
+      ],
+      activities: const [
+        'Create safe crawling spaces',
+        'Stacking cups, soft blocks',
+        'Cause-effect toys (buttons, lids, containers)',
+        'Read picture books together',
+        'Sing songs with gestures',
+      ],
+      sleep: const SleepGuide(
+        totalHours: '12-15 hours',
+        pattern: '10-12h at night, 2 naps (morning + afternoon).',
+        tips: [
+          '8-month sleep regression is real — hang in there',
+          'Milestones (crawling, standing) disrupt sleep',
+          'Consistency is more important than ever',
+          'Practice new skills during day, not in crib',
+        ],
+      ),
+      feeding: const FeedingGuide(
+        type: 'Milk + solids 2-3x daily',
+        frequency: '4 milk feeds + 3 meals',
+        amount: '180-240ml milk, several tablespoons solids per meal',
+        tips: [
+          'Offer a variety of textures now — not just purees',
+          'Self-feeding with fingers builds skills',
+          'Water in an open/straw cup with meals',
+          'Don\'t add salt, sugar, or honey',
+        ],
+      ),
+      redFlags: const [
+        'Does not bear weight on legs',
+        'Does not babble at all',
+        'Does not sit without support',
+        'Does not transfer toys hand to hand',
+        'Does not show interest in others',
+      ],
+      parentTips: const [
+        'Put gates on stairs NOW',
+        'Secure heavy furniture to walls',
+        'Cabinets need locks at this stage',
+        'Peak separation anxiety — don\'t sneak out',
+      ],
+    ),
+
+    10: BabyMonthData(
+      month: 10,
+      title: 'Climbing & Cruising',
+      emoji: '🧗',
+      avgWeightKgBoy: 9.2,
+      avgWeightKgGirl: 8.5,
+      avgHeightCmBoy: 73.3,
+      avgHeightCmGirl: 71.5,
+      physicalDevelopment:
+          'Cruises along furniture. May stand briefly without support. Sits down from standing. Picks up tiny objects with pincer grasp.',
+      cognitiveDevelopment:
+          'Shakes, bangs, throws things to explore. Uses toys correctly (cups to drink, brush to brush hair). Understands simple instructions.',
+      socialEmotional:
+          'Waves bye-bye. Claps. Expresses more emotions clearly. May show preferences (favorite toy, blanket, parent).',
+      languageDevelopment:
+          'First real word possible ("mama" or "dada" with meaning). Follows simple commands. Understands "no."',
+      milestones: const [
+        MilestoneItem('Cruises along furniture', MilestoneCategory.motor),
+        MilestoneItem('Stands briefly without support', MilestoneCategory.motor),
+        MilestoneItem('Says first word with meaning', MilestoneCategory.language),
+        MilestoneItem('Waves and claps', MilestoneCategory.social),
+        MilestoneItem('Follows simple commands', MilestoneCategory.language),
+      ],
+      activities: const [
+        'Push toys for early walking practice',
+        'Simple puzzles with knobs',
+        'Reading with pointing at pictures',
+        'Dance parties!',
+        'Stacking and knocking down',
+      ],
+      sleep: const SleepGuide(
+        totalHours: '12-14 hours',
+        pattern: '10-12h at night, 2 naps (may transition to 1 over next months).',
+        tips: [
+          'Milestones may cause brief sleep regressions',
+          'Keep bedtime consistent',
+          'Morning nap usually drops between 12-18 months',
+          'Room should be dark and cool',
+        ],
+      ),
+      feeding: const FeedingGuide(
+        type: 'Milk + full meals 3x daily',
+        frequency: '3-4 milk feeds + 3 meals + snacks',
+        amount: '180-210ml milk, full servings at meals',
+        tips: [
+          'Introduce cup for milk gradually',
+          'Family foods (appropriate textures)',
+          'Offer 3 meals and 2 snacks on schedule',
+          'Still avoid honey until 12 months',
+        ],
+      ),
+      redFlags: const [
+        'Does not crawl in any fashion',
+        'Does not stand with support',
+        'Does not use any words or gestures',
+        'Does not search for hidden objects',
+      ],
+      parentTips: const [
+        'Walking is coming — prepare safe floors',
+        'Say "yes" more than "no" when possible',
+        'Name everything throughout the day',
+        'Praise effort, not just success',
+      ],
+    ),
+
+    11: BabyMonthData(
+      month: 11,
+      title: 'Almost Walking',
+      emoji: '🎈',
+      avgWeightKgBoy: 9.4,
+      avgWeightKgGirl: 8.7,
+      avgHeightCmBoy: 74.5,
+      avgHeightCmGirl: 72.8,
+      physicalDevelopment:
+          'Stands alone for several seconds. May take first independent steps. Walks holding furniture with confidence. Uses pincer grasp precisely.',
+      cognitiveDevelopment:
+          'Imitates actions. Uses objects for their purpose (phone to ear). Understands many more words than they can say. Shows interest in books.',
+      socialEmotional:
+          'Shows humor. Performs for attention. May have specific fears (loud noises, strangers). Shows affection actively.',
+      languageDevelopment:
+          'Says 1-3 words meaningfully. Understands 30-50 words. Uses gestures to communicate. Shakes head for "no."',
+      milestones: const [
+        MilestoneItem('Stands independently', MilestoneCategory.motor),
+        MilestoneItem('May take first steps', MilestoneCategory.motor),
+        MilestoneItem('Uses 1-3 meaningful words', MilestoneCategory.language),
+        MilestoneItem('Imitates actions', MilestoneCategory.cognitive),
+        MilestoneItem('Shows affection', MilestoneCategory.social),
+      ],
+      activities: const [
+        'Walk around holding hands',
+        'Push walker toys',
+        'Ball rolling/tossing games',
+        'Simple pretend play (feeding a doll)',
+        'Interactive books with flaps',
+      ],
+      sleep: const SleepGuide(
+        totalHours: '12-14 hours',
+        pattern: '10-12h at night, 2 naps.',
+        tips: [
+          'Milestones can disrupt sleep temporarily',
+          'Keep consistent bedtime — it\'s the anchor',
+          'Security objects (lovey) may help',
+          'Expect some nightmares/night wakings',
+        ],
+      ),
+      feeding: const FeedingGuide(
+        type: 'Full family meals + milk',
+        frequency: '3 meals + 2 snacks + 3 milk feeds',
+        amount: 'Standard toddler portions starting',
+        tips: [
+          'Transitioning to whole cow milk soon (at 12 months)',
+          'Self-feeding with spoon — messy but essential',
+          'Water with meals',
+          'Family meals together when possible',
+        ],
+      ),
+      redFlags: const [
+        'Does not pull up to standing',
+        'Does not say any words',
+        'Does not respond to familiar voices',
+        'Does not show interest in social interaction',
+      ],
+      parentTips: const [
+        'First steps are coming — capture on video!',
+        'Celebrate effort, not just achievements',
+        'Slow down and follow baby\'s lead',
+        'First birthday planning — keep it simple',
+      ],
+    ),
+
+    // =====================================================
+    // TODDLER fill-ins (14, 16, 17, 19, 20, 21, 22, 23 months)
+    // =====================================================
+    14: BabyMonthData(
+      month: 14,
+      title: 'Walking & Exploring',
+      emoji: '🚶',
+      avgWeightKgBoy: 10.1,
+      avgWeightKgGirl: 9.5,
+      avgHeightCmBoy: 78.0,
+      avgHeightCmGirl: 76.4,
+      physicalDevelopment:
+          'Walking independently (most babies). Climbs stairs with help. Stacks 2-3 blocks. Scribbles with crayons.',
+      cognitiveDevelopment:
+          'Follows simple instructions. Points to body parts. Identifies familiar objects and people. Shows clear preferences.',
+      socialEmotional:
+          'Shows independence. "No!" becomes a favorite word. Tests limits. Shows empathy (hugs a crying friend).',
+      languageDevelopment:
+          'Uses 3-10 words. Points to show you things. Imitates words. Understands much more than speaks.',
+      milestones: const [
+        MilestoneItem('Walks well independently', MilestoneCategory.motor),
+        MilestoneItem('Uses 3-10 words', MilestoneCategory.language),
+        MilestoneItem('Points to communicate', MilestoneCategory.language),
+        MilestoneItem('Follows simple instructions', MilestoneCategory.cognitive),
+      ],
+      activities: const [
+        'Walking practice outside',
+        'Scribbling with chunky crayons',
+        'Simple shape sorters',
+        'Water play in small amounts',
+        'Naming body parts in mirror',
+      ],
+      sleep: const SleepGuide(
+        totalHours: '11-14 hours',
+        pattern: '10-11h at night, transitioning to 1 midday nap.',
+        tips: [
+          '1-nap transition usually 14-18 months',
+          'Nap timing matters: 12-1pm works best',
+          'Total nap ~2 hours',
+          'Earlier bedtime during nap transition',
+        ],
+      ),
+      feeding: const FeedingGuide(
+        type: 'Toddler meals + whole milk',
+        frequency: '3 meals + 2 snacks + milk at meals',
+        amount: '~500ml milk total daily max',
+        tips: [
+          'Avoid battles over food — offer, don\'t force',
+          'Picky eating is normal — keep offering variety',
+          'Let toddler self-feed',
+          'Toddlers eat variable amounts day to day',
+        ],
+      ),
+      redFlags: const [
+        'Does not walk',
+        'Does not use at least 3 words',
+        'Loses previously acquired skills',
+        'Does not respond to instructions',
+      ],
+      parentTips: const [
+        'Tantrums are normal — your toddler is learning emotions',
+        'Give choices: "red cup or blue cup?"',
+        'Name emotions: "you are frustrated"',
+        'Routines are their anchor',
+      ],
+    ),
+
+    16: BabyMonthData(
+      month: 16,
+      title: 'Running & Talking',
+      emoji: '💨',
+      avgWeightKgBoy: 10.5,
+      avgWeightKgGirl: 9.9,
+      avgHeightCmBoy: 80.2,
+      avgHeightCmGirl: 78.6,
+      physicalDevelopment:
+          'Walks confidently, attempts running. Climbs on furniture. Kicks a ball. Scribbles more purposefully. Uses spoon clumsily.',
+      cognitiveDevelopment:
+          'Sorts shapes and colors. Identifies objects in pictures. Understands "in" and "out." Pretends (feeding a doll).',
+      socialEmotional:
+          'Shows pride in accomplishments. May have favorite peers. Parallel play (next to, not with). Tantrums frequent.',
+      languageDevelopment:
+          'Vocabulary 7-20 words. Uses gestures + words together. Follows 2-step directions.',
+      milestones: const [
+        MilestoneItem('Walks and runs unsteadily', MilestoneCategory.motor),
+        MilestoneItem('Uses 7-20 words', MilestoneCategory.language),
+        MilestoneItem('Scribbles purposefully', MilestoneCategory.motor),
+        MilestoneItem('Identifies objects in pictures', MilestoneCategory.cognitive),
+      ],
+      activities: const [
+        'Playground time daily',
+        'Ball games — kick, throw, roll',
+        'Singing songs with motions',
+        'Simple puzzles (2-4 pieces)',
+        'Read together, ask "what\'s that?"',
+      ],
+      sleep: const SleepGuide(
+        totalHours: '11-14 hours',
+        pattern: '10-12h at night, 1 midday nap (1.5-2.5 hours).',
+        tips: [
+          'Nap refusal can signal overtiredness, not readiness to skip',
+          'Keep naps until at least 3 years old',
+          'Consistent bedtime routine is essential',
+          'Toddler bed transition? Wait until 2+',
+        ],
+      ),
+      feeding: const FeedingGuide(
+        type: 'Toddler foods',
+        frequency: '3 meals + 2 snacks',
+        amount: '~1/4 adult portions',
+        tips: [
+          'Don\'t become a short-order cook',
+          'Offer same foods as family',
+          'Expect 1-2 "good" eating days per week',
+          'Avoid using food as reward or punishment',
+        ],
+      ),
+      redFlags: const [
+        'Not walking well',
+        'Does not use at least 6 words',
+        'Does not point to show things',
+        'Does not imitate others',
+      ],
+      parentTips: const [
+        'Consistency beats perfection',
+        'Toddlers need predictability',
+        'Read together every day',
+        'Take a breath — this phase is intense but temporary',
+      ],
+    ),
+
+    17: BabyMonthData(
+      month: 17,
+      title: 'Independent Spirit',
+      emoji: '🦁',
+      avgWeightKgBoy: 10.7,
+      avgWeightKgGirl: 10.0,
+      avgHeightCmBoy: 81.2,
+      avgHeightCmGirl: 79.7,
+      physicalDevelopment:
+          'Runs (sometimes falls). Walks backward. Climbs onto and off furniture. Drinks from open cup with spills. Throws a ball.',
+      cognitiveDevelopment:
+          'Imitates household chores. Pretend play expands. Identifies body parts. Follows 2-step instructions.',
+      socialEmotional:
+          'Shows independence fiercely. Tests boundaries constantly. Affectionate with caregivers. May have favorite songs or stories.',
+      languageDevelopment:
+          'Vocabulary 10-20+ words. May combine 2 words. Repeats words from conversations.',
+      milestones: const [
+        MilestoneItem('Runs (unsteadily)', MilestoneCategory.motor),
+        MilestoneItem('Throws overhand', MilestoneCategory.motor),
+        MilestoneItem('Uses 10-20+ words', MilestoneCategory.language),
+        MilestoneItem('Imitates household tasks', MilestoneCategory.cognitive),
+      ],
+      activities: const [
+        'Let them "help" with small tasks',
+        'Bubbles, crayons, play-doh',
+        'Balls, toy cars, push toys',
+        'Simple dance and movement',
+        'Read the same books again and again',
+      ],
+      sleep: const SleepGuide(
+        totalHours: '11-14 hours',
+        pattern: '10-12h at night, 1 nap (1-2.5 hours).',
+        tips: [
+          'Night wakings can increase with new skills',
+          'Consistency is everything',
+          'No screens before bed',
+          'Watch for overtiredness signs',
+        ],
+      ),
+      feeding: const FeedingGuide(
+        type: 'Family foods',
+        frequency: '3 meals + 2 snacks',
+        amount: 'Toddler portions (1-2 tablespoons per year of age per food)',
+        tips: [
+          'Picky eating peaks this age',
+          'Keep offering rejected foods (may take 15+ tries)',
+          'Limit juice to 120ml/day',
+          'Dairy: 2 servings daily',
+        ],
+      ),
+      redFlags: const [
+        'Does not walk independently',
+        'Uses fewer than 6 words',
+        'Doesn\'t follow simple directions',
+        'Loses skills previously had',
+      ],
+      parentTips: const [
+        'Autonomy is healthy — let them try',
+        'Two choices keeps tantrums lower',
+        'Praise effort, name emotions',
+        'You are allowed to be tired',
+      ],
+    ),
+
+    19: BabyMonthData(
+      month: 19,
+      title: 'Language Explosion',
+      emoji: '🗣️',
+      avgWeightKgBoy: 11.1,
+      avgWeightKgGirl: 10.4,
+      avgHeightCmBoy: 82.9,
+      avgHeightCmGirl: 81.4,
+      physicalDevelopment:
+          'Climbs stairs with rail. Kicks a ball forward. Stacks 4-6 blocks. Scribbles and makes marks with intent.',
+      cognitiveDevelopment:
+          'Sorts by color and shape. Pretend play is complex. Follows instructions. Solves simple problems.',
+      socialEmotional:
+          'Shows empathy. Tantrums from frustration. May be shy with strangers. Strong attachment to caregivers.',
+      languageDevelopment:
+          'Uses 20-50+ words. Combines 2 words frequently. Asks questions through tone. Says "mine" a lot.',
+      milestones: const [
+        MilestoneItem('Walks up stairs holding rail', MilestoneCategory.motor),
+        MilestoneItem('Uses 20-50+ words', MilestoneCategory.language),
+        MilestoneItem('Combines 2 words', MilestoneCategory.language),
+        MilestoneItem('Pretend play is elaborate', MilestoneCategory.cognitive),
+      ],
+      activities: const [
+        'Sorting activities (by color, size)',
+        'Singing alphabet, counting',
+        'Outdoor play — running, climbing',
+        'Finger painting, stickers',
+        'Name everything together',
+      ],
+      sleep: const SleepGuide(
+        totalHours: '11-14 hours',
+        pattern: '10-12h at night, 1 nap.',
+        tips: [
+          'Stalling at bedtime is age-appropriate',
+          'Set clear, kind limits',
+          'A bedtime routine card with pictures helps',
+          'Validate feelings, hold limits',
+        ],
+      ),
+      feeding: const FeedingGuide(
+        type: 'Family foods',
+        frequency: '3 meals + 2 snacks',
+        amount: 'Toddler portions',
+        tips: [
+          'Let them serve themselves when possible',
+          'Involve them in food prep (stirring, pouring)',
+          'Don\'t force clean plates',
+          'Water is the main beverage',
+        ],
+      ),
+      redFlags: const [
+        'Uses fewer than 10 words',
+        'Does not combine words',
+        'Does not walk well',
+        'Does not imitate',
+      ],
+      parentTips: const [
+        'Vocabulary explosion coming soon',
+        'Name emotions they show',
+        'Model the behavior you want',
+        'Read books 3-4x a day',
+      ],
+    ),
+
+    20: BabyMonthData(
+      month: 20,
+      title: 'Discovery',
+      emoji: '🔍',
+      avgWeightKgBoy: 11.3,
+      avgWeightKgGirl: 10.6,
+      avgHeightCmBoy: 83.7,
+      avgHeightCmGirl: 82.3,
+      physicalDevelopment:
+          'Jumps (both feet off ground). Climbs low structures. Turns pages of a book one at a time. Feeds self with spoon fairly well.',
+      cognitiveDevelopment:
+          'Understands "big" and "little." Matches objects. Finds hidden objects. Pretend play expands.',
+      socialEmotional:
+          'Shows independence intensely. Parallel play with other kids. Strong likes/dislikes. Copies adult behaviors.',
+      languageDevelopment:
+          'Vocabulary grows daily (~50+ words). 2-word phrases common. Names objects in books.',
+      milestones: const [
+        MilestoneItem('Jumps', MilestoneCategory.motor),
+        MilestoneItem('Names objects', MilestoneCategory.language),
+        MilestoneItem('Self-feeds with spoon', MilestoneCategory.feeding),
+        MilestoneItem('Matches objects', MilestoneCategory.cognitive),
+      ],
+      activities: const [
+        'Obstacle courses (cushions on floor)',
+        'Matching games',
+        'Water tables / sensory bins',
+        'Singing and dancing',
+        'Simple puzzles (4-6 pieces)',
+      ],
+      sleep: const SleepGuide(
+        totalHours: '11-14 hours',
+        pattern: '10-12h at night, 1 nap (1.5-2 hours).',
+        tips: [
+          'Toddler bed transition can wait',
+          'Night weaning if still feeding at night',
+          'Watch for naptime shift signals',
+          'Cozy bedtime reading routine',
+        ],
+      ),
+      feeding: const FeedingGuide(
+        type: 'Family foods',
+        frequency: '3 meals + 2 snacks',
+        amount: 'Toddler portions',
+        tips: [
+          'Make food fun (shapes, colors)',
+          'Model adventurous eating',
+          'Allow messes',
+          'Don\'t panic about picky days',
+        ],
+      ),
+      redFlags: const [
+        'Not using 2-word phrases',
+        'Not following instructions',
+        'Loses skills',
+        'Does not make eye contact regularly',
+      ],
+      parentTips: const [
+        'Model the behavior you want',
+        'Enjoy the questions and curiosity',
+        'Outdoor time is essential',
+        'Consistent bedtime saves sanity',
+      ],
+    ),
+
+    21: BabyMonthData(
+      month: 21,
+      title: 'Personality Emerging',
+      emoji: '🌟',
+      avgWeightKgBoy: 11.5,
+      avgWeightKgGirl: 10.9,
+      avgHeightCmBoy: 84.5,
+      avgHeightCmGirl: 83.2,
+      physicalDevelopment:
+          'Runs more smoothly. Kicks and throws balls with more control. Climbs up and down stairs with help. Builds 5-6 block towers.',
+      cognitiveDevelopment:
+          'Understands 2-step instructions. Sorts objects. Imitates adult activities in play. Stronger memory.',
+      socialEmotional:
+          'Emerging personality clear. Separation anxiety may return. Possessive of toys ("mine!"). Testing limits constantly.',
+      languageDevelopment:
+          'Vocabulary 50-100+ words. Uses 2-3 word sentences. Asks "what\'s that?" constantly.',
+      milestones: const [
+        MilestoneItem('Uses 2-3 word sentences', MilestoneCategory.language),
+        MilestoneItem('Runs well', MilestoneCategory.motor),
+        MilestoneItem('Follows 2-step instructions', MilestoneCategory.cognitive),
+        MilestoneItem('Imitates adults', MilestoneCategory.social),
+      ],
+      activities: const [
+        'Story time with participation',
+        'Building with blocks',
+        'Outdoor exploration',
+        'Singing together',
+        'Pretend play: kitchen, doctor, grocery',
+      ],
+      sleep: const SleepGuide(
+        totalHours: '11-14 hours',
+        pattern: '10-11h at night, 1 nap.',
+        tips: [
+          'Nightmares can begin — comfort and reassure',
+          'Nightlight OK if wanted',
+          'Keep wake-up time consistent',
+          'No added sugars near bedtime',
+        ],
+      ),
+      feeding: const FeedingGuide(
+        type: 'Family foods',
+        frequency: '3 meals + 2 snacks',
+        amount: 'Growing toddler portions',
+        tips: [
+          'Involve them in meal prep',
+          'Allow food exploration',
+          'Water between meals',
+          'Family meals are powerful',
+        ],
+      ),
+      redFlags: const [
+        'Not using 2-word phrases',
+        'Does not walk well',
+        'Loses language skills',
+        'Avoids eye contact consistently',
+      ],
+      parentTips: const [
+        'They understand MORE than they can say',
+        'Tantrums are communication',
+        'Name big emotions',
+        'Your calm is their anchor',
+      ],
+    ),
+
+    22: BabyMonthData(
+      month: 22,
+      title: 'Pretend & Play',
+      emoji: '🎭',
+      avgWeightKgBoy: 11.7,
+      avgWeightKgGirl: 11.1,
+      avgHeightCmBoy: 85.4,
+      avgHeightCmGirl: 84.1,
+      physicalDevelopment:
+          'Walks on tiptoes. Jumps in place. Throws overhand. Builds 6-8 block towers. Uses fork and spoon well.',
+      cognitiveDevelopment:
+          'Symbolic play (box is a car). Memory strong. Simple problem solving. Organizes toys by category.',
+      socialEmotional:
+          'Starts parallel play naturally. Shows sympathy. Less separation anxiety for some. Big feelings, small vocabulary still.',
+      languageDevelopment:
+          '50-200+ words. 2-3 word phrases common. Strangers can understand some words.',
+      milestones: const [
+        MilestoneItem('Symbolic play', MilestoneCategory.cognitive),
+        MilestoneItem('Jumps in place', MilestoneCategory.motor),
+        MilestoneItem('Uses fork and spoon', MilestoneCategory.feeding),
+        MilestoneItem('50-200+ words', MilestoneCategory.language),
+      ],
+      activities: const [
+        'Pretend play props (toy food, doctor kit)',
+        'Singing songs with words',
+        'Gentle ball games',
+        'Coloring, stickers',
+        'Sandbox, water table',
+      ],
+      sleep: const SleepGuide(
+        totalHours: '11-14 hours',
+        pattern: '10-11h at night, 1 nap (1-2 hours).',
+        tips: [
+          'Potty learning readiness may start',
+          'Dream feeds are done',
+          'Consistent naptime = better bedtime',
+          'Wind-down 30 min before bed',
+        ],
+      ),
+      feeding: const FeedingGuide(
+        type: 'Family foods',
+        frequency: '3 meals + 2 snacks',
+        amount: 'Growing portions',
+        tips: [
+          'Introduce more food cultures',
+          'Let them pick fruits at store',
+          'Normalize "trying" without forcing',
+          'Limit milk to 500ml/day for appetite',
+        ],
+      ),
+      redFlags: const [
+        'Speech regression',
+        'Does not engage in pretend play',
+        'Cannot follow simple directions',
+        'Does not respond to name',
+      ],
+      parentTips: const [
+        'Play is how they learn',
+        'Read 20+ minutes daily',
+        'Outdoor time boosts everything',
+        'Your calm voice = their calm nervous system',
+      ],
+    ),
+
+    23: BabyMonthData(
+      month: 23,
+      title: 'Almost Two',
+      emoji: '🎉',
+      avgWeightKgBoy: 11.9,
+      avgWeightKgGirl: 11.3,
+      avgHeightCmBoy: 86.3,
+      avgHeightCmGirl: 85.0,
+      physicalDevelopment:
+          'Walks on tiptoe and heels. Runs and kicks confidently. Catches a large ball. Builds tall block towers. Turns doorknobs.',
+      cognitiveDevelopment:
+          'Counts to 2 or 3 (not always in order). Understands opposites. Sorts by size. Recognizes self in photos.',
+      socialEmotional:
+          'Shows a range of emotions. Starts saying "thank you." Shows pride. Parallel play transitioning to some interactive play.',
+      languageDevelopment:
+          '100-300+ words. 2-4 word sentences. Understands most of what you say. Uses "I," "me," "you."',
+      milestones: const [
+        MilestoneItem('Runs smoothly', MilestoneCategory.motor),
+        MilestoneItem('100-300+ words', MilestoneCategory.language),
+        MilestoneItem('2-4 word sentences', MilestoneCategory.language),
+        MilestoneItem('Sorts by size', MilestoneCategory.cognitive),
+      ],
+      activities: const [
+        'Potty introduction if ready',
+        'Dance parties, music',
+        'Puzzles (4-8 pieces)',
+        'Chalk outdoors',
+        'Simple pretend play with storyline',
+      ],
+      sleep: const SleepGuide(
+        totalHours: '11-14 hours',
+        pattern: '10-11h night, 1 nap (1-2 hours).',
+        tips: [
+          'Naptime is valuable — keep it',
+          'Nightmares can happen — comfort quickly',
+          'Toddler bed can wait until 2.5-3',
+          'Dark room, cool temp, quiet',
+        ],
+      ),
+      feeding: const FeedingGuide(
+        type: 'Family foods',
+        frequency: '3 meals + 2 snacks',
+        amount: 'Growing toddler portions',
+        tips: [
+          'Almost switching to low-fat milk (at 2)',
+          'Expand vegetables gradually',
+          'Water always available',
+          'Keep offering new foods',
+        ],
+      ),
+      redFlags: const [
+        'Does not combine 2 words',
+        'Uses fewer than 25 words',
+        'Cannot walk well',
+        'Does not follow simple directions',
+      ],
+      parentTips: const [
+        'Second birthday planning time',
+        'Pictures, pictures, pictures',
+        'Emotion coaching never stops',
+        'You\'re almost a parent of a 2-year-old!',
+      ],
     ),
   };
 }
