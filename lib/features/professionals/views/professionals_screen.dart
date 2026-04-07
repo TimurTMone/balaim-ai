@@ -1,15 +1,21 @@
 import '../../../l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/data/doctors_data.dart';
+import '../../../shared/models/consultation.dart';
+import 'consultation_request_screen.dart';
 
 class ProfessionalsScreen extends StatelessWidget {
   const ProfessionalsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l = L.of(context);
+    final doctors = DoctorsData.accepting();
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(L.of(context).findProfessionals),
+        title: Text(l.findProfessionals),
         actions: [
           IconButton(icon: const Icon(Icons.filter_list), onPressed: () {}),
         ],
@@ -17,10 +23,9 @@ class ProfessionalsScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // Search bar
           TextField(
             decoration: InputDecoration(
-              hintText: L.of(context).searchDoctors,
+              hintText: l.searchDoctors,
               prefixIcon: const Icon(Icons.search),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -32,90 +37,123 @@ class ProfessionalsScreen extends StatelessWidget {
           ),
           const SizedBox(height: 20),
 
-          // Categories
-          Text('Categories', style: Theme.of(context).textTheme.titleLarge),
+          // How it works banner
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [AppColors.secondary, AppColors.secondaryDark],
+              ),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Async Consultations',
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 16),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'Describe your concern, upload labs/photos, get a written '
+                  'assessment from a real doctor within 24-48 hours. '
+                  'One follow-up question included.',
+                  style: TextStyle(color: Colors.white.withValues(alpha: 0.9), fontSize: 13, height: 1.4),
+                ),
+                const SizedBox(height: 12),
+                const Row(
+                  children: [
+                    _HowItWorksStep(number: '1', label: 'Describe'),
+                    _HowItWorksStep(number: '2', label: 'Upload'),
+                    _HowItWorksStep(number: '3', label: 'Pay'),
+                    _HowItWorksStep(number: '4', label: 'Get answer'),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 24),
+
+          Text('Specialties', style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 12),
           SizedBox(
             height: 44,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: const [
-                _CategoryChip(label: 'All', isSelected: true),
-                _CategoryChip(label: 'OB-GYN'),
-                _CategoryChip(label: 'Pediatrician'),
-                _CategoryChip(label: 'Midwife'),
-                _CategoryChip(label: 'Doula'),
-                _CategoryChip(label: 'Lactation'),
-                _CategoryChip(label: 'Therapist'),
+              children: [
+                const _SpecialtyChip(label: 'All', isSelected: true),
+                ...SpecialtyType.values.take(5).map((s) => _SpecialtyChip(label: s.label)),
               ],
             ),
           ),
           const SizedBox(height: 20),
 
-          // Featured
-          Text('Recommended for You', style: Theme.of(context).textTheme.titleLarge),
+          Text(l.recommended, style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 12),
 
-          const _DoctorCard(
-            name: 'Dr. Amara Khan',
-            specialty: 'OB-GYN',
-            rating: 4.9,
-            reviews: 234,
-            nextAvailable: 'Tomorrow, 10:00 AM',
-            isVerified: true,
-            color: AppColors.primary,
+          ...doctors.map((doc) => _DoctorCard(
+                doctor: doc,
+                onConsult: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => ConsultationRequestScreen(doctor: doc)),
+                ),
+              )),
+
+          const SizedBox(height: 16),
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: AppColors.accent.withValues(alpha: 0.08),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppColors.accent.withValues(alpha: 0.2)),
+            ),
+            child: Column(
+              children: [
+                const Icon(Icons.person_add, color: AppColors.accentDark, size: 32),
+                const SizedBox(height: 8),
+                const Text('More doctors joining soon', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14)),
+                const SizedBox(height: 4),
+                Text(
+                  'Pediatricians, OB-GYNs, lactation consultants, mental health specialists, and nutritionists.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.4),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 12),
-          const _DoctorCard(
-            name: 'Dr. Maria Santos',
-            specialty: 'Pediatrician',
-            rating: 4.8,
-            reviews: 189,
-            nextAvailable: 'Wed, Apr 9, 2:00 PM',
-            isVerified: true,
-            color: AppColors.secondary,
-          ),
-          const SizedBox(height: 12),
-          const _DoctorCard(
-            name: 'Lisa Chen, CNM',
-            specialty: 'Certified Nurse Midwife',
-            rating: 5.0,
-            reviews: 97,
-            nextAvailable: 'Thu, Apr 10, 11:00 AM',
-            isVerified: true,
-            color: AppColors.stagePrePregnancy,
-          ),
-          const SizedBox(height: 12),
-          const _DoctorCard(
-            name: 'Rachel Adams',
-            specialty: 'Lactation Consultant (IBCLC)',
-            rating: 4.9,
-            reviews: 156,
-            nextAvailable: 'Available now — video call',
-            isVerified: true,
-            color: AppColors.accent,
-          ),
-          const SizedBox(height: 12),
-          const _DoctorCard(
-            name: 'Dr. James Okafor',
-            specialty: 'Pediatric Sleep Specialist',
-            rating: 4.7,
-            reviews: 78,
-            nextAvailable: 'Fri, Apr 11, 9:00 AM',
-            isVerified: true,
-            color: AppColors.secondary,
-          ),
+          const SizedBox(height: 24),
         ],
       ),
     );
   }
 }
 
-class _CategoryChip extends StatelessWidget {
+class _HowItWorksStep extends StatelessWidget {
+  final String number;
+  final String label;
+  const _HowItWorksStep({required this.number, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        children: [
+          Container(
+            width: 28, height: 28,
+            decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.25), shape: BoxShape.circle),
+            child: Center(child: Text(number, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 13))),
+          ),
+          const SizedBox(height: 4),
+          Text(label, style: TextStyle(color: Colors.white.withValues(alpha: 0.9), fontSize: 11, fontWeight: FontWeight.w600)),
+        ],
+      ),
+    );
+  }
+}
+
+class _SpecialtyChip extends StatelessWidget {
   final String label;
   final bool isSelected;
-
-  const _CategoryChip({required this.label, this.isSelected = false});
+  const _SpecialtyChip({required this.label, this.isSelected = false});
 
   @override
   Widget build(BuildContext context) {
@@ -127,52 +165,35 @@ class _CategoryChip extends StatelessWidget {
         onSelected: (_) {},
         selectedColor: AppColors.primary.withValues(alpha: 0.15),
         checkmarkColor: AppColors.primary,
-        side: BorderSide(
-          color: isSelected ? AppColors.primary : AppColors.divider,
-        ),
+        side: BorderSide(color: isSelected ? AppColors.primary : AppColors.divider),
       ),
     );
   }
 }
 
 class _DoctorCard extends StatelessWidget {
-  final String name;
-  final String specialty;
-  final double rating;
-  final int reviews;
-  final String nextAvailable;
-  final bool isVerified;
-  final Color color;
-
-  const _DoctorCard({
-    required this.name,
-    required this.specialty,
-    required this.rating,
-    required this.reviews,
-    required this.nextAvailable,
-    required this.isVerified,
-    required this.color,
-  });
+  final DoctorProfile doctor;
+  final VoidCallback onConsult;
+  const _DoctorCard({required this.doctor, required this.onConsult});
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: const EdgeInsets.only(bottom: 14),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
                   radius: 28,
-                  backgroundColor: color.withValues(alpha: 0.12),
+                  backgroundColor: AppColors.secondary.withValues(alpha: 0.12),
                   child: Text(
-                    name.split(' ').last[0],
-                    style: TextStyle(
-                      color: color,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 20,
-                    ),
+                    doctor.fullName.split(' ').last[0],
+                    style: const TextStyle(color: AppColors.secondary, fontWeight: FontWeight.w700, fontSize: 20),
                   ),
                 ),
                 const SizedBox(width: 14),
@@ -182,35 +203,19 @@ class _DoctorCard extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Flexible(
-                            child: Text(
-                              name,
-                              style: Theme.of(context).textTheme.titleMedium,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          if (isVerified) ...[
-                            const SizedBox(width: 4),
-                            const Icon(Icons.verified, size: 16, color: AppColors.secondary),
-                          ],
+                          Flexible(child: Text(doctor.fullName, style: Theme.of(context).textTheme.titleMedium, overflow: TextOverflow.ellipsis)),
+                          if (doctor.isVerified) ...[const SizedBox(width: 4), const Icon(Icons.verified, size: 16, color: AppColors.secondary)],
                         ],
                       ),
-                      const SizedBox(height: 2),
-                      Text(specialty, style: Theme.of(context).textTheme.bodySmall),
+                      Text('${doctor.title} · ${doctor.specialty.label}', style: Theme.of(context).textTheme.bodySmall),
                       const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          const Icon(Icons.star, size: 14, color: AppColors.accent),
-                          const SizedBox(width: 3),
-                          Text(
-                            '$rating',
-                            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
-                          ),
-                          Text(
-                            ' ($reviews reviews)',
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        ],
+                      Wrap(
+                        spacing: 4,
+                        children: doctor.languages.map((lang) => Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(color: AppColors.secondary.withValues(alpha: 0.08), borderRadius: BorderRadius.circular(4)),
+                          child: Text(lang, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.secondaryDark)),
+                        )).toList(),
                       ),
                     ],
                   ),
@@ -218,45 +223,37 @@ class _DoctorCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: AppColors.success.withValues(alpha: 0.08),
-                borderRadius: BorderRadius.circular(8),
+            Text(doctor.bio, style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.5), maxLines: 3, overflow: TextOverflow.ellipsis),
+            const SizedBox(height: 12),
+            ...doctor.credentials.take(3).map((c) => Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.school, size: 14, color: AppColors.secondary),
+                  const SizedBox(width: 6),
+                  Expanded(child: Text(c, style: const TextStyle(fontSize: 12, height: 1.3))),
+                ],
               ),
+            )),
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(color: AppColors.success.withValues(alpha: 0.06), borderRadius: BorderRadius.circular(10)),
               child: Row(
                 children: [
                   const Icon(Icons.access_time, size: 14, color: AppColors.success),
                   const SizedBox(width: 6),
-                  Text(
-                    nextAvailable,
-                    style: const TextStyle(
-                      color: AppColors.success,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                  Text(doctor.responseTime, style: const TextStyle(color: AppColors.success, fontSize: 13, fontWeight: FontWeight.w500)),
+                  const Spacer(),
+                  Text(doctor.priceFormatted, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: AppColors.primary)),
                 ],
               ),
             ),
             const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    child: const Text('Message'),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('Book'),
-                  ),
-                ),
-              ],
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(onPressed: onConsult, child: const Text('Request Consultation')),
             ),
           ],
         ),
