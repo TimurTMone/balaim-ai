@@ -111,7 +111,7 @@ class MarketplaceScreen extends ConsumerWidget {
                       Icon(cat.icon, color: cat.color, size: 28),
                       const SizedBox(height: 6),
                       Text(
-                        cat.name,
+                        cat.name.of(context),
                         style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
                         textAlign: TextAlign.center,
                         maxLines: 1,
@@ -195,7 +195,7 @@ class _VendorCard extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Text(
-                          vendor.name,
+                          vendor.name.of(context),
                           style: Theme.of(context).textTheme.titleMedium,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -222,7 +222,7 @@ class _VendorCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    vendor.description,
+                    vendor.description.of(context),
                     style: Theme.of(context).textTheme.bodySmall,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -285,13 +285,13 @@ class _ProductCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product.name,
+                  product.name.of(context),
                   style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
                 if (vendor != null)
-                  Text(vendor.name, style: Theme.of(context).textTheme.bodySmall),
+                  Text(vendor.name.of(context), style: Theme.of(context).textTheme.bodySmall),
                 const SizedBox(height: 4),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -343,9 +343,9 @@ class _ProductListTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(product.name, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  Text(product.name.of(context), style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14), maxLines: 1, overflow: TextOverflow.ellipsis),
                   if (vendor != null)
-                    Text(vendor.name, style: Theme.of(context).textTheme.bodySmall),
+                    Text(vendor.name.of(context), style: Theme.of(context).textTheme.bodySmall),
                 ],
               ),
             ),

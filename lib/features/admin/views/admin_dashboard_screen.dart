@@ -21,7 +21,7 @@ class AdminDashboardScreen extends ConsumerWidget {
           TextButton.icon(
             onPressed: () => AuthService().signOut(),
             icon: const Icon(Icons.logout, size: 18),
-            label: const Text('Sign Out'),
+            label: Text(L.of(context).signOut),
           ),
         ],
       ),
@@ -44,7 +44,7 @@ class AdminDashboardScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Welcome, ${userInfo.name ?? 'Admin'}',
+                    '${L.of(context).welcomeComma} ${userInfo.name ?? 'Admin'}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 24,
@@ -53,7 +53,7 @@ class AdminDashboardScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Balam.AI Platform Overview',
+                    L.of(context).platformOverview,
                     style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 14),
                   ),
                 ],
@@ -62,13 +62,13 @@ class AdminDashboardScreen extends ConsumerWidget {
             const SizedBox(height: 24),
 
             // KPI cards
-            Text('Key Metrics', style: Theme.of(context).textTheme.titleLarge),
+            Text(L.of(context).keyMetrics, style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 12),
             Row(
               children: [
                 Expanded(
                   child: _MetricCard(
-                    title: 'Total Users',
+                    title: L.of(context).totalUsers,
                     value: '12,847',
                     change: '+23%',
                     icon: Icons.people,
@@ -78,7 +78,7 @@ class AdminDashboardScreen extends ConsumerWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: _MetricCard(
-                    title: 'Active Today',
+                    title: L.of(context).activeToday,
                     value: '3,241',
                     change: '+8%',
                     icon: Icons.trending_up,
@@ -92,7 +92,7 @@ class AdminDashboardScreen extends ConsumerWidget {
               children: [
                 Expanded(
                   child: _MetricCard(
-                    title: 'AI Chats',
+                    title: L.of(context).aiChats,
                     value: '8,429',
                     change: '+45%',
                     icon: Icons.auto_awesome,
@@ -102,7 +102,7 @@ class AdminDashboardScreen extends ConsumerWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: _MetricCard(
-                    title: 'Revenue',
+                    title: L.of(context).revenue,
                     value: '\$24.8K',
                     change: '+31%',
                     icon: Icons.attach_money,
@@ -114,78 +114,78 @@ class AdminDashboardScreen extends ConsumerWidget {
             const SizedBox(height: 24),
 
             // Platform sections
-            Text('Platform Management', style: Theme.of(context).textTheme.titleLarge),
+            Text(L.of(context).platformManagement, style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 12),
             _AdminTile(
               icon: Icons.insights,
-              title: 'Live Metrics',
-              subtitle: 'Real signup counts and growth',
+              title: L.of(context).liveMetrics,
+              subtitle: L.of(context).realSignupCounts,
               color: AppColors.primary,
               onTap: () => context.push('/admin/metrics'),
             ),
             _AdminTile(
               icon: Icons.people_outline,
-              title: 'User Management',
-              subtitle: '12,847 users — 892 new this week',
+              title: L.of(context).userManagement,
+              subtitle: L.of(context).userManagementSubtitle,
               color: AppColors.primary,
               onTap: () {},
             ),
             _AdminTile(
               icon: Icons.verified_user_outlined,
-              title: 'Professional Verification',
-              subtitle: '23 pending applications',
+              title: L.of(context).professionalVerification,
+              subtitle: L.of(context).pendingApplications,
               color: AppColors.secondary,
               badge: '23',
               onTap: () {},
             ),
             _AdminTile(
               icon: Icons.storefront_outlined,
-              title: 'Marketplace & Vendors',
-              subtitle: '156 active vendors — 8 pending approval',
+              title: L.of(context).marketplaceVendors,
+              subtitle: L.of(context).marketplaceVendorsSubtitle,
               color: AppColors.accent,
               badge: '8',
               onTap: () {},
             ),
             _AdminTile(
               icon: Icons.forum_outlined,
-              title: 'Community Moderation',
-              subtitle: '12 flagged posts — 3 reports',
+              title: L.of(context).communityModeration,
+              subtitle: L.of(context).communityModerationSubtitle,
               color: AppColors.error,
               badge: '12',
               onTap: () {},
             ),
             _AdminTile(
               icon: Icons.auto_awesome_outlined,
-              title: 'AI Performance',
-              subtitle: '98.2% satisfaction — 45ms avg response',
+              title: L.of(context).aiPerformance,
+              subtitle: L.of(context).aiPerformanceSubtitle,
               color: Colors.purple,
               onTap: () {},
             ),
             _AdminTile(
               icon: Icons.analytics_outlined,
-              title: 'Analytics & Reports',
-              subtitle: 'DAU, retention, funnel analysis',
+              title: L.of(context).analyticsReports,
+              subtitle: L.of(context).analyticsReportsSubtitle,
               color: Colors.indigo,
               onTap: () {},
             ),
             _AdminTile(
               icon: Icons.payments_outlined,
-              title: 'Billing & Revenue',
-              subtitle: '\$24.8K MRR — 1,204 subscribers',
+              title: L.of(context).billingRevenue,
+              subtitle: L.of(context).billingRevenueSubtitle,
               color: AppColors.success,
               onTap: () {},
             ),
             _AdminTile(
               icon: Icons.notifications_outlined,
-              title: 'Push Notifications',
-              subtitle: 'Send campaigns, manage channels',
+              title: L.of(context).pushNotifications,
+              subtitle: L.of(context).pushNotificationsSubtitle,
               color: Colors.orange,
               onTap: () {},
             ),
             _AdminTile(
               icon: Icons.settings_outlined,
-              title: 'Platform Settings',
-              subtitle: 'Feature flags, config, maintenance',
+              title: L.of(context).platformSettings,
+              subtitle: L.of(context).platformSettingsSubtitle,
               color: AppColors.textSecondary,
               onTap: () {},
             ),

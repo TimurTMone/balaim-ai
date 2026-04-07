@@ -58,7 +58,7 @@ class DiaperLogScreen extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        'diapers today',
+                        L.of(context).diapersToday,
                         style: TextStyle(
                           color: Colors.white.withValues(alpha: 0.85),
                         ),
@@ -111,10 +111,10 @@ class DiaperLogScreen extends ConsumerWidget {
                 const Icon(Icons.info_outline,
                     color: AppColors.accentDark, size: 18),
                 const SizedBox(width: 8),
-                const Expanded(
+                Expanded(
                   child: Text(
-                    '6+ wet diapers per day means baby is well-fed.',
-                    style: TextStyle(fontSize: 12, height: 1.4),
+                    L.of(context).wetDiapersGuidance,
+                    style: const TextStyle(fontSize: 12, height: 1.4),
                   ),
                 ),
               ],
@@ -123,7 +123,7 @@ class DiaperLogScreen extends ConsumerWidget {
           const SizedBox(height: 20),
 
           // Quick add
-          Text('Log a diaper', style: Theme.of(context).textTheme.titleLarge),
+          Text(L.of(context).logADiaper, style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 12),
           Row(
             children: [
@@ -171,7 +171,7 @@ class DiaperLogScreen extends ConsumerWidget {
           const SizedBox(height: 24),
 
           if (entries.isNotEmpty) ...[
-            Text('History', style: Theme.of(context).textTheme.titleLarge),
+            Text(L.of(context).history, style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 12),
             ...entries.map(
               (e) => _DiaperTile(

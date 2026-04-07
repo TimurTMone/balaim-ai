@@ -32,22 +32,21 @@ class PostpartumScreen extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'This is for YOU, mama',
-                  style: TextStyle(
+                  L.of(context).thisIsForYouMama,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(height: 6),
+                const SizedBox(height: 6),
                 Text(
-                  'You grew a human. You birthed them. You are healing. '
-                  'You deserve care too.',
-                  style: TextStyle(
+                  L.of(context).postpartumIntro,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 14,
                     height: 1.4,
@@ -104,12 +103,12 @@ class _TopicCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        topic.title,
+                        topic.title.of(context),
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        topic.shortDescription,
+                        topic.shortDescription.of(context),
                         style: TextStyle(
                           fontSize: 13,
                           color: AppColors.textSecondary,
@@ -171,7 +170,7 @@ class _TopicCard extends StatelessWidget {
                 const SizedBox(width: 14),
                 Expanded(
                   child: Text(
-                    topic.title,
+                    topic.title.of(context),
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                 ),
@@ -179,12 +178,12 @@ class _TopicCard extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              topic.content,
+              topic.content.of(context),
               style: const TextStyle(fontSize: 14, height: 1.6),
             ),
             const SizedBox(height: 24),
             Text(
-              'QUICK TIPS',
+              L.of(context).quickTips,
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
@@ -212,7 +211,7 @@ class _TopicCard extends StatelessWidget {
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
-                                  tip,
+                                  tip.of(context),
                                   style: const TextStyle(
                                       fontSize: 14, height: 1.4),
                                 ),
@@ -226,7 +225,7 @@ class _TopicCard extends StatelessWidget {
             if (topic.redFlags.isNotEmpty) ...[
               const SizedBox(height: 24),
               Text(
-                'WHEN TO CALL DOCTOR',
+                L.of(context).whenToCallDoctorSection,
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
@@ -256,7 +255,7 @@ class _TopicCard extends StatelessWidget {
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: Text(
-                                    flag,
+                                    flag.of(context),
                                     style: const TextStyle(
                                         fontSize: 14, height: 1.4),
                                   ),

@@ -365,8 +365,8 @@ class JourneyScreen extends ConsumerWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(p.name, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12), maxLines: 2, overflow: TextOverflow.ellipsis),
-                                if (vendor != null) Text(vendor.name, style: TextStyle(fontSize: 10, color: AppColors.textHint)),
+                                Text(p.name.of(context), style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12), maxLines: 2, overflow: TextOverflow.ellipsis),
+                                if (vendor != null) Text(vendor.name.of(context), style: TextStyle(fontSize: 10, color: AppColors.textHint)),
                                 const SizedBox(height: 2),
                                 Text(p.priceFormatted, style: const TextStyle(fontWeight: FontWeight.w700, color: AppColors.primary, fontSize: 13)),
                               ],

@@ -36,23 +36,22 @@ class EmergencyReferenceScreen extends StatelessWidget {
                 const Icon(Icons.emergency,
                     color: AppColors.error, size: 24),
                 const SizedBox(width: 12),
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Trust your gut',
-                        style: TextStyle(
+                        L.of(context).trustYourGut,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w700,
                           color: AppColors.error,
                           fontSize: 15,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
-                        'If something feels wrong, call your doctor. '
-                        'It\'s always better to ask.',
-                        style: TextStyle(fontSize: 13, height: 1.4),
+                        L.of(context).trustYourGutBody,
+                        style: const TextStyle(fontSize: 13, height: 1.4),
                       ),
                     ],
                   ),
@@ -93,7 +92,7 @@ class EmergencyReferenceScreen extends StatelessWidget {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        u.label,
+                        u.label.of(context),
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
@@ -131,7 +130,7 @@ class _CategorySection extends StatelessWidget {
             children: [
               Icon(cat.icon, color: AppColors.primary, size: 22),
               const SizedBox(width: 10),
-              Text(cat.title, style: Theme.of(context).textTheme.titleLarge),
+              Text(cat.title.of(context), style: Theme.of(context).textTheme.titleLarge),
             ],
           ),
         ),
@@ -171,7 +170,7 @@ class _SignCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  sign.urgency.label.toUpperCase(),
+                  sign.urgency.label.of(context).toUpperCase(),
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
@@ -183,7 +182,7 @@ class _SignCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              sign.title,
+              sign.title.of(context),
               style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 15,
@@ -191,7 +190,7 @@ class _SignCard extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              sign.description,
+              sign.description.of(context),
               style: const TextStyle(fontSize: 13, height: 1.5),
             ),
           ],

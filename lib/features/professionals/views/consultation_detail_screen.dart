@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/models/consultation.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// What the patient sees after the doctor responds.
 /// Shows: doctor's assessment, recommendations, follow-up tests,
@@ -42,7 +43,7 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Consultation'),
+        title: Text(L.of(context).consultation),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.pop(),
@@ -91,7 +92,7 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
 
           // Your concern (what you submitted)
           _Section(
-            title: 'Your Concern',
+            title: L.of(context).yourConcern,
             icon: Icons.message_outlined,
             child: Text(
               c['mainConcern'] ?? '',
@@ -103,7 +104,7 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
           if (response != null) ...[
             const SizedBox(height: 12),
             _Section(
-              title: 'Doctor\'s Assessment',
+              title: L.of(context).doctorsAssessment,
               icon: Icons.medical_information,
               color: AppColors.secondary,
               child: Text(
@@ -113,7 +114,7 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
             ),
             const SizedBox(height: 12),
             _Section(
-              title: 'Recommendations',
+              title: L.of(context).recommendationsLabel,
               icon: Icons.checklist,
               color: AppColors.success,
               child: Text(
@@ -126,7 +127,7 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
                 response!['prescriptionNotes'].isNotEmpty) ...[
               const SizedBox(height: 12),
               _Section(
-                title: 'Medication Notes',
+                title: L.of(context).medicationNotes,
                 icon: Icons.medication,
                 child: Text(
                   response!['prescriptionNotes'],
@@ -139,7 +140,7 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
                 (response!['followUpTests'] as List).isNotEmpty) ...[
               const SizedBox(height: 12),
               _Section(
-                title: 'Recommended Follow-up Tests',
+                title: L.of(context).recommendedFollowUpTests,
                 icon: Icons.science,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,7 +168,7 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
                 response!['referralNote'].isNotEmpty) ...[
               const SizedBox(height: 12),
               _Section(
-                title: 'Referral',
+                title: L.of(context).referral,
                 icon: Icons.swap_horiz,
                 child: Text(
                   response!['referralNote'],
@@ -189,13 +190,13 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Row(
+                  Row(
                     children: [
-                      Icon(Icons.emergency, color: AppColors.error, size: 20),
-                      SizedBox(width: 8),
+                      const Icon(Icons.emergency, color: AppColors.error, size: 20),
+                      const SizedBox(width: 8),
                       Text(
-                        'When to Seek Emergency Care',
-                        style: TextStyle(
+                        L.of(context).whenToSeekEmergencyCare,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 15,
                           color: AppColors.error,
@@ -235,7 +236,7 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
           if (c['followUpQuestion'] != null) ...[
             const SizedBox(height: 16),
             _Section(
-              title: 'Your Follow-up Question',
+              title: L.of(context).yourFollowUpQuestion,
               icon: Icons.help_outline,
               color: AppColors.accent,
               child: Text(
@@ -246,7 +247,7 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
             if (c['followUpAnswer'] != null) ...[
               const SizedBox(height: 12),
               _Section(
-                title: 'Doctor\'s Answer',
+                title: L.of(context).doctorsAnswer,
                 icon: Icons.reply,
                 color: AppColors.secondary,
                 child: Text(
@@ -258,7 +259,7 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: Text(
-                  'Waiting for doctor\'s response to your follow-up...',
+                  L.of(context).waitingForDoctorFollowUp,
                   style: TextStyle(
                     color: AppColors.textHint,
                     fontStyle: FontStyle.italic,
@@ -275,7 +276,7 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
               child: OutlinedButton.icon(
                 onPressed: () => setState(() => _showFollowUpInput = true),
                 icon: const Icon(Icons.reply),
-                label: const Text('Ask a Follow-up Question (1 included)'),
+                label: Text(L.of(context).askFollowUpQuestion),
               ),
             ),
           ],
@@ -283,21 +284,21 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
           // Follow-up input
           if (_showFollowUpInput) ...[
             const SizedBox(height: 16),
-            const Text(
-              'Ask one follow-up question',
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+            Text(
+              L.of(context).askOneFollowUp,
+              style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
             ),
             const SizedBox(height: 4),
-            const Text(
-              'Be specific. The doctor will respond within 24-48 hours.',
-              style: TextStyle(fontSize: 12, color: AppColors.textHint),
+            Text(
+              L.of(context).beSpecificDoctor,
+              style: const TextStyle(fontSize: 12, color: AppColors.textHint),
             ),
             const SizedBox(height: 10),
             TextField(
               controller: _followUpController,
               maxLines: 4,
-              decoration: const InputDecoration(
-                hintText: 'Your follow-up question...',
+              decoration: InputDecoration(
+                hintText: L.of(context).yourFollowUpQuestionHint,
               ),
             ),
             const SizedBox(height: 12),
@@ -307,7 +308,7 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
                   child: OutlinedButton(
                     onPressed: () =>
                         setState(() => _showFollowUpInput = false),
-                    child: const Text('Cancel'),
+                    child: Text(L.of(context).cancel),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -320,9 +321,9 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
                       showDialog(
                         context: context,
                         builder: (_) => AlertDialog(
-                          title: const Text('Follow-up Sent'),
-                          content: const Text(
-                            'Your doctor will respond within 24-48 hours.',
+                          title: Text(L.of(context).followUpSent),
+                          content: Text(
+                            L.of(context).doctorWillRespond,
                           ),
                           actions: [
                             ElevatedButton(
@@ -330,13 +331,13 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
                                 Navigator.of(context).pop();
                                 context.pop();
                               },
-                              child: const Text('Got it'),
+                              child: Text(L.of(context).gotIt),
                             ),
                           ],
                         ),
                       );
                     },
-                    child: const Text('Send Question'),
+                    child: Text(L.of(context).sendQuestion),
                   ),
                 ),
               ],
@@ -371,10 +372,10 @@ class _StatusBanner extends StatelessWidget {
             ? Icons.hourglass_top
             : Icons.schedule;
     final label = isAnswered
-        ? 'Doctor has responded'
+        ? L.of(context).doctorHasResponded
         : isFollowUpWaiting
-            ? 'Waiting for follow-up answer'
-            : 'Doctor is reviewing your case';
+            ? L.of(context).waitingForFollowUpAnswer
+            : L.of(context).doctorReviewingCase;
 
     return Container(
       padding: const EdgeInsets.all(14),

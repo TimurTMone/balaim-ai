@@ -34,10 +34,10 @@ class SoothingTechniquesScreen extends StatelessWidget {
                 const Icon(Icons.lightbulb_outline,
                     color: AppColors.primary, size: 20),
                 const SizedBox(width: 10),
-                const Expanded(
+                Expanded(
                   child: Text(
-                    'When baby cries, try these in order. Most babies calm within 2-3 techniques.',
-                    style: TextStyle(fontSize: 13, height: 1.4),
+                    L.of(context).trySoothingOrder,
+                    style: const TextStyle(fontSize: 13, height: 1.4),
                   ),
                 ),
               ],
@@ -94,12 +94,12 @@ class _TechniqueCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        technique.title,
+                        technique.title.of(context),
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        technique.shortDescription,
+                        technique.shortDescription.of(context),
                         style: TextStyle(
                           fontSize: 13,
                           color: AppColors.textSecondary,
@@ -181,7 +181,7 @@ class _TechniqueDetailSheet extends StatelessWidget {
             const SizedBox(width: 14),
             Expanded(
               child: Text(
-                technique.title,
+                technique.title.of(context),
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),
@@ -189,7 +189,7 @@ class _TechniqueDetailSheet extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          technique.shortDescription,
+          technique.shortDescription.of(context),
           style: TextStyle(
             fontSize: 15,
             color: AppColors.textSecondary,
@@ -199,7 +199,7 @@ class _TechniqueDetailSheet extends StatelessWidget {
         const SizedBox(height: 24),
 
         // Steps
-        const _SectionHeader(text: 'How to do it'),
+        _SectionHeader(text: L.of(context).howToDoIt),
         const SizedBox(height: 12),
         ...technique.steps.asMap().entries.map(
               (entry) => _StepCard(
@@ -211,7 +211,7 @@ class _TechniqueDetailSheet extends StatelessWidget {
         const SizedBox(height: 24),
 
         // When to use
-        const _SectionHeader(text: 'When to use'),
+        _SectionHeader(text: L.of(context).whenToUse),
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.all(14),
@@ -231,7 +231,7 @@ class _TechniqueDetailSheet extends StatelessWidget {
                               size: 16, color: technique.color),
                           const SizedBox(width: 8),
                           Expanded(
-                            child: Text(w,
+                            child: Text(w.of(context),
                                 style:
                                     const TextStyle(fontSize: 14, height: 1.4)),
                           ),
@@ -245,7 +245,7 @@ class _TechniqueDetailSheet extends StatelessWidget {
         // Safety notes
         if (technique.safetyNotes.isNotEmpty) ...[
           const SizedBox(height: 24),
-          const _SectionHeader(text: 'Safety notes'),
+          _SectionHeader(text: L.of(context).safetyNotes),
           const SizedBox(height: 8),
           Container(
             padding: const EdgeInsets.all(14),
@@ -267,7 +267,7 @@ class _TechniqueDetailSheet extends StatelessWidget {
                                 size: 16, color: AppColors.error),
                             const SizedBox(width: 8),
                             Expanded(
-                              child: Text(s,
+                              child: Text(s.of(context),
                                   style: const TextStyle(
                                       fontSize: 14, height: 1.4)),
                             ),
@@ -325,7 +325,7 @@ class _StepCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  step.title,
+                  step.title.of(context),
                   style: const TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 15,
@@ -333,7 +333,7 @@ class _StepCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  step.description,
+                  step.description.of(context),
                   style: const TextStyle(fontSize: 14, height: 1.5),
                 ),
               ],

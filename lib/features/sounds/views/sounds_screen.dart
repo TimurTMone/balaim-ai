@@ -84,9 +84,9 @@ class _HeroBanner extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'White Noise & Sounds',
-                  style: TextStyle(
+                Text(
+                  L.of(context).whiteNoiseAndSounds,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -94,7 +94,7 @@ class _HeroBanner extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'Soothe baby. Relax yourself. Plays in background.',
+                  L.of(context).soundsSubtitle,
                   style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.85),
                     fontSize: 13,
@@ -133,7 +133,7 @@ class _CategorySection extends StatelessWidget {
               Icon(category.icon, size: 20, color: AppColors.primary),
               const SizedBox(width: 8),
               Text(
-                category.label,
+                category.label.of(context),
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ],
@@ -210,7 +210,7 @@ class _SoundTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        preset.name,
+                        preset.name.of(context),
                         style: const TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 14,
@@ -218,7 +218,7 @@ class _SoundTile extends StatelessWidget {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        preset.description,
+                        preset.description.of(context),
                         style: TextStyle(
                           fontSize: 11,
                           color: AppColors.textHint,
@@ -335,7 +335,7 @@ class _NowPlayingBarState extends State<_NowPlayingBar> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      preset.name,
+                      preset.name.of(context),
                       style: const TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 15,
@@ -403,10 +403,10 @@ class _NowPlayingBarState extends State<_NowPlayingBar> {
                       : AppColors.textHint,
                 ),
                 onSelected: (t) => widget.service.setSleepTimer(t),
-                itemBuilder: (_) => SleepTimer.all
+                itemBuilder: (ctx) => SleepTimer.all
                     .map((t) => PopupMenuItem(
                           value: t,
-                          child: Text(t.label),
+                          child: Text(t.label.of(ctx)),
                         ))
                     .toList(),
               ),

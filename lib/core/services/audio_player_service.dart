@@ -88,7 +88,7 @@ class AudioPlayerService {
     }
     _sleepTimerEnd = DateTime.now().add(timer.duration!);
     _state = _state.copyWith(
-      sleepTimerLabel: timer.label,
+      sleepTimerLabel: timer.label.en,
       sleepTimerEnd: _sleepTimerEnd,
     );
     _emit();

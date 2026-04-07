@@ -49,24 +49,22 @@ class ProfessionalsScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Async Consultations',
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 16),
+                Text(
+                  L.of(context).asyncConsultations,
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 16),
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  'Describe your concern, upload labs/photos, get a written '
-                  'assessment from a real doctor within 24-48 hours. '
-                  'One follow-up question included.',
+                  L.of(context).asyncConsultationsDesc,
                   style: TextStyle(color: Colors.white.withValues(alpha: 0.9), fontSize: 13, height: 1.4),
                 ),
                 const SizedBox(height: 12),
-                const Row(
+                Row(
                   children: [
-                    _HowItWorksStep(number: '1', label: 'Describe'),
-                    _HowItWorksStep(number: '2', label: 'Upload'),
-                    _HowItWorksStep(number: '3', label: 'Pay'),
-                    _HowItWorksStep(number: '4', label: 'Get answer'),
+                    _HowItWorksStep(number: '1', label: L.of(context).stepDescribe),
+                    _HowItWorksStep(number: '2', label: L.of(context).stepUpload),
+                    _HowItWorksStep(number: '3', label: L.of(context).stepPay),
+                    _HowItWorksStep(number: '4', label: L.of(context).stepGetAnswer),
                   ],
                 ),
               ],
@@ -74,7 +72,7 @@ class ProfessionalsScreen extends StatelessWidget {
           ),
           const SizedBox(height: 24),
 
-          Text('Specialties', style: Theme.of(context).textTheme.titleLarge),
+          Text(L.of(context).specialties, style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 12),
           SizedBox(
             height: 44,
@@ -82,7 +80,7 @@ class ProfessionalsScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               children: [
                 const _SpecialtyChip(label: 'All', isSelected: true),
-                ...SpecialtyType.values.take(5).map((s) => _SpecialtyChip(label: s.label)),
+                ...SpecialtyType.values.take(5).map((s) => _SpecialtyChip(label: s.label.of(context))),
               ],
             ),
           ),
@@ -110,10 +108,10 @@ class ProfessionalsScreen extends StatelessWidget {
               children: [
                 const Icon(Icons.person_add, color: AppColors.accentDark, size: 32),
                 const SizedBox(height: 8),
-                const Text('More doctors joining soon', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14)),
+                Text(L.of(context).moreDoctorsJoining, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14)),
                 const SizedBox(height: 4),
                 Text(
-                  'Pediatricians, OB-GYNs, lactation consultants, mental health specialists, and nutritionists.',
+                  L.of(context).moreDoctorsJoiningDesc,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.4),
                 ),
@@ -207,7 +205,7 @@ class _DoctorCard extends StatelessWidget {
                           if (doctor.isVerified) ...[const SizedBox(width: 4), const Icon(Icons.verified, size: 16, color: AppColors.secondary)],
                         ],
                       ),
-                      Text('${doctor.title} · ${doctor.specialty.label}', style: Theme.of(context).textTheme.bodySmall),
+                      Text('${doctor.title.of(context)} · ${doctor.specialty.label.of(context)}', style: Theme.of(context).textTheme.bodySmall),
                       const SizedBox(height: 4),
                       Wrap(
                         spacing: 4,
@@ -223,7 +221,7 @@ class _DoctorCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            Text(doctor.bio, style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.5), maxLines: 3, overflow: TextOverflow.ellipsis),
+            Text(doctor.bio.of(context), style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.5), maxLines: 3, overflow: TextOverflow.ellipsis),
             const SizedBox(height: 12),
             ...doctor.credentials.take(3).map((c) => Padding(
               padding: const EdgeInsets.only(bottom: 4),
@@ -232,7 +230,7 @@ class _DoctorCard extends StatelessWidget {
                 children: [
                   const Icon(Icons.school, size: 14, color: AppColors.secondary),
                   const SizedBox(width: 6),
-                  Expanded(child: Text(c, style: const TextStyle(fontSize: 12, height: 1.3))),
+                  Expanded(child: Text(c.of(context), style: const TextStyle(fontSize: 12, height: 1.3))),
                 ],
               ),
             )),
@@ -244,7 +242,7 @@ class _DoctorCard extends StatelessWidget {
                 children: [
                   const Icon(Icons.access_time, size: 14, color: AppColors.success),
                   const SizedBox(width: 6),
-                  Text(doctor.responseTime, style: const TextStyle(color: AppColors.success, fontSize: 13, fontWeight: FontWeight.w500)),
+                  Text(doctor.responseTime.of(context), style: const TextStyle(color: AppColors.success, fontSize: 13, fontWeight: FontWeight.w500)),
                   const Spacer(),
                   Text(doctor.priceFormatted, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: AppColors.primary)),
                 ],
@@ -253,7 +251,7 @@ class _DoctorCard extends StatelessWidget {
             const SizedBox(height: 12),
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(onPressed: onConsult, child: const Text('Request Consultation')),
+              child: ElevatedButton(onPressed: onConsult, child: Text(L.of(context).requestConsultation)),
             ),
           ],
         ),

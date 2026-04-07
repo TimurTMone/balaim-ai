@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/data/birth_plan_data.dart';
+import '../../../core/l10n/content_localizations.dart';
 import '../providers/birth_plan_provider.dart';
 
 class BirthPlanScreen extends ConsumerWidget {
@@ -108,7 +109,7 @@ class BirthPlanScreen extends ConsumerWidget {
             return Padding(
               padding: const EdgeInsets.only(top: 8),
               child: _Section(
-                title: section,
+                title: section.of(context),
                 questions: questions,
                 plan: plan,
                 onToggle: notifier.toggleOption,
@@ -125,12 +126,23 @@ class BirthPlanScreen extends ConsumerWidget {
     final questionsById = {
       for (var q in BirthPlanData.questions) q.id: q,
     };
+    // Build option lookup: en -> L3 for each question
+    final optionLookup = <String, Map<String, L3>>{};
+    for (final q in BirthPlanData.questions) {
+      optionLookup[q.id] = {for (var o in q.options) o.en: o};
+    }
+
     final bySection = <String, List<String>>{};
     for (final entry in plan.entries) {
       final q = questionsById[entry.key];
       if (q == null) continue;
-      bySection.putIfAbsent(q.section, () => []);
-      bySection[q.section]!.add('${q.question}: ${entry.value.join(', ')}');
+      final sectionName = q.section.of(context);
+      bySection.putIfAbsent(sectionName, () => []);
+      final localizedOpts = entry.value.map((en) {
+        final l3 = optionLookup[entry.key]?[en];
+        return l3?.of(context) ?? en;
+      }).join(', ');
+      bySection[sectionName]!.add('${q.question.of(context)}: $localizedOpts');
     }
 
     showModalBottomSheet(
@@ -258,7 +270,7 @@ class _QuestionCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            question.question,
+            question.question.of(context),
             style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
           ),
           const SizedBox(height: 10),
@@ -266,9 +278,9 @@ class _QuestionCard extends StatelessWidget {
             spacing: 8,
             runSpacing: 8,
             children: question.options.map((opt) {
-              final isSelected = selected.contains(opt);
+              final isSelected = selected.contains(opt.en);
               return GestureDetector(
-                onTap: () => onToggle(opt),
+                onTap: () => onToggle(opt.en),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 12,
@@ -293,7 +305,7 @@ class _QuestionCard extends StatelessWidget {
                         const SizedBox(width: 4),
                       ],
                       Text(
-                        opt,
+                        opt.of(context),
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: isSelected

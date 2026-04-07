@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../core/constants/app_constants.dart';
+import '../../core/l10n/content_localizations.dart';
 
 /// Vendor (seller) on the marketplace
 class Vendor {
   final String id;
-  final String name;
-  final String description;
+  final L3 name;
+  final L3 description;
   final IconData icon;
   final Color iconColor;
   final String? logoUrl;
@@ -38,8 +39,8 @@ class Vendor {
 class Product {
   final String id;
   final String vendorId;
-  final String name;
-  final String description;
+  final L3 name;
+  final L3 description;
   final double price;
   final String currency;
   final String? imageUrl;
@@ -86,7 +87,7 @@ class Product {
 /// Product categories
 class ProductCategory {
   final String id;
-  final String name;
+  final L3 name;
   final IconData icon;
   final Color color;
   final int productCount;

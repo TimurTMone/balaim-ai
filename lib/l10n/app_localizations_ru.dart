@@ -1026,4 +1026,677 @@ class LRu extends L {
 
   @override
   String get dueDateAppBarTitle => 'Дата родов';
+
+  @override
+  String get patientCase => 'Случай пациента';
+
+  @override
+  String get followUp => 'Повторный вопрос';
+
+  @override
+  String get originalCase => 'Исходный случай';
+
+  @override
+  String get overview => 'Обзор';
+
+  @override
+  String get symptoms => 'Симптомы';
+
+  @override
+  String get historyMedical => 'История';
+
+  @override
+  String get attachments => 'Вложения';
+
+  @override
+  String get respond => 'Ответить';
+
+  @override
+  String get priority => 'ПРИОРИТЕТ';
+
+  @override
+  String get respondWithin12h => 'Пожалуйста, ответьте в течение 12 часов';
+
+  @override
+  String get respondWithin24h => 'Пожалуйста, ответьте в течение 24 часов';
+
+  @override
+  String get respondWithin48h => 'Пожалуйста, ответьте в течение 48 часов';
+
+  @override
+  String get patientInformation => 'Информация о пациенте';
+
+  @override
+  String get nameLabel => 'Имя';
+
+  @override
+  String get ageLabel => 'Возраст';
+
+  @override
+  String get relationship => 'Кем приходится';
+
+  @override
+  String get specialty => 'Специальность';
+
+  @override
+  String get mainConcern => 'Основная жалоба';
+
+  @override
+  String get noConcernSpecified => 'Жалоба не указана';
+
+  @override
+  String get labResults => 'Результаты анализов';
+
+  @override
+  String get photos => 'Фотографии';
+
+  @override
+  String get symptomDetails => 'Описание симптомов';
+
+  @override
+  String get description => 'Описание';
+
+  @override
+  String get patientDescribes => 'Пациент описывает';
+
+  @override
+  String get notSpecified => 'Не указано';
+
+  @override
+  String get symptomsOngoing =>
+      'Симптомы продолжаются. Смотрите результаты анализов и фото для контекста.';
+
+  @override
+  String get duration => 'Длительность';
+
+  @override
+  String get whatPatientTried => 'Что пробовал пациент';
+
+  @override
+  String get noMitigationReported => 'Меры не предпринимались';
+
+  @override
+  String get currentMedications => 'Текущие препараты';
+
+  @override
+  String get noneReported => 'Нет данных';
+
+  @override
+  String get medicalHistory => 'Медицинская история';
+
+  @override
+  String get noHistoryProvided => 'История не предоставлена';
+
+  @override
+  String get allergies => 'Аллергии';
+
+  @override
+  String get surgicalHistory => 'Хирургическая история';
+
+  @override
+  String get none => 'Нет';
+
+  @override
+  String get familyHistory => 'Семейная история';
+
+  @override
+  String get notProvided => 'Не предоставлено';
+
+  @override
+  String get pregnancyWeek => 'Неделя беременности';
+
+  @override
+  String get babyAge => 'Возраст ребёнка';
+
+  @override
+  String get months => 'мес.';
+
+  @override
+  String get labResultsAttached => 'Результаты анализов прикреплены';
+
+  @override
+  String get tapToViewFullSize => 'Нажмите для полного размера';
+
+  @override
+  String get noLabResultsUploaded => 'Анализы не загружены';
+
+  @override
+  String get patientPhotos => 'Фото пациента';
+
+  @override
+  String get photosAttached => 'Фото прикреплены';
+
+  @override
+  String get noPhotosUploaded => 'Фото не загружены';
+
+  @override
+  String get additionalNotesFromPatient => 'Дополнительные заметки от пациента';
+
+  @override
+  String get responseWarning =>
+      'Ваш ответ будет отправлен пациенту. Будьте тщательны, сострадательны и укажите, когда обращаться за экстренной помощью.';
+
+  @override
+  String get clinicalAssessment => 'Клиническая оценка';
+
+  @override
+  String get assessmentHint =>
+      'На основании предоставленной информации, мой вывод...';
+
+  @override
+  String get recommendationsLabel => 'Рекомендации';
+
+  @override
+  String get recommendationsHint => 'Я рекомендую следующие шаги...';
+
+  @override
+  String get prescriptionNotes => 'Рецепт / Заметки о препаратах';
+
+  @override
+  String get prescriptionHint =>
+      'Если применимо: название препарата, дозировка, частота, длительность';
+
+  @override
+  String get recommendedFollowUpTests => 'Рекомендуемые повторные обследования';
+
+  @override
+  String get followUpTestsHint =>
+      'например, «Повторный ТТГ через 6 недель», «УЗИ...»';
+
+  @override
+  String get referralNote => 'Направление';
+
+  @override
+  String get referralHint => 'При направлении к другому специалисту...';
+
+  @override
+  String get whenToSeekEmergencyCare =>
+      'Когда обращаться за экстренной помощью';
+
+  @override
+  String get emergencyCareHint => 'Обратитесь в скорую, если вы испытываете...';
+
+  @override
+  String get submitResponseToPatient => 'Отправить ответ пациенту';
+
+  @override
+  String get disclaimerAutoAppend =>
+      'Предупреждение будет автоматически добавлено о том, что это не заменяет очный осмотр.';
+
+  @override
+  String get patientFollowUpQuestion => 'Повторный вопрос пациента';
+
+  @override
+  String get noQuestionProvided => 'Вопрос не задан';
+
+  @override
+  String get yourAnswer => 'Ваш ответ';
+
+  @override
+  String get followUpAnswerHint =>
+      'Подробно ответьте на повторный вопрос пациента...';
+
+  @override
+  String get sendFollowUpAnswer => 'Отправить ответ';
+
+  @override
+  String get assessmentRequired => 'Клиническая оценка обязательна';
+
+  @override
+  String get recommendationsRequired => 'Рекомендации обязательны';
+
+  @override
+  String get emergencyCareRequired =>
+      'Раздел «Когда обращаться за экстренной помощью» обязателен для безопасности пациента';
+
+  @override
+  String get responseSubmitted => 'Ответ отправлен';
+
+  @override
+  String get responseSubmittedBody =>
+      'Ваш ответ отправлен пациенту. Он получит уведомление.\n\nЕсли пациент задаст повторный вопрос, вы получите уведомление.';
+
+  @override
+  String get backToDashboard => 'Вернуться к панели';
+
+  @override
+  String get pleaseWriteAnswer => 'Пожалуйста, напишите ваш ответ';
+
+  @override
+  String get followUpAnswerSent => 'Ответ на повторный вопрос отправлен';
+
+  @override
+  String get followUpAnswerSentBody =>
+      'Ваш ответ отправлен. Эта консультация завершена.';
+
+  @override
+  String get doctorDashboard => 'Панель врача';
+
+  @override
+  String get welcomeComma => 'Добро пожаловать,';
+
+  @override
+  String casesNeedAttention(int count) {
+    return '$count случаев ожидают вашего внимания';
+  }
+
+  @override
+  String get pending => 'Ожидание';
+
+  @override
+  String get followUps => 'Повторные';
+
+  @override
+  String get completed => 'Завершено';
+
+  @override
+  String get earned => 'Заработано';
+
+  @override
+  String get followUpQuestions => 'Повторные вопросы';
+
+  @override
+  String get patientAskedFollowUp =>
+      'Пациент задал повторный вопрос — ответьте';
+
+  @override
+  String get pendingCases => 'Ожидающие случаи';
+
+  @override
+  String get newestFirstTapReview => 'Сначала новые — нажмите для просмотра';
+
+  @override
+  String get allCaughtUp => 'Всё сделано!';
+
+  @override
+  String get noPendingConsultations => 'Нет ожидающих консультаций.';
+
+  @override
+  String get quickLinks => 'Быстрые ссылки';
+
+  @override
+  String get completedCases => 'Завершённые случаи';
+
+  @override
+  String get earnings => 'Доходы';
+
+  @override
+  String get myProfile => 'Мой профиль';
+
+  @override
+  String get guidelines => 'Рекомендации';
+
+  @override
+  String get consultationGuidelines => 'Правила консультаций';
+
+  @override
+  String get guidelineReview =>
+      'Тщательно изучите всю предоставленную информацию';
+
+  @override
+  String get guidelineEmergency =>
+      'Включите раздел «когда обращаться за экстренной помощью» в каждый ответ';
+
+  @override
+  String get guidelineDisclaimer =>
+      'Добавьте предупреждение, что это не заменяет очный осмотр';
+
+  @override
+  String get guidelineFollowUp =>
+      'Рекомендуйте повторные обследования при необходимости';
+
+  @override
+  String get guidelineResponseTime => 'Отвечайте в указанные сроки';
+
+  @override
+  String get guidelineReferral =>
+      'Если случай вне вашей компетенции, направьте к соответствующему специалисту';
+
+  @override
+  String get consult => 'Консультация у';
+
+  @override
+  String stepOf(int current, int total) {
+    return 'Шаг $current из $total';
+  }
+
+  @override
+  String get back => 'Назад';
+
+  @override
+  String get submitAndPay => 'Отправить и оплатить';
+
+  @override
+  String get whoIsConsultationFor => 'Для кого эта консультация?';
+
+  @override
+  String get selfOption => 'Для себя';
+
+  @override
+  String get myChild => 'Мой ребёнок';
+
+  @override
+  String get myPartner => 'Мой партнёр';
+
+  @override
+  String get patientName => 'Имя пациента';
+
+  @override
+  String get ageMonths => 'Возраст (месяцев)';
+
+  @override
+  String get ageYears => 'Возраст (лет)';
+
+  @override
+  String get sex => 'Пол';
+
+  @override
+  String get female => 'Женский';
+
+  @override
+  String get male => 'Мужской';
+
+  @override
+  String get whatsGoingOn => 'Что происходит?';
+
+  @override
+  String whatDoctorNeeds(String name) {
+    return 'Что нужно $name:';
+  }
+
+  @override
+  String get mainConcernLabel => 'Основная жалоба (одним предложением)';
+
+  @override
+  String get mainConcernHint =>
+      'например, «У моего 6-месячного ребёнка сыпь на груди»';
+
+  @override
+  String get describeSymptomsLabel => 'Опишите симптомы подробно';
+
+  @override
+  String get describeSymptomsHint =>
+      'Когда началось? Ухудшается ли? Есть ли закономерность?';
+
+  @override
+  String get howLongLabel => 'Как давно это продолжается?';
+
+  @override
+  String get howLongHint => 'например, «3 дня», «с рождения», «периодически»';
+
+  @override
+  String get whatHaveYouTried => 'Что вы уже пробовали?';
+
+  @override
+  String get whatDoneToAddress => 'Что вы предприняли?';
+
+  @override
+  String get whatDoneHint =>
+      'например, «Мазали гидрокортизоном, давали жаропонижающее»';
+
+  @override
+  String get currentMedsSupplements => 'Текущие препараты и добавки';
+
+  @override
+  String get currentMedsHint =>
+      'Перечислите всё (рецептурное, безрецептурное, витамины)';
+
+  @override
+  String get medicalHistoryHint =>
+      'Хронические заболевания, прошлые диагнозы, операции, госпитализации';
+
+  @override
+  String get allergiesHint => 'Лекарственные аллергии, пищевые, экологические';
+
+  @override
+  String get relevantFamilyHistory => 'Семейная история болезней';
+
+  @override
+  String get familyHistoryHint =>
+      'Диабет, щитовидная железа, болезни сердца, рак и т.д.';
+
+  @override
+  String get uploadEvidence => 'Загрузить материалы';
+
+  @override
+  String get labResultsSubtitle =>
+      'Анализы крови, снимки, результаты обследований';
+
+  @override
+  String get photosSubtitle => 'Сыпь, отёк, поражённая область';
+
+  @override
+  String get anythingElseDoctor => 'Что ещё врач должен знать?';
+
+  @override
+  String get additionalContextHint =>
+      'Дополнительный контекст, беспокойства, вопросы...';
+
+  @override
+  String get reviewAndSubmit => 'Проверка и отправка';
+
+  @override
+  String get urgency => 'Срочность';
+
+  @override
+  String get patient => 'Пациент';
+
+  @override
+  String get concern => 'Жалоба';
+
+  @override
+  String labsAndPhotosCount(int labs, int photos) {
+    return '$labs анал., $photos фото';
+  }
+
+  @override
+  String get responseTime => 'Время ответа';
+
+  @override
+  String get includedInConsultation => 'Включено в консультацию:';
+
+  @override
+  String get includedCaseReview => 'Полный разбор случая врачом';
+
+  @override
+  String get includedAssessment => 'Письменная оценка и рекомендации';
+
+  @override
+  String get includedFollowUp => '1 повторный вопрос';
+
+  @override
+  String get includedEmergencyGuidance => 'Рекомендации по экстренной помощи';
+
+  @override
+  String get submitDisclaimer =>
+      'Отправляя, вы подтверждаете, что это не экстренный случай и не заменяет очный приём.';
+
+  @override
+  String get consultationSubmitted => 'Консультация отправлена';
+
+  @override
+  String consultationSubmittedBody(String doctor, String time) {
+    return '$doctor рассмотрит ваш случай и ответит $time.\n\nВы получите уведомление, когда ответ будет готов.';
+  }
+
+  @override
+  String get gotIt => 'Понятно';
+
+  @override
+  String get discardConsultation => 'Отменить консультацию?';
+
+  @override
+  String get progressWillBeLost => 'Ваш прогресс будет потерян. Вы уверены?';
+
+  @override
+  String get keepEditing => 'Продолжить';
+
+  @override
+  String get discard => 'Отменить';
+
+  @override
+  String get add => 'Добавить';
+
+  @override
+  String get consultation => 'Консультация';
+
+  @override
+  String get yourConcern => 'Ваша жалоба';
+
+  @override
+  String get doctorsAssessment => 'Оценка врача';
+
+  @override
+  String get medicationNotes => 'Заметки о препаратах';
+
+  @override
+  String get referral => 'Направление';
+
+  @override
+  String get yourFollowUpQuestion => 'Ваш повторный вопрос';
+
+  @override
+  String get doctorsAnswer => 'Ответ врача';
+
+  @override
+  String get waitingForDoctorFollowUp =>
+      'Ожидаем ответ врача на ваш повторный вопрос...';
+
+  @override
+  String get askFollowUpQuestion => 'Задать повторный вопрос (1 включён)';
+
+  @override
+  String get askOneFollowUp => 'Задайте один повторный вопрос';
+
+  @override
+  String get beSpecificDoctor =>
+      'Будьте конкретны. Врач ответит в течение 24-48 часов.';
+
+  @override
+  String get yourFollowUpQuestionHint => 'Ваш повторный вопрос...';
+
+  @override
+  String get followUpSent => 'Вопрос отправлен';
+
+  @override
+  String get doctorWillRespond => 'Врач ответит в течение 24-48 часов.';
+
+  @override
+  String get sendQuestion => 'Отправить вопрос';
+
+  @override
+  String get doctorHasResponded => 'Врач ответил';
+
+  @override
+  String get waitingForFollowUpAnswer => 'Ожидаем ответ на повторный вопрос';
+
+  @override
+  String get doctorReviewingCase => 'Врач рассматривает ваш случай';
+
+  @override
+  String get platformOverview => 'Обзор платформы Balam.AI';
+
+  @override
+  String get keyMetrics => 'Ключевые метрики';
+
+  @override
+  String get totalUsers => 'Всего пользователей';
+
+  @override
+  String get activeToday => 'Активны сегодня';
+
+  @override
+  String get aiChats => 'AI-чаты';
+
+  @override
+  String get revenue => 'Доход';
+
+  @override
+  String get userManagement => 'Управление пользователями';
+
+  @override
+  String get userManagementSubtitle =>
+      '12 847 пользователей — 892 новых за неделю';
+
+  @override
+  String get professionalVerification => 'Верификация специалистов';
+
+  @override
+  String get pendingApplications => '23 заявки на рассмотрении';
+
+  @override
+  String get marketplaceVendors => 'Маркетплейс и продавцы';
+
+  @override
+  String get marketplaceVendorsSubtitle => '156 активных — 8 ожидают одобрения';
+
+  @override
+  String get communityModeration => 'Модерация сообщества';
+
+  @override
+  String get communityModerationSubtitle => '12 жалоб — 3 обращения';
+
+  @override
+  String get aiPerformance => 'AI-производительность';
+
+  @override
+  String get aiPerformanceSubtitle =>
+      '98.2% удовлетворённость — 45мс среднее время';
+
+  @override
+  String get analyticsReports => 'Аналитика и отчёты';
+
+  @override
+  String get analyticsReportsSubtitle => 'DAU, удержание, воронка конверсий';
+
+  @override
+  String get billingRevenue => 'Биллинг и доходы';
+
+  @override
+  String get billingRevenueSubtitle => '\$24.8K MRR — 1 204 подписчика';
+
+  @override
+  String get pushNotifications => 'Push-уведомления';
+
+  @override
+  String get pushNotificationsSubtitle => 'Рассылки, управление каналами';
+
+  @override
+  String get platformSettings => 'Настройки платформы';
+
+  @override
+  String get platformSettingsSubtitle =>
+      'Флаги функций, конфигурация, обслуживание';
+
+  @override
+  String get asyncConsultations => 'Асинхронные консультации';
+
+  @override
+  String get asyncConsultationsDesc =>
+      'Опишите проблему, загрузите анализы/фото, получите письменную оценку от врача в течение 24-48 часов. 1 повторный вопрос включён.';
+
+  @override
+  String get stepDescribe => 'Описать';
+
+  @override
+  String get stepUpload => 'Загрузить';
+
+  @override
+  String get stepPay => 'Оплатить';
+
+  @override
+  String get stepGetAnswer => 'Получить ответ';
+
+  @override
+  String get specialties => 'Специальности';
+
+  @override
+  String get moreDoctorsJoining => 'Скоро присоединятся новые врачи';
+
+  @override
+  String get moreDoctorsJoiningDesc =>
+      'Педиатры, акушеры-гинекологи, консультанты по лактации, психологи и диетологи.';
+
+  @override
+  String get requestConsultation => 'Запросить консультацию';
 }

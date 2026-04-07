@@ -20,7 +20,7 @@ class TrimesterGuideScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text('${trimester.label} Trimester Guide'),
+        title: Text('${trimester.label.of(context)} Trimester Guide'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.pop(),
@@ -44,7 +44,7 @@ class TrimesterGuideScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${trimester.label} Trimester',
+                  '${trimester.label.of(context)} Trimester',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 28,
@@ -106,7 +106,7 @@ class _GuideSection extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  guide.title,
+                  guide.title.of(context),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
@@ -114,7 +114,7 @@ class _GuideSection extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            guide.intro,
+            guide.intro.of(context),
             style: const TextStyle(fontSize: 14, height: 1.5),
           ),
           const SizedBox(height: 16),
@@ -122,7 +122,7 @@ class _GuideSection extends StatelessWidget {
           // Do's
           _BulletList(
             heading: 'DO',
-            items: guide.dos,
+            items: guide.dos.map((d) => d.of(context)).toList(),
             color: AppColors.success,
             icon: Icons.check_circle,
           ),
@@ -131,7 +131,7 @@ class _GuideSection extends StatelessWidget {
           // Don'ts
           _BulletList(
             heading: "DON'T",
-            items: guide.donts,
+            items: guide.donts.map((d) => d.of(context)).toList(),
             color: AppColors.error,
             icon: Icons.cancel,
           ),

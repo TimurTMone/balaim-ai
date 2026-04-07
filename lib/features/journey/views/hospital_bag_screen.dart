@@ -50,7 +50,7 @@ class HospitalBagScreen extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          cat.label,
+                          cat.label.of(context),
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         Text(
@@ -66,8 +66,8 @@ class HospitalBagScreen extends ConsumerWidget {
                   ...items.map((item) {
                     final isPacked = packed.contains(item.id);
                     return _ItemTile(
-                      name: item.name,
-                      note: item.note,
+                      name: item.name.of(context),
+                      note: item.note?.of(context),
                       essential: item.essential,
                       isPacked: isPacked,
                       onToggle: () => notifier.toggle(item.id),

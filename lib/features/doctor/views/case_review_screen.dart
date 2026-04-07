@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// The most critical screen in the app.
 /// Doctor reads patient's full intake and writes their response.
@@ -69,7 +70,7 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text(c['patientName'] ?? 'Patient Case'),
+        title: Text(c['patientName'] ?? L.of(context).patientCase),
         bottom: TabBar(
           controller: _tabController,
           labelColor: AppColors.primary,
@@ -77,16 +78,16 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
           indicatorColor: AppColors.primary,
           isScrollable: true,
           tabs: _isFollowUp
-              ? const [
-                  Tab(text: 'Follow-up'),
-                  Tab(text: 'Original Case'),
+              ? [
+                  Tab(text: L.of(context).followUp),
+                  Tab(text: L.of(context).originalCase),
                 ]
-              : const [
-                  Tab(text: 'Overview'),
-                  Tab(text: 'Symptoms'),
-                  Tab(text: 'History'),
-                  Tab(text: 'Attachments'),
-                  Tab(text: 'Respond'),
+              : [
+                  Tab(text: L.of(context).overview),
+                  Tab(text: L.of(context).symptoms),
+                  Tab(text: L.of(context).historyMedical),
+                  Tab(text: L.of(context).attachments),
+                  Tab(text: L.of(context).respond),
                 ],
         ),
       ),
@@ -138,7 +139,7 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${(c['urgency'] ?? 'routine').toString().toUpperCase()} PRIORITY',
+                      '${(c['urgency'] ?? 'routine').toString().toUpperCase()} ${L.of(context).priority}',
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 12,
@@ -149,10 +150,10 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
                     const SizedBox(height: 2),
                     Text(
                       c['urgency'] == 'urgent'
-                          ? 'Please respond within 12 hours'
+                          ? L.of(context).respondWithin12h
                           : c['urgency'] == 'soon'
-                              ? 'Please respond within 24 hours'
-                              : 'Please respond within 48 hours',
+                              ? L.of(context).respondWithin24h
+                              : L.of(context).respondWithin48h,
                       style: const TextStyle(fontSize: 13),
                     ),
                   ],
@@ -165,25 +166,25 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
 
         // Patient info card
         _InfoCard(
-          title: 'Patient Information',
+          title: L.of(context).patientInformation,
           icon: Icons.person,
           rows: [
-            _InfoRow('Name', c['patientName'] ?? '—'),
-            _InfoRow('Age', '${c['patientAge'] ?? '—'}'),
+            _InfoRow(L.of(context).nameLabel, c['patientName'] ?? '—'),
+            _InfoRow(L.of(context).ageLabel, '${c['patientAge'] ?? '—'}'),
             if (c['relationship'] != null)
-              _InfoRow('Relationship', c['relationship']),
-            _InfoRow('Specialty', c['specialty'] ?? '—'),
+              _InfoRow(L.of(context).relationship, c['relationship']),
+            _InfoRow(L.of(context).specialty, c['specialty'] ?? '—'),
           ],
         ),
         const SizedBox(height: 12),
 
         // Main concern
         _InfoCard(
-          title: 'Main Concern',
+          title: L.of(context).mainConcern,
           icon: Icons.medical_services,
           children: [
             Text(
-              c['mainConcern'] ?? 'No concern specified',
+              c['mainConcern'] ?? L.of(context).noConcernSpecified,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -199,13 +200,13 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
           children: [
             _Indicator(
               icon: Icons.science,
-              label: 'Lab results',
+              label: L.of(context).labResults,
               present: c['hasLabResults'] == true,
             ),
             const SizedBox(width: 10),
             _Indicator(
               icon: Icons.photo_camera,
-              label: 'Photos',
+              label: L.of(context).photos,
               present: c['hasPhotos'] == true,
             ),
           ],
@@ -222,27 +223,27 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
       padding: const EdgeInsets.all(16),
       children: [
         _InfoCard(
-          title: 'Symptom Details',
+          title: L.of(context).symptomDetails,
           icon: Icons.healing,
           children: [
             _DetailBlock(
-              label: 'Description',
+              label: L.of(context).description,
               value: c['symptomDetails'] ??
-                  'Patient describes: ${c['mainConcern'] ?? 'Not specified'}. '
-                      'Symptoms have been ongoing. Please see lab results and photos for more context.',
+                  '${L.of(context).patientDescribes}: ${c['mainConcern'] ?? L.of(context).notSpecified}. '
+                      '${L.of(context).symptomsOngoing}',
             ),
             _DetailBlock(
-              label: 'Duration',
-              value: c['symptomDuration'] ?? 'Not specified',
+              label: L.of(context).duration,
+              value: c['symptomDuration'] ?? L.of(context).notSpecified,
             ),
             _DetailBlock(
-              label: 'What patient has tried',
+              label: L.of(context).whatPatientTried,
               value: c['whatTriedSoFar'] ??
-                  'No mitigation efforts reported',
+                  L.of(context).noMitigationReported,
             ),
             _DetailBlock(
-              label: 'Current medications',
-              value: c['currentMedications'] ?? 'None reported',
+              label: L.of(context).currentMedications,
+              value: c['currentMedications'] ?? L.of(context).noneReported,
             ),
           ],
         ),
@@ -258,34 +259,34 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
       padding: const EdgeInsets.all(16),
       children: [
         _InfoCard(
-          title: 'Medical History',
+          title: L.of(context).medicalHistory,
           icon: Icons.history,
           children: [
             _DetailBlock(
-              label: 'Medical history',
-              value: c['medicalHistory'] ?? 'No history provided',
+              label: L.of(context).medicalHistory,
+              value: c['medicalHistory'] ?? L.of(context).noHistoryProvided,
             ),
             _DetailBlock(
-              label: 'Allergies',
-              value: c['allergies'] ?? 'None reported',
+              label: L.of(context).allergies,
+              value: c['allergies'] ?? L.of(context).noneReported,
             ),
             _DetailBlock(
-              label: 'Surgical history',
-              value: c['surgicalHistory'] ?? 'None',
+              label: L.of(context).surgicalHistory,
+              value: c['surgicalHistory'] ?? L.of(context).none,
             ),
             _DetailBlock(
-              label: 'Family history',
-              value: c['familyHistory'] ?? 'Not provided',
+              label: L.of(context).familyHistory,
+              value: c['familyHistory'] ?? L.of(context).notProvided,
             ),
             if (c['pregnancyWeek'] != null)
               _DetailBlock(
-                label: 'Pregnancy week',
-                value: 'Week ${c['pregnancyWeek']}',
+                label: L.of(context).pregnancyWeek,
+                value: '${L.of(context).weekN(c['pregnancyWeek'])}',
               ),
             if (c['babyAgeMonths'] != null)
               _DetailBlock(
-                label: 'Baby age',
-                value: '${c['babyAgeMonths']} months',
+                label: L.of(context).babyAge,
+                value: '${c['babyAgeMonths']} ${L.of(context).months}',
               ),
           ],
         ),
@@ -302,7 +303,7 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
       children: [
         // Lab results
         _InfoCard(
-          title: 'Lab Results',
+          title: L.of(context).labResults,
           icon: Icons.science,
           children: [
             if (c['hasLabResults'] == true)
@@ -312,30 +313,30 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
                   color: AppColors.divider,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Center(
+                child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.science, size: 40, color: AppColors.textHint),
-                      SizedBox(height: 8),
-                      Text('Lab results attached',
-                          style: TextStyle(color: AppColors.textSecondary)),
-                      Text('Tap to view full size',
-                          style: TextStyle(fontSize: 12, color: AppColors.textHint)),
+                      const Icon(Icons.science, size: 40, color: AppColors.textHint),
+                      const SizedBox(height: 8),
+                      Text(L.of(context).labResultsAttached,
+                          style: const TextStyle(color: AppColors.textSecondary)),
+                      Text(L.of(context).tapToViewFullSize,
+                          style: const TextStyle(fontSize: 12, color: AppColors.textHint)),
                     ],
                   ),
                 ),
               )
             else
-              const Text('No lab results uploaded',
-                  style: TextStyle(color: AppColors.textHint)),
+              Text(L.of(context).noLabResultsUploaded,
+                  style: const TextStyle(color: AppColors.textHint)),
           ],
         ),
         const SizedBox(height: 12),
 
         // Photos
         _InfoCard(
-          title: 'Patient Photos',
+          title: L.of(context).patientPhotos,
           icon: Icons.photo_camera,
           children: [
             if (c['hasPhotos'] == true)
@@ -345,24 +346,24 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
                   color: AppColors.divider,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Center(
+                child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.photo_camera,
+                      const Icon(Icons.photo_camera,
                           size: 40, color: AppColors.textHint),
-                      SizedBox(height: 8),
-                      Text('Photos attached',
-                          style: TextStyle(color: AppColors.textSecondary)),
-                      Text('Tap to view full size',
-                          style: TextStyle(fontSize: 12, color: AppColors.textHint)),
+                      const SizedBox(height: 8),
+                      Text(L.of(context).photosAttached,
+                          style: const TextStyle(color: AppColors.textSecondary)),
+                      Text(L.of(context).tapToViewFullSize,
+                          style: const TextStyle(fontSize: 12, color: AppColors.textHint)),
                     ],
                   ),
                 ),
               )
             else
-              const Text('No photos uploaded',
-                  style: TextStyle(color: AppColors.textHint)),
+              Text(L.of(context).noPhotosUploaded,
+                  style: const TextStyle(color: AppColors.textHint)),
           ],
         ),
         const SizedBox(height: 12),
@@ -370,7 +371,7 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
         // Additional notes
         if (c['additionalNotes'] != null && c['additionalNotes'].isNotEmpty)
           _InfoCard(
-            title: 'Additional Notes from Patient',
+            title: L.of(context).additionalNotesFromPatient,
             icon: Icons.note,
             children: [
               Text(c['additionalNotes'],
@@ -396,17 +397,16 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: AppColors.error.withValues(alpha: 0.2)),
           ),
-          child: const Row(
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(Icons.medical_information,
+              const Icon(Icons.medical_information,
                   color: AppColors.error, size: 20),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'Your response will be sent to the patient. Please be thorough, '
-                  'compassionate, and include when to seek emergency care.',
-                  style: TextStyle(fontSize: 13, height: 1.4),
+                  L.of(context).responseWarning,
+                  style: const TextStyle(fontSize: 13, height: 1.4),
                 ),
               ),
             ],
@@ -415,74 +415,74 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
         const SizedBox(height: 16),
 
         // Assessment
-        const _FormLabel(text: 'Clinical Assessment', required: true),
+        _FormLabel(text: L.of(context).clinicalAssessment, required: true),
         const SizedBox(height: 6),
         TextField(
           controller: _assessmentController,
           maxLines: 6,
-          decoration: const InputDecoration(
-            hintText: 'Based on the information provided, my assessment is...',
+          decoration: InputDecoration(
+            hintText: L.of(context).assessmentHint,
           ),
         ),
         const SizedBox(height: 16),
 
         // Recommendations
-        const _FormLabel(text: 'Recommendations', required: true),
+        _FormLabel(text: L.of(context).recommendationsLabel, required: true),
         const SizedBox(height: 6),
         TextField(
           controller: _recommendationsController,
           maxLines: 5,
-          decoration: const InputDecoration(
-            hintText: 'I recommend the following steps...',
+          decoration: InputDecoration(
+            hintText: L.of(context).recommendationsHint,
           ),
         ),
         const SizedBox(height: 16),
 
         // Prescription notes
-        const _FormLabel(text: 'Prescription / Medication Notes'),
+        _FormLabel(text: L.of(context).prescriptionNotes),
         const SizedBox(height: 6),
         TextField(
           controller: _prescriptionController,
           maxLines: 3,
-          decoration: const InputDecoration(
-            hintText: 'If applicable: medication name, dosage, frequency, duration',
+          decoration: InputDecoration(
+            hintText: L.of(context).prescriptionHint,
           ),
         ),
         const SizedBox(height: 16),
 
         // Follow-up tests
-        const _FormLabel(text: 'Recommended Follow-up Tests'),
+        _FormLabel(text: L.of(context).recommendedFollowUpTests),
         const SizedBox(height: 6),
         TextField(
           controller: _followUpTestsController,
           maxLines: 3,
-          decoration: const InputDecoration(
-            hintText: 'e.g., "Repeat TSH in 6 weeks", "Ultrasound of..."',
+          decoration: InputDecoration(
+            hintText: L.of(context).followUpTestsHint,
           ),
         ),
         const SizedBox(height: 16),
 
         // Referral
-        const _FormLabel(text: 'Referral Note'),
+        _FormLabel(text: L.of(context).referralNote),
         const SizedBox(height: 6),
         TextField(
           controller: _referralController,
           maxLines: 2,
-          decoration: const InputDecoration(
-            hintText: 'If referring to another specialist...',
+          decoration: InputDecoration(
+            hintText: L.of(context).referralHint,
           ),
         ),
         const SizedBox(height: 16),
 
         // When to seek emergency care (REQUIRED)
-        const _FormLabel(
-            text: 'When to Seek Emergency Care', required: true),
+        _FormLabel(
+            text: L.of(context).whenToSeekEmergencyCare, required: true),
         const SizedBox(height: 6),
         TextField(
           controller: _emergencyController,
           maxLines: 3,
-          decoration: const InputDecoration(
-            hintText: 'Go to the ER if you experience...',
+          decoration: InputDecoration(
+            hintText: L.of(context).emergencyCareHint,
           ),
         ),
         const SizedBox(height: 24),
@@ -502,14 +502,13 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
                       color: Colors.white,
                     ),
                   )
-                : const Text('Submit Response to Patient',
-                    style: TextStyle(fontSize: 16)),
+                : Text(L.of(context).submitResponseToPatient,
+                    style: const TextStyle(fontSize: 16)),
           ),
         ),
         const SizedBox(height: 12),
         Text(
-          'A disclaimer will be automatically appended stating this does not '
-          'replace an in-person examination.',
+          L.of(context).disclaimerAutoAppend,
           style:
               TextStyle(fontSize: 11, color: AppColors.textHint, height: 1.4),
           textAlign: TextAlign.center,
@@ -528,11 +527,11 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
       children: [
         // Patient's follow-up question
         _InfoCard(
-          title: 'Patient\'s Follow-up Question',
+          title: L.of(context).patientFollowUpQuestion,
           icon: Icons.help_outline,
           children: [
             Text(
-              c['followUpQuestion'] ?? 'No question provided',
+              c['followUpQuestion'] ?? L.of(context).noQuestionProvided,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
@@ -544,13 +543,13 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
         const SizedBox(height: 16),
 
         // Doctor's answer
-        const _FormLabel(text: 'Your Answer', required: true),
+        _FormLabel(text: L.of(context).yourAnswer, required: true),
         const SizedBox(height: 6),
         TextField(
           controller: _followUpAnswerController,
           maxLines: 8,
-          decoration: const InputDecoration(
-            hintText: 'Answer the patient\'s follow-up question thoroughly...',
+          decoration: InputDecoration(
+            hintText: L.of(context).followUpAnswerHint,
           ),
         ),
         const SizedBox(height: 24),
@@ -567,8 +566,8 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
                     child: CircularProgressIndicator(
                         strokeWidth: 2, color: Colors.white),
                   )
-                : const Text('Send Follow-up Answer',
-                    style: TextStyle(fontSize: 16)),
+                : Text(L.of(context).sendFollowUpAnswer,
+                    style: const TextStyle(fontSize: 16)),
           ),
         ),
         const SizedBox(height: 32),
@@ -578,15 +577,15 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
 
   void _submitResponse() {
     if (_assessmentController.text.trim().isEmpty) {
-      _showError('Assessment is required');
+      _showError(L.of(context).assessmentRequired);
       return;
     }
     if (_recommendationsController.text.trim().isEmpty) {
-      _showError('Recommendations are required');
+      _showError(L.of(context).recommendationsRequired);
       return;
     }
     if (_emergencyController.text.trim().isEmpty) {
-      _showError('"When to seek emergency care" is required for patient safety');
+      _showError(L.of(context).emergencyCareRequired);
       return;
     }
 
@@ -599,12 +598,9 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
-          title: const Text('Response Submitted'),
-          content: const Text(
-            'Your response has been sent to the patient. '
-            'They will receive a notification.\n\n'
-            'If the patient asks a follow-up question, '
-            'you\'ll be notified.',
+          title: Text(L.of(context).responseSubmitted),
+          content: Text(
+            L.of(context).responseSubmittedBody,
           ),
           actions: [
             ElevatedButton(
@@ -612,7 +608,7 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
-              child: const Text('Back to Dashboard'),
+              child: Text(L.of(context).backToDashboard),
             ),
           ],
         ),
@@ -622,7 +618,7 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
 
   void _submitFollowUp() {
     if (_followUpAnswerController.text.trim().isEmpty) {
-      _showError('Please write your answer');
+      _showError(L.of(context).pleaseWriteAnswer);
       return;
     }
 
@@ -635,9 +631,9 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
-          title: const Text('Follow-up Answer Sent'),
-          content: const Text(
-            'Your answer has been sent. This consultation is now complete.',
+          title: Text(L.of(context).followUpAnswerSent),
+          content: Text(
+            L.of(context).followUpAnswerSentBody,
           ),
           actions: [
             ElevatedButton(
@@ -645,7 +641,7 @@ class _CaseReviewScreenState extends State<CaseReviewScreen>
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
-              child: const Text('Back to Dashboard'),
+              child: Text(L.of(context).backToDashboard),
             ),
           ],
         ),

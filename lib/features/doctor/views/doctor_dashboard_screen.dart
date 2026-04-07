@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/services/auth_service.dart';
+import '../../../l10n/app_localizations.dart';
 import 'case_review_screen.dart';
 
 /// Doctor's home screen — shows pending cases, stats, and completed history.
@@ -24,7 +25,7 @@ class DoctorDashboardScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Doctor Dashboard'),
+        title: Text(L.of(context).doctorDashboard),
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_outlined),
@@ -33,7 +34,7 @@ class DoctorDashboardScreen extends ConsumerWidget {
           TextButton.icon(
             onPressed: () => AuthService().signOut(),
             icon: const Icon(Icons.logout, size: 18),
-            label: const Text('Sign Out'),
+            label: Text(L.of(context).signOut),
           ),
         ],
       ),
@@ -61,7 +62,7 @@ class DoctorDashboardScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Welcome, $doctorName',
+                  '${L.of(context).welcomeComma} $doctorName',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 22,
@@ -70,7 +71,7 @@ class DoctorDashboardScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '${pendingCases.length} cases need your attention',
+                  L.of(context).casesNeedAttention(pendingCases.length),
                   style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.9),
                     fontSize: 14,
@@ -80,25 +81,25 @@ class DoctorDashboardScreen extends ConsumerWidget {
                 Row(
                   children: [
                     _StatBadge(
-                      label: 'Pending',
+                      label: L.of(context).pending,
                       value: '${pendingCases.length}',
                       color: Colors.white,
                     ),
                     const SizedBox(width: 12),
                     _StatBadge(
-                      label: 'Follow-ups',
+                      label: L.of(context).followUps,
                       value: '${needsFollowUp.length}',
                       color: Colors.white,
                     ),
                     const SizedBox(width: 12),
                     _StatBadge(
-                      label: 'Completed',
+                      label: L.of(context).completed,
                       value: '$completedCount',
                       color: Colors.white,
                     ),
                     const SizedBox(width: 12),
                     _StatBadge(
-                      label: 'Earned',
+                      label: L.of(context).earned,
                       value: '\$${totalEarnings.round()}',
                       color: Colors.white,
                     ),
@@ -112,8 +113,8 @@ class DoctorDashboardScreen extends ConsumerWidget {
           // URGENT: Follow-up questions waiting
           if (needsFollowUp.isNotEmpty) ...[
             _SectionTitle(
-              title: 'Follow-up Questions',
-              subtitle: 'Patient asked a follow-up — please respond',
+              title: L.of(context).followUpQuestions,
+              subtitle: L.of(context).patientAskedFollowUp,
               color: AppColors.warning,
               icon: Icons.reply,
             ),
@@ -129,8 +130,8 @@ class DoctorDashboardScreen extends ConsumerWidget {
 
           // PENDING: New cases to review
           _SectionTitle(
-            title: 'Pending Cases',
-            subtitle: 'Newest first — tap to review',
+            title: L.of(context).pendingCases,
+            subtitle: L.of(context).newestFirstTapReview,
             color: AppColors.primary,
             icon: Icons.assignment,
           ),
@@ -148,16 +149,16 @@ class DoctorDashboardScreen extends ConsumerWidget {
                   Icon(Icons.check_circle_outline,
                       size: 48, color: AppColors.success),
                   const SizedBox(height: 12),
-                  const Text(
-                    'All caught up!',
-                    style: TextStyle(
+                  Text(
+                    L.of(context).allCaughtUp,
+                    style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'No pending consultations right now.',
+                    L.of(context).noPendingConsultations,
                     style: TextStyle(
                       color: AppColors.textSecondary,
                       fontSize: 13,
@@ -186,7 +187,7 @@ class DoctorDashboardScreen extends ConsumerWidget {
 
           // Quick links
           _SectionTitle(
-            title: 'Quick Links',
+            title: L.of(context).quickLinks,
             color: AppColors.textSecondary,
             icon: Icons.link,
           ),
@@ -197,22 +198,22 @@ class DoctorDashboardScreen extends ConsumerWidget {
             children: [
               _QuickLink(
                 icon: Icons.history,
-                label: 'Completed Cases',
+                label: L.of(context).completedCases,
                 onTap: () {},
               ),
               _QuickLink(
                 icon: Icons.account_balance_wallet,
-                label: 'Earnings',
+                label: L.of(context).earnings,
                 onTap: () {},
               ),
               _QuickLink(
                 icon: Icons.person,
-                label: 'My Profile',
+                label: L.of(context).myProfile,
                 onTap: () {},
               ),
               _QuickLink(
                 icon: Icons.help_outline,
-                label: 'Guidelines',
+                label: L.of(context).guidelines,
                 onTap: () {},
               ),
             ],
@@ -236,9 +237,9 @@ class DoctorDashboardScreen extends ConsumerWidget {
                     const Icon(Icons.medical_information,
                         color: AppColors.accentDark, size: 20),
                     const SizedBox(width: 8),
-                    const Text(
-                      'Consultation Guidelines',
-                      style: TextStyle(
+                    Text(
+                      L.of(context).consultationGuidelines,
+                      style: const TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 14,
                         color: AppColors.accentDark,
@@ -247,18 +248,12 @@ class DoctorDashboardScreen extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 10),
-                const _GuidelineItem(
-                    'Review all patient-provided information thoroughly'),
-                const _GuidelineItem(
-                    'Include "when to seek emergency care" in every response'),
-                const _GuidelineItem(
-                    'Add disclaimer that this does not replace in-person exam'),
-                const _GuidelineItem(
-                    'Recommend follow-up tests if needed'),
-                const _GuidelineItem(
-                    'Respond within your stated response time'),
-                const _GuidelineItem(
-                    'If case is outside your scope, refer to appropriate specialist'),
+                _GuidelineItem(L.of(context).guidelineReview),
+                _GuidelineItem(L.of(context).guidelineEmergency),
+                _GuidelineItem(L.of(context).guidelineDisclaimer),
+                _GuidelineItem(L.of(context).guidelineFollowUp),
+                _GuidelineItem(L.of(context).guidelineResponseTime),
+                _GuidelineItem(L.of(context).guidelineReferral),
               ],
             ),
           ),

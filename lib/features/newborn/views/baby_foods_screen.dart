@@ -146,7 +146,7 @@ class _FoodsTab extends StatelessWidget {
                 onTap: () => onCategoryChanged(null),
               ),
               ...FoodCategory.values.map((cat) => _FilterChip(
-                    label: cat.label,
+                    label: cat.label.of(context),
                     isSelected: selectedCategory == cat,
                     color: cat.color,
                     icon: cat.icon,
@@ -270,7 +270,7 @@ class _FoodCard extends StatelessWidget {
                         children: [
                           Flexible(
                             child: Text(
-                              food.name,
+                              food.name.of(context),
                               style: const TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 15,
@@ -304,7 +304,7 @@ class _FoodCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        '${food.minMonths}m+ · ${food.category.label}',
+                        '${food.minMonths}m+ · ${food.category.label.of(context)}',
                         style: TextStyle(
                           fontSize: 12,
                           color: AppColors.textHint,
@@ -335,7 +335,7 @@ class _FoodCard extends StatelessWidget {
         expand: false,
         initialChildSize: 0.85,
         maxChildSize: 0.95,
-        builder: (_, scrollController) => _FoodDetailSheet(
+        builder: (ctx, scrollController) => _FoodDetailSheet(
           food: food,
           scrollController: scrollController,
         ),
@@ -388,7 +388,7 @@ class _FoodDetailSheet extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    food.name,
+                    food.name.of(context),
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   Text(
@@ -421,7 +421,7 @@ class _FoodDetailSheet extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    food.avoidUntilNote!,
+                    food.avoidUntilNote!.of(context),
                     style: const TextStyle(
                         fontSize: 13, fontWeight: FontWeight.w600),
                   ),
@@ -448,7 +448,7 @@ class _FoodDetailSheet extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    food.chokingNote!,
+                    food.chokingNote!.of(context),
                     style: const TextStyle(fontSize: 13, height: 1.4),
                   ),
                 ),
@@ -460,7 +460,7 @@ class _FoodDetailSheet extends StatelessWidget {
         const SizedBox(height: 20),
         _SectionHeader(text: 'How to prepare', color: food.category.color),
         const SizedBox(height: 8),
-        Text(food.preparation,
+        Text(food.preparation.of(context),
             style: const TextStyle(fontSize: 14, height: 1.5)),
 
         const SizedBox(height: 20),
@@ -478,7 +478,7 @@ class _FoodDetailSheet extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      '${t.label} (${t.ageGuide})',
+                      '${t.label.of(context)} (${t.ageGuide.of(context)})',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -501,7 +501,7 @@ class _FoodDetailSheet extends StatelessWidget {
                       size: 16, color: food.category.color),
                   const SizedBox(width: 8),
                   Expanded(
-                      child: Text(b,
+                      child: Text(b.of(context),
                           style: const TextStyle(fontSize: 14, height: 1.4))),
                 ],
               ),
@@ -519,7 +519,7 @@ class _FoodDetailSheet extends StatelessWidget {
                       size: 16, color: food.category.color),
                   const SizedBox(width: 8),
                   Expanded(
-                      child: Text(s,
+                      child: Text(s.of(context),
                           style: const TextStyle(fontSize: 14, height: 1.4))),
                 ],
               ),
@@ -659,7 +659,7 @@ class _MealSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    m.name,
+                    m.name.of(context),
                     style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 14,
@@ -667,7 +667,7 @@ class _MealSection extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    m.description,
+                    m.description.of(context),
                     style: TextStyle(
                       fontSize: 13,
                       color: AppColors.textSecondary,
@@ -744,7 +744,7 @@ class _SafetyTab extends StatelessWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      tip,
+                      tip.of(context),
                       style: const TextStyle(fontSize: 14, height: 1.4),
                     ),
                   ),
@@ -773,7 +773,7 @@ class _SafetyTab extends StatelessWidget {
                           color: AppColors.accentDark, size: 18),
                       const SizedBox(width: 8),
                       Text(
-                        e.key,
+                        e.key.of(context),
                         style: const TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 14,
@@ -785,7 +785,7 @@ class _SafetyTab extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 26),
                     child: Text(
-                      e.value,
+                      e.value.of(context),
                       style: TextStyle(
                         fontSize: 13,
                         color: AppColors.textSecondary,

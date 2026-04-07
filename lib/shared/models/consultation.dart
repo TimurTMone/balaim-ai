@@ -3,6 +3,8 @@
 // Design: async-first, structured intake, clear status progression,
 // 1 follow-up included, HIPAA-mindful data model.
 
+import '../../core/l10n/content_localizations.dart';
+
 enum ConsultationStatus {
   draft('Draft', 'You haven\'t submitted yet'),
   submitted('Submitted', 'Waiting for doctor to review'),
@@ -28,18 +30,42 @@ enum ConsultationUrgency {
 }
 
 enum SpecialtyType {
-  endocrinology('Endocrinology', 'Hormones, thyroid, diabetes, metabolism'),
-  pediatricSurgery('Pediatric Surgery', 'Surgical conditions in children'),
-  pediatrics('Pediatrics', 'General child health'),
-  obGyn('OB-GYN', 'Pregnancy, reproductive health'),
-  lactation('Lactation', 'Breastfeeding support'),
-  dermatology('Dermatology', 'Skin conditions'),
-  mentalHealth('Mental Health', 'Postpartum depression, anxiety'),
-  nutrition('Nutrition', 'Diet, meal planning, food allergies');
+  endocrinology(
+    L3(en: 'Endocrinology', ru: 'Эндокринология', ky: 'Эндокринология'),
+    L3(en: 'Hormones, thyroid, diabetes, metabolism', ru: 'Гормоны, щитовидная железа, диабет, обмен веществ', ky: 'Гормондор, калкан бези, диабет, зат алмашуу'),
+  ),
+  pediatricSurgery(
+    L3(en: 'Pediatric Surgery', ru: 'Детская хирургия', ky: 'Балдар хирургиясы'),
+    L3(en: 'Surgical conditions in children', ru: 'Хирургические заболевания у детей', ky: 'Балдардагы хирургиялык оорулар'),
+  ),
+  pediatrics(
+    L3(en: 'Pediatrics', ru: 'Педиатрия', ky: 'Педиатрия'),
+    L3(en: 'General child health', ru: 'Общее здоровье ребёнка', ky: 'Баланын жалпы ден соолугу'),
+  ),
+  obGyn(
+    L3(en: 'OB-GYN', ru: 'Акушер-гинеколог', ky: 'Акушер-гинеколог'),
+    L3(en: 'Pregnancy, reproductive health', ru: 'Беременность, репродуктивное здоровье', ky: 'Кош бойлуулук, репродуктивдик ден соолук'),
+  ),
+  lactation(
+    L3(en: 'Lactation', ru: 'Лактация', ky: 'Лактация'),
+    L3(en: 'Breastfeeding support', ru: 'Поддержка грудного вскармливания', ky: 'Эмчек эмизүүнү колдоо'),
+  ),
+  dermatology(
+    L3(en: 'Dermatology', ru: 'Дерматология', ky: 'Дерматология'),
+    L3(en: 'Skin conditions', ru: 'Кожные заболевания', ky: 'Тери оорулары'),
+  ),
+  mentalHealth(
+    L3(en: 'Mental Health', ru: 'Психическое здоровье', ky: 'Психикалык ден соолук'),
+    L3(en: 'Postpartum depression, anxiety', ru: 'Послеродовая депрессия, тревожность', ky: 'Төрөттөн кийинки депрессия, тынчсыздануу'),
+  ),
+  nutrition(
+    L3(en: 'Nutrition', ru: 'Питание', ky: 'Тамактануу'),
+    L3(en: 'Diet, meal planning, food allergies', ru: 'Диета, планирование питания, пищевая аллергия', ky: 'Диета, тамактанууну пландоо, тамак-аш аллергиясы'),
+  );
 
   const SpecialtyType(this.label, this.description);
-  final String label;
-  final String description;
+  final L3 label;
+  final L3 description;
 }
 
 /// The consultation request — what the parent submits.
@@ -232,15 +258,15 @@ class DoctorResponse {
 class DoctorProfile {
   final String uid;
   final String fullName;
-  final String title; // "NP", "MD", "Professor"
+  final L3 title; // "NP", "MD", "Professor"
   final SpecialtyType specialty;
-  final String bio;
+  final L3 bio;
   final String location;
   final List<String> languages;
-  final List<String> credentials;
+  final List<L3> credentials;
   final double consultationPrice;
   final String currency;
-  final String responseTime; // "within 24 hours"
+  final L3 responseTime; // "within 24 hours"
   final double rating;
   final int reviewCount;
   final int consultationCount;

@@ -2024,6 +2024,1266 @@ abstract class L {
   /// In en, this message translates to:
   /// **'Your Due Date'**
   String get dueDateAppBarTitle;
+
+  /// No description provided for @patientCase.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient Case'**
+  String get patientCase;
+
+  /// No description provided for @followUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-up'**
+  String get followUp;
+
+  /// No description provided for @originalCase.
+  ///
+  /// In en, this message translates to:
+  /// **'Original Case'**
+  String get originalCase;
+
+  /// No description provided for @overview.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get overview;
+
+  /// No description provided for @symptoms.
+  ///
+  /// In en, this message translates to:
+  /// **'Symptoms'**
+  String get symptoms;
+
+  /// No description provided for @historyMedical.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get historyMedical;
+
+  /// No description provided for @attachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments'**
+  String get attachments;
+
+  /// No description provided for @respond.
+  ///
+  /// In en, this message translates to:
+  /// **'Respond'**
+  String get respond;
+
+  /// No description provided for @priority.
+  ///
+  /// In en, this message translates to:
+  /// **'PRIORITY'**
+  String get priority;
+
+  /// No description provided for @respondWithin12h.
+  ///
+  /// In en, this message translates to:
+  /// **'Please respond within 12 hours'**
+  String get respondWithin12h;
+
+  /// No description provided for @respondWithin24h.
+  ///
+  /// In en, this message translates to:
+  /// **'Please respond within 24 hours'**
+  String get respondWithin24h;
+
+  /// No description provided for @respondWithin48h.
+  ///
+  /// In en, this message translates to:
+  /// **'Please respond within 48 hours'**
+  String get respondWithin48h;
+
+  /// No description provided for @patientInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient Information'**
+  String get patientInformation;
+
+  /// No description provided for @nameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get nameLabel;
+
+  /// No description provided for @ageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get ageLabel;
+
+  /// No description provided for @relationship.
+  ///
+  /// In en, this message translates to:
+  /// **'Relationship'**
+  String get relationship;
+
+  /// No description provided for @specialty.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialty'**
+  String get specialty;
+
+  /// No description provided for @mainConcern.
+  ///
+  /// In en, this message translates to:
+  /// **'Main Concern'**
+  String get mainConcern;
+
+  /// No description provided for @noConcernSpecified.
+  ///
+  /// In en, this message translates to:
+  /// **'No concern specified'**
+  String get noConcernSpecified;
+
+  /// No description provided for @labResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Lab Results'**
+  String get labResults;
+
+  /// No description provided for @photos.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos'**
+  String get photos;
+
+  /// No description provided for @symptomDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Symptom Details'**
+  String get symptomDetails;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @patientDescribes.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient describes'**
+  String get patientDescribes;
+
+  /// No description provided for @notSpecified.
+  ///
+  /// In en, this message translates to:
+  /// **'Not specified'**
+  String get notSpecified;
+
+  /// No description provided for @symptomsOngoing.
+  ///
+  /// In en, this message translates to:
+  /// **'Symptoms have been ongoing. Please see lab results and photos for more context.'**
+  String get symptomsOngoing;
+
+  /// No description provided for @duration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get duration;
+
+  /// No description provided for @whatPatientTried.
+  ///
+  /// In en, this message translates to:
+  /// **'What patient has tried'**
+  String get whatPatientTried;
+
+  /// No description provided for @noMitigationReported.
+  ///
+  /// In en, this message translates to:
+  /// **'No mitigation efforts reported'**
+  String get noMitigationReported;
+
+  /// No description provided for @currentMedications.
+  ///
+  /// In en, this message translates to:
+  /// **'Current medications'**
+  String get currentMedications;
+
+  /// No description provided for @noneReported.
+  ///
+  /// In en, this message translates to:
+  /// **'None reported'**
+  String get noneReported;
+
+  /// No description provided for @medicalHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical History'**
+  String get medicalHistory;
+
+  /// No description provided for @noHistoryProvided.
+  ///
+  /// In en, this message translates to:
+  /// **'No history provided'**
+  String get noHistoryProvided;
+
+  /// No description provided for @allergies.
+  ///
+  /// In en, this message translates to:
+  /// **'Allergies'**
+  String get allergies;
+
+  /// No description provided for @surgicalHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Surgical history'**
+  String get surgicalHistory;
+
+  /// No description provided for @none.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get none;
+
+  /// No description provided for @familyHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Family history'**
+  String get familyHistory;
+
+  /// No description provided for @notProvided.
+  ///
+  /// In en, this message translates to:
+  /// **'Not provided'**
+  String get notProvided;
+
+  /// No description provided for @pregnancyWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Pregnancy week'**
+  String get pregnancyWeek;
+
+  /// No description provided for @babyAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Baby age'**
+  String get babyAge;
+
+  /// No description provided for @months.
+  ///
+  /// In en, this message translates to:
+  /// **'months'**
+  String get months;
+
+  /// No description provided for @labResultsAttached.
+  ///
+  /// In en, this message translates to:
+  /// **'Lab results attached'**
+  String get labResultsAttached;
+
+  /// No description provided for @tapToViewFullSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to view full size'**
+  String get tapToViewFullSize;
+
+  /// No description provided for @noLabResultsUploaded.
+  ///
+  /// In en, this message translates to:
+  /// **'No lab results uploaded'**
+  String get noLabResultsUploaded;
+
+  /// No description provided for @patientPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient Photos'**
+  String get patientPhotos;
+
+  /// No description provided for @photosAttached.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos attached'**
+  String get photosAttached;
+
+  /// No description provided for @noPhotosUploaded.
+  ///
+  /// In en, this message translates to:
+  /// **'No photos uploaded'**
+  String get noPhotosUploaded;
+
+  /// No description provided for @additionalNotesFromPatient.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional Notes from Patient'**
+  String get additionalNotesFromPatient;
+
+  /// No description provided for @responseWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Your response will be sent to the patient. Please be thorough, compassionate, and include when to seek emergency care.'**
+  String get responseWarning;
+
+  /// No description provided for @clinicalAssessment.
+  ///
+  /// In en, this message translates to:
+  /// **'Clinical Assessment'**
+  String get clinicalAssessment;
+
+  /// No description provided for @assessmentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on the information provided, my assessment is...'**
+  String get assessmentHint;
+
+  /// No description provided for @recommendationsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommendations'**
+  String get recommendationsLabel;
+
+  /// No description provided for @recommendationsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'I recommend the following steps...'**
+  String get recommendationsHint;
+
+  /// No description provided for @prescriptionNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Prescription / Medication Notes'**
+  String get prescriptionNotes;
+
+  /// No description provided for @prescriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'If applicable: medication name, dosage, frequency, duration'**
+  String get prescriptionHint;
+
+  /// No description provided for @recommendedFollowUpTests.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended Follow-up Tests'**
+  String get recommendedFollowUpTests;
+
+  /// No description provided for @followUpTestsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., \"Repeat TSH in 6 weeks\", \"Ultrasound of...\"'**
+  String get followUpTestsHint;
+
+  /// No description provided for @referralNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Referral Note'**
+  String get referralNote;
+
+  /// No description provided for @referralHint.
+  ///
+  /// In en, this message translates to:
+  /// **'If referring to another specialist...'**
+  String get referralHint;
+
+  /// No description provided for @whenToSeekEmergencyCare.
+  ///
+  /// In en, this message translates to:
+  /// **'When to Seek Emergency Care'**
+  String get whenToSeekEmergencyCare;
+
+  /// No description provided for @emergencyCareHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to the ER if you experience...'**
+  String get emergencyCareHint;
+
+  /// No description provided for @submitResponseToPatient.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Response to Patient'**
+  String get submitResponseToPatient;
+
+  /// No description provided for @disclaimerAutoAppend.
+  ///
+  /// In en, this message translates to:
+  /// **'A disclaimer will be automatically appended stating this does not replace an in-person examination.'**
+  String get disclaimerAutoAppend;
+
+  /// No description provided for @patientFollowUpQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient\'s Follow-up Question'**
+  String get patientFollowUpQuestion;
+
+  /// No description provided for @noQuestionProvided.
+  ///
+  /// In en, this message translates to:
+  /// **'No question provided'**
+  String get noQuestionProvided;
+
+  /// No description provided for @yourAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Answer'**
+  String get yourAnswer;
+
+  /// No description provided for @followUpAnswerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer the patient\'s follow-up question thoroughly...'**
+  String get followUpAnswerHint;
+
+  /// No description provided for @sendFollowUpAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Follow-up Answer'**
+  String get sendFollowUpAnswer;
+
+  /// No description provided for @assessmentRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Assessment is required'**
+  String get assessmentRequired;
+
+  /// No description provided for @recommendationsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommendations are required'**
+  String get recommendationsRequired;
+
+  /// No description provided for @emergencyCareRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'\"When to seek emergency care\" is required for patient safety'**
+  String get emergencyCareRequired;
+
+  /// No description provided for @responseSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Response Submitted'**
+  String get responseSubmitted;
+
+  /// No description provided for @responseSubmittedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your response has been sent to the patient. They will receive a notification.\n\nIf the patient asks a follow-up question, you\'ll be notified.'**
+  String get responseSubmittedBody;
+
+  /// No description provided for @backToDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Dashboard'**
+  String get backToDashboard;
+
+  /// No description provided for @pleaseWriteAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Please write your answer'**
+  String get pleaseWriteAnswer;
+
+  /// No description provided for @followUpAnswerSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-up Answer Sent'**
+  String get followUpAnswerSent;
+
+  /// No description provided for @followUpAnswerSentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your answer has been sent. This consultation is now complete.'**
+  String get followUpAnswerSentBody;
+
+  /// No description provided for @doctorDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctor Dashboard'**
+  String get doctorDashboard;
+
+  /// No description provided for @welcomeComma.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome,'**
+  String get welcomeComma;
+
+  /// No description provided for @casesNeedAttention.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} cases need your attention'**
+  String casesNeedAttention(int count);
+
+  /// No description provided for @pending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pending;
+
+  /// No description provided for @followUps.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-ups'**
+  String get followUps;
+
+  /// No description provided for @completed.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completed;
+
+  /// No description provided for @earned.
+  ///
+  /// In en, this message translates to:
+  /// **'Earned'**
+  String get earned;
+
+  /// No description provided for @followUpQuestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-up Questions'**
+  String get followUpQuestions;
+
+  /// No description provided for @patientAskedFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient asked a follow-up — please respond'**
+  String get patientAskedFollowUp;
+
+  /// No description provided for @pendingCases.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Cases'**
+  String get pendingCases;
+
+  /// No description provided for @newestFirstTapReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest first — tap to review'**
+  String get newestFirstTapReview;
+
+  /// No description provided for @allCaughtUp.
+  ///
+  /// In en, this message translates to:
+  /// **'All caught up!'**
+  String get allCaughtUp;
+
+  /// No description provided for @noPendingConsultations.
+  ///
+  /// In en, this message translates to:
+  /// **'No pending consultations right now.'**
+  String get noPendingConsultations;
+
+  /// No description provided for @quickLinks.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Links'**
+  String get quickLinks;
+
+  /// No description provided for @completedCases.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed Cases'**
+  String get completedCases;
+
+  /// No description provided for @earnings.
+  ///
+  /// In en, this message translates to:
+  /// **'Earnings'**
+  String get earnings;
+
+  /// No description provided for @myProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'My Profile'**
+  String get myProfile;
+
+  /// No description provided for @guidelines.
+  ///
+  /// In en, this message translates to:
+  /// **'Guidelines'**
+  String get guidelines;
+
+  /// No description provided for @consultationGuidelines.
+  ///
+  /// In en, this message translates to:
+  /// **'Consultation Guidelines'**
+  String get consultationGuidelines;
+
+  /// No description provided for @guidelineReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Review all patient-provided information thoroughly'**
+  String get guidelineReview;
+
+  /// No description provided for @guidelineEmergency.
+  ///
+  /// In en, this message translates to:
+  /// **'Include \"when to seek emergency care\" in every response'**
+  String get guidelineEmergency;
+
+  /// No description provided for @guidelineDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Add disclaimer that this does not replace in-person exam'**
+  String get guidelineDisclaimer;
+
+  /// No description provided for @guidelineFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommend follow-up tests if needed'**
+  String get guidelineFollowUp;
+
+  /// No description provided for @guidelineResponseTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Respond within your stated response time'**
+  String get guidelineResponseTime;
+
+  /// No description provided for @guidelineReferral.
+  ///
+  /// In en, this message translates to:
+  /// **'If case is outside your scope, refer to appropriate specialist'**
+  String get guidelineReferral;
+
+  /// No description provided for @consult.
+  ///
+  /// In en, this message translates to:
+  /// **'Consult'**
+  String get consult;
+
+  /// No description provided for @stepOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String stepOf(int current, int total);
+
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// No description provided for @submitAndPay.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit & Pay'**
+  String get submitAndPay;
+
+  /// No description provided for @whoIsConsultationFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Who is this consultation for?'**
+  String get whoIsConsultationFor;
+
+  /// No description provided for @selfOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Self'**
+  String get selfOption;
+
+  /// No description provided for @myChild.
+  ///
+  /// In en, this message translates to:
+  /// **'My child'**
+  String get myChild;
+
+  /// No description provided for @myPartner.
+  ///
+  /// In en, this message translates to:
+  /// **'My partner'**
+  String get myPartner;
+
+  /// No description provided for @patientName.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient name'**
+  String get patientName;
+
+  /// No description provided for @ageMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'Age (months)'**
+  String get ageMonths;
+
+  /// No description provided for @ageYears.
+  ///
+  /// In en, this message translates to:
+  /// **'Age (years)'**
+  String get ageYears;
+
+  /// No description provided for @sex.
+  ///
+  /// In en, this message translates to:
+  /// **'Sex'**
+  String get sex;
+
+  /// No description provided for @female.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get female;
+
+  /// No description provided for @male.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get male;
+
+  /// No description provided for @whatsGoingOn.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s going on?'**
+  String get whatsGoingOn;
+
+  /// No description provided for @whatDoctorNeeds.
+  ///
+  /// In en, this message translates to:
+  /// **'What {name} needs:'**
+  String whatDoctorNeeds(String name);
+
+  /// No description provided for @mainConcernLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Main concern (in one sentence)'**
+  String get mainConcernLabel;
+
+  /// No description provided for @mainConcernHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., \"My 6-month-old has a rash on her chest\"'**
+  String get mainConcernHint;
+
+  /// No description provided for @describeSymptomsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe symptoms in detail'**
+  String get describeSymptomsLabel;
+
+  /// No description provided for @describeSymptomsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When did it start? Is it getting worse? Any pattern?'**
+  String get describeSymptomsHint;
+
+  /// No description provided for @howLongLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'How long has this been going on?'**
+  String get howLongLabel;
+
+  /// No description provided for @howLongHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., \"3 days\", \"since birth\", \"comes and goes\"'**
+  String get howLongHint;
+
+  /// No description provided for @whatHaveYouTried.
+  ///
+  /// In en, this message translates to:
+  /// **'What have you tried so far?'**
+  String get whatHaveYouTried;
+
+  /// No description provided for @whatDoneToAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'What have you done to address this?'**
+  String get whatDoneToAddress;
+
+  /// No description provided for @whatDoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., \"Applied hydrocortisone cream, gave Tylenol for fever\"'**
+  String get whatDoneHint;
+
+  /// No description provided for @currentMedsSupplements.
+  ///
+  /// In en, this message translates to:
+  /// **'Current medications & supplements'**
+  String get currentMedsSupplements;
+
+  /// No description provided for @currentMedsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'List everything being taken (prescription, OTC, vitamins)'**
+  String get currentMedsHint;
+
+  /// No description provided for @medicalHistoryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Chronic conditions, past diagnoses, surgeries, hospitalizations'**
+  String get medicalHistoryHint;
+
+  /// No description provided for @allergiesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drug allergies, food allergies, environmental'**
+  String get allergiesHint;
+
+  /// No description provided for @relevantFamilyHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Relevant family history'**
+  String get relevantFamilyHistory;
+
+  /// No description provided for @familyHistoryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Diabetes, thyroid, heart disease, cancer, etc.'**
+  String get familyHistoryHint;
+
+  /// No description provided for @uploadEvidence.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload evidence'**
+  String get uploadEvidence;
+
+  /// No description provided for @labResultsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood work, imaging, test results'**
+  String get labResultsSubtitle;
+
+  /// No description provided for @photosSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rash, swelling, affected area'**
+  String get photosSubtitle;
+
+  /// No description provided for @anythingElseDoctor.
+  ///
+  /// In en, this message translates to:
+  /// **'Anything else the doctor should know?'**
+  String get anythingElseDoctor;
+
+  /// No description provided for @additionalContextHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional context, worries, questions...'**
+  String get additionalContextHint;
+
+  /// No description provided for @reviewAndSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Review & submit'**
+  String get reviewAndSubmit;
+
+  /// No description provided for @urgency.
+  ///
+  /// In en, this message translates to:
+  /// **'Urgency'**
+  String get urgency;
+
+  /// No description provided for @patient.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient'**
+  String get patient;
+
+  /// No description provided for @concern.
+  ///
+  /// In en, this message translates to:
+  /// **'Concern'**
+  String get concern;
+
+  /// No description provided for @labsAndPhotosCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{labs} labs, {photos} photos'**
+  String labsAndPhotosCount(int labs, int photos);
+
+  /// No description provided for @responseTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Response time'**
+  String get responseTime;
+
+  /// No description provided for @includedInConsultation.
+  ///
+  /// In en, this message translates to:
+  /// **'Included in your consultation:'**
+  String get includedInConsultation;
+
+  /// No description provided for @includedCaseReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Full case review by the doctor'**
+  String get includedCaseReview;
+
+  /// No description provided for @includedAssessment.
+  ///
+  /// In en, this message translates to:
+  /// **'Written assessment & recommendations'**
+  String get includedAssessment;
+
+  /// No description provided for @includedFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'1 follow-up question'**
+  String get includedFollowUp;
+
+  /// No description provided for @includedEmergencyGuidance.
+  ///
+  /// In en, this message translates to:
+  /// **'When to seek emergency care guidance'**
+  String get includedEmergencyGuidance;
+
+  /// No description provided for @submitDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'By submitting, you agree that this is not an emergency and does not replace in-person care.'**
+  String get submitDisclaimer;
+
+  /// No description provided for @consultationSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Consultation Submitted'**
+  String get consultationSubmitted;
+
+  /// No description provided for @consultationSubmittedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{doctor} will review your case and respond {time}.\n\nYou\'ll receive a notification when the response is ready.'**
+  String consultationSubmittedBody(String doctor, String time);
+
+  /// No description provided for @gotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get gotIt;
+
+  /// No description provided for @discardConsultation.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard consultation?'**
+  String get discardConsultation;
+
+  /// No description provided for @progressWillBeLost.
+  ///
+  /// In en, this message translates to:
+  /// **'Your progress will be lost. Are you sure?'**
+  String get progressWillBeLost;
+
+  /// No description provided for @keepEditing.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep editing'**
+  String get keepEditing;
+
+  /// No description provided for @discard.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get discard;
+
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// No description provided for @consultation.
+  ///
+  /// In en, this message translates to:
+  /// **'Consultation'**
+  String get consultation;
+
+  /// No description provided for @yourConcern.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Concern'**
+  String get yourConcern;
+
+  /// No description provided for @doctorsAssessment.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctor\'s Assessment'**
+  String get doctorsAssessment;
+
+  /// No description provided for @medicationNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Medication Notes'**
+  String get medicationNotes;
+
+  /// No description provided for @referral.
+  ///
+  /// In en, this message translates to:
+  /// **'Referral'**
+  String get referral;
+
+  /// No description provided for @yourFollowUpQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Follow-up Question'**
+  String get yourFollowUpQuestion;
+
+  /// No description provided for @doctorsAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctor\'s Answer'**
+  String get doctorsAnswer;
+
+  /// No description provided for @waitingForDoctorFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for doctor\'s response to your follow-up...'**
+  String get waitingForDoctorFollowUp;
+
+  /// No description provided for @askFollowUpQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask a Follow-up Question (1 included)'**
+  String get askFollowUpQuestion;
+
+  /// No description provided for @askOneFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask one follow-up question'**
+  String get askOneFollowUp;
+
+  /// No description provided for @beSpecificDoctor.
+  ///
+  /// In en, this message translates to:
+  /// **'Be specific. The doctor will respond within 24-48 hours.'**
+  String get beSpecificDoctor;
+
+  /// No description provided for @yourFollowUpQuestionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your follow-up question...'**
+  String get yourFollowUpQuestionHint;
+
+  /// No description provided for @followUpSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-up Sent'**
+  String get followUpSent;
+
+  /// No description provided for @doctorWillRespond.
+  ///
+  /// In en, this message translates to:
+  /// **'Your doctor will respond within 24-48 hours.'**
+  String get doctorWillRespond;
+
+  /// No description provided for @sendQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Question'**
+  String get sendQuestion;
+
+  /// No description provided for @doctorHasResponded.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctor has responded'**
+  String get doctorHasResponded;
+
+  /// No description provided for @waitingForFollowUpAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for follow-up answer'**
+  String get waitingForFollowUpAnswer;
+
+  /// No description provided for @doctorReviewingCase.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctor is reviewing your case'**
+  String get doctorReviewingCase;
+
+  /// No description provided for @platformOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'Balam.AI Platform Overview'**
+  String get platformOverview;
+
+  /// No description provided for @keyMetrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Key Metrics'**
+  String get keyMetrics;
+
+  /// No description provided for @totalUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Users'**
+  String get totalUsers;
+
+  /// No description provided for @activeToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Today'**
+  String get activeToday;
+
+  /// No description provided for @aiChats.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Chats'**
+  String get aiChats;
+
+  /// No description provided for @revenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue'**
+  String get revenue;
+
+  /// No description provided for @userManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'User Management'**
+  String get userManagement;
+
+  /// No description provided for @userManagementSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'12,847 users — 892 new this week'**
+  String get userManagementSubtitle;
+
+  /// No description provided for @professionalVerification.
+  ///
+  /// In en, this message translates to:
+  /// **'Professional Verification'**
+  String get professionalVerification;
+
+  /// No description provided for @pendingApplications.
+  ///
+  /// In en, this message translates to:
+  /// **'23 pending applications'**
+  String get pendingApplications;
+
+  /// No description provided for @marketplaceVendors.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketplace & Vendors'**
+  String get marketplaceVendors;
+
+  /// No description provided for @marketplaceVendorsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'156 active vendors — 8 pending approval'**
+  String get marketplaceVendorsSubtitle;
+
+  /// No description provided for @communityModeration.
+  ///
+  /// In en, this message translates to:
+  /// **'Community Moderation'**
+  String get communityModeration;
+
+  /// No description provided for @communityModerationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'12 flagged posts — 3 reports'**
+  String get communityModerationSubtitle;
+
+  /// No description provided for @aiPerformance.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Performance'**
+  String get aiPerformance;
+
+  /// No description provided for @aiPerformanceSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'98.2% satisfaction — 45ms avg response'**
+  String get aiPerformanceSubtitle;
+
+  /// No description provided for @analyticsReports.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics & Reports'**
+  String get analyticsReports;
+
+  /// No description provided for @analyticsReportsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'DAU, retention, funnel analysis'**
+  String get analyticsReportsSubtitle;
+
+  /// No description provided for @billingRevenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Billing & Revenue'**
+  String get billingRevenue;
+
+  /// No description provided for @billingRevenueSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'\$24.8K MRR — 1,204 subscribers'**
+  String get billingRevenueSubtitle;
+
+  /// No description provided for @pushNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Push Notifications'**
+  String get pushNotifications;
+
+  /// No description provided for @pushNotificationsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send campaigns, manage channels'**
+  String get pushNotificationsSubtitle;
+
+  /// No description provided for @platformSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform Settings'**
+  String get platformSettings;
+
+  /// No description provided for @platformSettingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Feature flags, config, maintenance'**
+  String get platformSettingsSubtitle;
+
+  /// No description provided for @asyncConsultations.
+  ///
+  /// In en, this message translates to:
+  /// **'Async Consultations'**
+  String get asyncConsultations;
+
+  /// No description provided for @asyncConsultationsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your concern, upload labs/photos, get a written assessment from a real doctor within 24-48 hours. One follow-up question included.'**
+  String get asyncConsultationsDesc;
+
+  /// No description provided for @stepDescribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe'**
+  String get stepDescribe;
+
+  /// No description provided for @stepUpload.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload'**
+  String get stepUpload;
+
+  /// No description provided for @stepPay.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay'**
+  String get stepPay;
+
+  /// No description provided for @stepGetAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Get answer'**
+  String get stepGetAnswer;
+
+  /// No description provided for @specialties.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialties'**
+  String get specialties;
+
+  /// No description provided for @moreDoctorsJoining.
+  ///
+  /// In en, this message translates to:
+  /// **'More doctors joining soon'**
+  String get moreDoctorsJoining;
+
+  /// No description provided for @moreDoctorsJoiningDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Pediatricians, OB-GYNs, lactation consultants, mental health specialists, and nutritionists.'**
+  String get moreDoctorsJoiningDesc;
+
+  /// No description provided for @requestConsultation.
+  ///
+  /// In en, this message translates to:
+  /// **'Request Consultation'**
+  String get requestConsultation;
 }
 
 class _LDelegate extends LocalizationsDelegate<L> {

@@ -88,13 +88,13 @@ class _AdminMetricsScreenState extends State<AdminMetricsScreen> {
             Icon(Icons.cloud_off,
                 size: 56, color: AppColors.textHint),
             const SizedBox(height: 16),
-            const Text(
-              'Firebase not configured',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+            Text(
+              L.of(context).firebaseNotConfigured,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: 8),
             Text(
-              'Live metrics require Firebase. Run flutterfire configure to enable.',
+              L.of(context).firebaseNotConfiguredBody,
               textAlign: TextAlign.center,
               style: TextStyle(color: AppColors.textSecondary, height: 1.4),
             ),
@@ -125,7 +125,7 @@ class _AdminMetricsScreenState extends State<AdminMetricsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Total Moms',
+                  L.of(context).totalMoms,
                   style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.85),
                     fontSize: 14,
@@ -144,7 +144,7 @@ class _AdminMetricsScreenState extends State<AdminMetricsScreen> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'signed up since launch',
+                  L.of(context).signedUpSinceLaunch,
                   style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.85),
                     fontSize: 13,
@@ -160,7 +160,7 @@ class _AdminMetricsScreenState extends State<AdminMetricsScreen> {
             children: [
               Expanded(
                 child: _MetricTile(
-                  label: 'Today',
+                  label: L.of(context).today,
                   value: _usersToday.toString(),
                   color: AppColors.success,
                   icon: Icons.calendar_today,
@@ -169,7 +169,7 @@ class _AdminMetricsScreenState extends State<AdminMetricsScreen> {
               const SizedBox(width: 10),
               Expanded(
                 child: _MetricTile(
-                  label: 'Past 7 days',
+                  label: L.of(context).pastDays,
                   value: _usersLastWeek.toString(),
                   color: AppColors.secondary,
                   icon: Icons.trending_up,
@@ -181,7 +181,7 @@ class _AdminMetricsScreenState extends State<AdminMetricsScreen> {
 
           // By stage breakdown
           Text(
-            'Users by Stage',
+            L.of(context).usersByStage,
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(height: 12),
@@ -193,9 +193,9 @@ class _AdminMetricsScreenState extends State<AdminMetricsScreen> {
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(color: AppColors.divider),
               ),
-              child: const Center(
-                child: Text('No data yet',
-                    style: TextStyle(color: AppColors.textHint)),
+              child: Center(
+                child: Text(L.of(context).noDataYet,
+                    style: const TextStyle(color: AppColors.textHint)),
               ),
             )
           else

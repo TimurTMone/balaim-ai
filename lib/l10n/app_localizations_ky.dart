@@ -1027,4 +1027,676 @@ class LKy extends L {
 
   @override
   String get dueDateAppBarTitle => 'Төрөт күнү';
+
+  @override
+  String get patientCase => 'Бейтаптын учуру';
+
+  @override
+  String get followUp => 'Кайталоо суроо';
+
+  @override
+  String get originalCase => 'Баштапкы учур';
+
+  @override
+  String get overview => 'Обзор';
+
+  @override
+  String get symptoms => 'Симптомдор';
+
+  @override
+  String get historyMedical => 'Тарых';
+
+  @override
+  String get attachments => 'Тиркемелер';
+
+  @override
+  String get respond => 'Жооп берүү';
+
+  @override
+  String get priority => 'ПРИОРИТЕТ';
+
+  @override
+  String get respondWithin12h => '12 саат ичинде жооп бериңиз';
+
+  @override
+  String get respondWithin24h => '24 саат ичинде жооп бериңиз';
+
+  @override
+  String get respondWithin48h => '48 саат ичинде жооп бериңиз';
+
+  @override
+  String get patientInformation => 'Бейтап жөнүндө маалымат';
+
+  @override
+  String get nameLabel => 'Аты';
+
+  @override
+  String get ageLabel => 'Жашы';
+
+  @override
+  String get relationship => 'Ким болуп саналат';
+
+  @override
+  String get specialty => 'Адистик';
+
+  @override
+  String get mainConcern => 'Негизги көйгөй';
+
+  @override
+  String get noConcernSpecified => 'Көйгөй көрсөтүлгөн жок';
+
+  @override
+  String get labResults => 'Анализ жыйынтыктары';
+
+  @override
+  String get photos => 'Сүрөттөр';
+
+  @override
+  String get symptomDetails => 'Симптомдордун чоо-жайы';
+
+  @override
+  String get description => 'Сүрөттөмө';
+
+  @override
+  String get patientDescribes => 'Бейтап сүрөттөйт';
+
+  @override
+  String get notSpecified => 'Көрсөтүлгөн жок';
+
+  @override
+  String get symptomsOngoing =>
+      'Симптомдор уланууда. Кошумча контекст үчүн анализ жыйынтыктарын жана сүрөттөрдү караңыз.';
+
+  @override
+  String get duration => 'Узактыгы';
+
+  @override
+  String get whatPatientTried => 'Бейтап эмне сынады';
+
+  @override
+  String get noMitigationReported => 'Чара көрүлгөн жок';
+
+  @override
+  String get currentMedications => 'Учурдагы дарылар';
+
+  @override
+  String get noneReported => 'Маалымат жок';
+
+  @override
+  String get medicalHistory => 'Медициналык тарых';
+
+  @override
+  String get noHistoryProvided => 'Тарых берилген жок';
+
+  @override
+  String get allergies => 'Аллергиялар';
+
+  @override
+  String get surgicalHistory => 'Хирургиялык тарых';
+
+  @override
+  String get none => 'Жок';
+
+  @override
+  String get familyHistory => 'Үй-бүлөлүк тарых';
+
+  @override
+  String get notProvided => 'Берилген жок';
+
+  @override
+  String get pregnancyWeek => 'Кош бойлуулук жумасы';
+
+  @override
+  String get babyAge => 'Баланын жашы';
+
+  @override
+  String get months => 'ай';
+
+  @override
+  String get labResultsAttached => 'Анализ жыйынтыктары тиркелди';
+
+  @override
+  String get tapToViewFullSize => 'Толук өлчөмдө көрүү үчүн басыңыз';
+
+  @override
+  String get noLabResultsUploaded => 'Анализ жыйынтыктары жүктөлгөн жок';
+
+  @override
+  String get patientPhotos => 'Бейтаптын сүрөттөрү';
+
+  @override
+  String get photosAttached => 'Сүрөттөр тиркелди';
+
+  @override
+  String get noPhotosUploaded => 'Сүрөттөр жүктөлгөн жок';
+
+  @override
+  String get additionalNotesFromPatient => 'Бейтаптын кошумча жазмалары';
+
+  @override
+  String get responseWarning =>
+      'Жообуңуз бейтапка жөнөтүлөт. Толук, кайрымдуу болуңуз жана шашылыш жардам качан керек экенин көрсөтүңүз.';
+
+  @override
+  String get clinicalAssessment => 'Клиникалык баа';
+
+  @override
+  String get assessmentHint => 'Берилген маалыматтын негизинде, менин бааым...';
+
+  @override
+  String get recommendationsLabel => 'Сунуштар';
+
+  @override
+  String get recommendationsHint => 'Мен төмөнкү кадамдарды сунуштайм...';
+
+  @override
+  String get prescriptionNotes => 'Рецепт / Дары жазмалары';
+
+  @override
+  String get prescriptionHint =>
+      'Эгер колдонулса: даранын аты, дозасы, жыштыгы, узактыгы';
+
+  @override
+  String get recommendedFollowUpTests => 'Сунушталган кайталоо текшерүүлөрү';
+
+  @override
+  String get followUpTestsHint =>
+      'мисалы, «6 жумадан кийин ТТГ кайталоо», «УЗИ...»';
+
+  @override
+  String get referralNote => 'Жолдомо';
+
+  @override
+  String get referralHint => 'Башка адиске жөнөтүүдө...';
+
+  @override
+  String get whenToSeekEmergencyCare => 'Качан шашылыш жардамга кайрылуу керек';
+
+  @override
+  String get emergencyCareHint => 'Тез жардамга кайрылыңыз, эгер...';
+
+  @override
+  String get submitResponseToPatient => 'Бейтапка жооп жөнөтүү';
+
+  @override
+  String get disclaimerAutoAppend =>
+      'Бул жекече текшерүүнү алмаштырбайт деген эскертүү автоматтык түрдө кошулат.';
+
+  @override
+  String get patientFollowUpQuestion => 'Бейтаптын кайталоо суроосу';
+
+  @override
+  String get noQuestionProvided => 'Суроо берилген жок';
+
+  @override
+  String get yourAnswer => 'Сиздин жообуңуз';
+
+  @override
+  String get followUpAnswerHint =>
+      'Бейтаптын кайталоо суроосуна толук жооп бериңиз...';
+
+  @override
+  String get sendFollowUpAnswer => 'Жооп жөнөтүү';
+
+  @override
+  String get assessmentRequired => 'Клиникалык баа милдеттүү';
+
+  @override
+  String get recommendationsRequired => 'Сунуштар милдеттүү';
+
+  @override
+  String get emergencyCareRequired =>
+      '«Качан шашылыш жардамга кайрылуу керек» бейтаптын коопсуздугу үчүн милдеттүү';
+
+  @override
+  String get responseSubmitted => 'Жооп жөнөтүлдү';
+
+  @override
+  String get responseSubmittedBody =>
+      'Жообуңуз бейтапка жөнөтүлдү. Алар билдирме алышат.\n\nЭгер бейтап кайталоо суроо берсе, сиз билдирме аласыз.';
+
+  @override
+  String get backToDashboard => 'Панелге кайтуу';
+
+  @override
+  String get pleaseWriteAnswer => 'Жообуңузду жазыңыз';
+
+  @override
+  String get followUpAnswerSent => 'Кайталоо жооп жөнөтүлдү';
+
+  @override
+  String get followUpAnswerSentBody =>
+      'Жообуңуз жөнөтүлдү. Бул консультация аяктады.';
+
+  @override
+  String get doctorDashboard => 'Врачтын панели';
+
+  @override
+  String get welcomeComma => 'Кош келиңиз,';
+
+  @override
+  String casesNeedAttention(int count) {
+    return '$count учур көңүл бурууну талап кылат';
+  }
+
+  @override
+  String get pending => 'Күтүүдө';
+
+  @override
+  String get followUps => 'Кайталоо';
+
+  @override
+  String get completed => 'Аяктады';
+
+  @override
+  String get earned => 'Табылды';
+
+  @override
+  String get followUpQuestions => 'Кайталоо суроолор';
+
+  @override
+  String get patientAskedFollowUp =>
+      'Бейтап кайталоо суроо берди — жооп бериңиз';
+
+  @override
+  String get pendingCases => 'Күтүүдөгү учурлар';
+
+  @override
+  String get newestFirstTapReview => 'Жаңылары биринчи — көрүү үчүн басыңыз';
+
+  @override
+  String get allCaughtUp => 'Баары бүттү!';
+
+  @override
+  String get noPendingConsultations => 'Күтүүдөгү консультациялар жок.';
+
+  @override
+  String get quickLinks => 'Тез шилтемелер';
+
+  @override
+  String get completedCases => 'Аякталган учурлар';
+
+  @override
+  String get earnings => 'Табыштар';
+
+  @override
+  String get myProfile => 'Менин профилим';
+
+  @override
+  String get guidelines => 'Көрсөтмөлөр';
+
+  @override
+  String get consultationGuidelines => 'Консультация эрежелери';
+
+  @override
+  String get guidelineReview =>
+      'Бейтаптын берген маалыматын толук карап чыгыңыз';
+
+  @override
+  String get guidelineEmergency =>
+      'Ар бир жоопко «шашылыш жардамга качан кайрылуу керек» бөлүмүн кошуңуз';
+
+  @override
+  String get guidelineDisclaimer =>
+      'Бул жекече текшерүүнү алмаштырбайт деген эскертүү кошуңуз';
+
+  @override
+  String get guidelineFollowUp =>
+      'Керек болсо кайталоо текшерүүлөрдү сунуштаңыз';
+
+  @override
+  String get guidelineResponseTime => 'Белгиленген мөөнөттө жооп бериңиз';
+
+  @override
+  String get guidelineReferral =>
+      'Учур сиздин компетенцияңыздан тышкары болсо, тиешелүү адиске жөнөтүңүз';
+
+  @override
+  String get consult => 'Консультация';
+
+  @override
+  String stepOf(int current, int total) {
+    return '$total ичинен $current-кадам';
+  }
+
+  @override
+  String get back => 'Артка';
+
+  @override
+  String get submitAndPay => 'Жөнөтүү жана төлөө';
+
+  @override
+  String get whoIsConsultationFor => 'Бул консультация ким үчүн?';
+
+  @override
+  String get selfOption => 'Өзүм үчүн';
+
+  @override
+  String get myChild => 'Менин балам';
+
+  @override
+  String get myPartner => 'Менин жубайым';
+
+  @override
+  String get patientName => 'Бейтаптын аты';
+
+  @override
+  String get ageMonths => 'Жашы (ай)';
+
+  @override
+  String get ageYears => 'Жашы (жыл)';
+
+  @override
+  String get sex => 'Жынысы';
+
+  @override
+  String get female => 'Аял';
+
+  @override
+  String get male => 'Эркек';
+
+  @override
+  String get whatsGoingOn => 'Эмне болуп жатат?';
+
+  @override
+  String whatDoctorNeeds(String name) {
+    return '$name эмне керек:';
+  }
+
+  @override
+  String get mainConcernLabel => 'Негизги көйгөй (бир сүйлөм менен)';
+
+  @override
+  String get mainConcernHint =>
+      'мисалы, «6 айлык баламдын көкүрөгүндө бөрттүк бар»';
+
+  @override
+  String get describeSymptomsLabel => 'Симптомдорду толук сүрөттөңүз';
+
+  @override
+  String get describeSymptomsHint =>
+      'Качан башталды? Начарлап жатабы? Мыйзам ченемдүүлүк барбы?';
+
+  @override
+  String get howLongLabel => 'Канча убакыттан бери?';
+
+  @override
+  String get howLongHint =>
+      'мисалы, «3 күн», «төрөлгөндөн бери», «келип-кетет»';
+
+  @override
+  String get whatHaveYouTried => 'Эмне сынап көрдүңүз?';
+
+  @override
+  String get whatDoneToAddress => 'Эмне чара көрдүңүз?';
+
+  @override
+  String get whatDoneHint =>
+      'мисалы, «Гидрокортизон крем жаккам, температураны түшүрдүм»';
+
+  @override
+  String get currentMedsSupplements => 'Учурдагы дарылар жана кошумчалар';
+
+  @override
+  String get currentMedsHint =>
+      'Бардыгын тизмелеңиз (рецепттүү, рецептсиз, витаминдер)';
+
+  @override
+  String get medicalHistoryHint =>
+      'Созулма оорулар, мурунку диагноздор, операциялар, оорукана';
+
+  @override
+  String get allergiesHint =>
+      'Дары аллергиялары, тамак-аш аллергиялары, экологиялык';
+
+  @override
+  String get relevantFamilyHistory => 'Үй-бүлөлүк ооруулар тарыхы';
+
+  @override
+  String get familyHistoryHint =>
+      'Кант диабети, калкан без, жүрөк оорулары, рак ж.б.';
+
+  @override
+  String get uploadEvidence => 'Материалдарды жүктөө';
+
+  @override
+  String get labResultsSubtitle =>
+      'Кан анализи, сүрөттөр, текшерүү жыйынтыктары';
+
+  @override
+  String get photosSubtitle => 'Бөрттүк, шишик, жабыркаган аймак';
+
+  @override
+  String get anythingElseDoctor => 'Врач дагы эмнени билиши керек?';
+
+  @override
+  String get additionalContextHint =>
+      'Кошумча контекст, тынчсызданулар, суроолор...';
+
+  @override
+  String get reviewAndSubmit => 'Текшерүү жана жөнөтүү';
+
+  @override
+  String get urgency => 'Шашылыштыгы';
+
+  @override
+  String get patient => 'Бейтап';
+
+  @override
+  String get concern => 'Көйгөй';
+
+  @override
+  String labsAndPhotosCount(int labs, int photos) {
+    return '$labs анализ, $photos сүрөт';
+  }
+
+  @override
+  String get responseTime => 'Жооп берүү убактысы';
+
+  @override
+  String get includedInConsultation => 'Консультацияга кирет:';
+
+  @override
+  String get includedCaseReview => 'Врач тарабынан толук учурду карап чыгуу';
+
+  @override
+  String get includedAssessment => 'Жазуу түрүндөгү баа жана сунуштар';
+
+  @override
+  String get includedFollowUp => '1 кайталоо суроо';
+
+  @override
+  String get includedEmergencyGuidance =>
+      'Шашылыш жардамга кайрылуу боюнча сунуштар';
+
+  @override
+  String get submitDisclaimer =>
+      'Жөнөтүү менен, бул шашылыш учур эмес жана жекече кабыл алууну алмаштырбайт деп макулдугуңузду билдиресиз.';
+
+  @override
+  String get consultationSubmitted => 'Консультация жөнөтүлдү';
+
+  @override
+  String consultationSubmittedBody(String doctor, String time) {
+    return '$doctor учуруңузду карап, $time жооп берет.\n\nЖооп даяр болгондо билдирме аласыз.';
+  }
+
+  @override
+  String get gotIt => 'Түшүнүктүү';
+
+  @override
+  String get discardConsultation => 'Консультацияны жокко чыгаруу?';
+
+  @override
+  String get progressWillBeLost => 'Прогрессиңиз жоголот. Ишенесизби?';
+
+  @override
+  String get keepEditing => 'Улантуу';
+
+  @override
+  String get discard => 'Жокко чыгаруу';
+
+  @override
+  String get add => 'Кошуу';
+
+  @override
+  String get consultation => 'Консультация';
+
+  @override
+  String get yourConcern => 'Сиздин көйгөйүңүз';
+
+  @override
+  String get doctorsAssessment => 'Врачтын баасы';
+
+  @override
+  String get medicationNotes => 'Дары жазмалары';
+
+  @override
+  String get referral => 'Жолдомо';
+
+  @override
+  String get yourFollowUpQuestion => 'Сиздин кайталоо суроңуз';
+
+  @override
+  String get doctorsAnswer => 'Врачтын жообу';
+
+  @override
+  String get waitingForDoctorFollowUp =>
+      'Врачтын кайталоо суроого жообун күтүүдө...';
+
+  @override
+  String get askFollowUpQuestion => 'Кайталоо суроо берүү (1 кирет)';
+
+  @override
+  String get askOneFollowUp => 'Бир кайталоо суроо бериңиз';
+
+  @override
+  String get beSpecificDoctor =>
+      'Конкреттүү болуңуз. Врач 24-48 сааттын ичинде жооп берет.';
+
+  @override
+  String get yourFollowUpQuestionHint => 'Кайталоо сурооңуз...';
+
+  @override
+  String get followUpSent => 'Суроо жөнөтүлдү';
+
+  @override
+  String get doctorWillRespond => 'Врач 24-48 сааттын ичинде жооп берет.';
+
+  @override
+  String get sendQuestion => 'Суроону жөнөтүү';
+
+  @override
+  String get doctorHasResponded => 'Врач жооп берди';
+
+  @override
+  String get waitingForFollowUpAnswer => 'Кайталоо жоопту күтүүдө';
+
+  @override
+  String get doctorReviewingCase => 'Врач учуруңузду карап жатат';
+
+  @override
+  String get platformOverview => 'Balam.AI платформасына обзор';
+
+  @override
+  String get keyMetrics => 'Негизги метрикалар';
+
+  @override
+  String get totalUsers => 'Жалпы колдонуучулар';
+
+  @override
+  String get activeToday => 'Бүгүн активдүү';
+
+  @override
+  String get aiChats => 'AI-чаттар';
+
+  @override
+  String get revenue => 'Табыш';
+
+  @override
+  String get userManagement => 'Колдонуучуларды башкаруу';
+
+  @override
+  String get userManagementSubtitle => '12,847 колдонуучу — 892 жаңы жумада';
+
+  @override
+  String get professionalVerification => 'Адистерди верификациялоо';
+
+  @override
+  String get pendingApplications => '23 арыз каралууда';
+
+  @override
+  String get marketplaceVendors => 'Маркетплейс жана сатуучулар';
+
+  @override
+  String get marketplaceVendorsSubtitle => '156 активдүү — 8 бекитүүнү күтүүдө';
+
+  @override
+  String get communityModeration => 'Коомчулукту модерациялоо';
+
+  @override
+  String get communityModerationSubtitle => '12 даттануу — 3 кайрылуу';
+
+  @override
+  String get aiPerformance => 'AI-өндүрүмдүүлүк';
+
+  @override
+  String get aiPerformanceSubtitle => '98.2% канааттануу — 45мс орточо убакыт';
+
+  @override
+  String get analyticsReports => 'Аналитика жана отчёттор';
+
+  @override
+  String get analyticsReportsSubtitle => 'DAU, кармоо, конверсия воронкасы';
+
+  @override
+  String get billingRevenue => 'Биллинг жана табыштар';
+
+  @override
+  String get billingRevenueSubtitle => '\$24.8K MRR — 1,204 жазылуучу';
+
+  @override
+  String get pushNotifications => 'Push-билдирмелер';
+
+  @override
+  String get pushNotificationsSubtitle => 'Жөнөтүүлөр, каналдарды башкаруу';
+
+  @override
+  String get platformSettings => 'Платформа жөндөөлөрү';
+
+  @override
+  String get platformSettingsSubtitle =>
+      'Функция флагдары, конфигурация, тейлөө';
+
+  @override
+  String get asyncConsultations => 'Асинхрондук консультациялар';
+
+  @override
+  String get asyncConsultationsDesc =>
+      'Көйгөйүңүздү сүрөттөңүз, анализдерди/сүрөттөрдү жүктөңүз, 24-48 саатта врачтан жазуу жообун алыңыз. 1 кайталоо суроо кирет.';
+
+  @override
+  String get stepDescribe => 'Сүрөттөө';
+
+  @override
+  String get stepUpload => 'Жүктөө';
+
+  @override
+  String get stepPay => 'Төлөө';
+
+  @override
+  String get stepGetAnswer => 'Жооп алуу';
+
+  @override
+  String get specialties => 'Адистиктер';
+
+  @override
+  String get moreDoctorsJoining => 'Жакында жаңы врачтар кошулат';
+
+  @override
+  String get moreDoctorsJoiningDesc =>
+      'Педиатрлар, акушер-гинекологдор, лактация боюнча кеңешчилер, психологдор жана диетологдор.';
+
+  @override
+  String get requestConsultation => 'Консультация сурамжылоо';
 }

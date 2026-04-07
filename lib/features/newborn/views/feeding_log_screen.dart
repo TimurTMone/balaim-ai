@@ -58,7 +58,7 @@ class FeedingLogScreen extends ConsumerWidget {
                             ),
                           ),
                           Text(
-                            'feeds today',
+                            L.of(context).feedsToday,
                             style: TextStyle(
                               color: Colors.white.withValues(alpha: 0.85),
                             ),
@@ -79,7 +79,7 @@ class FeedingLogScreen extends ConsumerWidget {
                             ),
                           ),
                           Text(
-                            'since last feed',
+                            L.of(context).sinceLastFeed,
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.white.withValues(alpha: 0.85),
@@ -95,13 +95,13 @@ class FeedingLogScreen extends ConsumerWidget {
           const SizedBox(height: 16),
 
           // Quick add buttons
-          Text('Log a feeding', style: Theme.of(context).textTheme.titleLarge),
+          Text(L.of(context).logAFeeding, style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 12),
           Row(
             children: [
               Expanded(
                 child: _QuickAddButton(
-                  label: 'Breast\nLeft',
+                  label: L.of(context).breastLeft,
                   icon: Icons.chevron_left,
                   color: AppColors.primary,
                   onTap: () => _logBreast(context, ref, FeedingType.breastLeft),
@@ -110,7 +110,7 @@ class FeedingLogScreen extends ConsumerWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: _QuickAddButton(
-                  label: 'Breast\nRight',
+                  label: L.of(context).breastRight,
                   icon: Icons.chevron_right,
                   color: AppColors.primary,
                   onTap: () =>
@@ -124,7 +124,7 @@ class FeedingLogScreen extends ConsumerWidget {
             children: [
               Expanded(
                 child: _QuickAddButton(
-                  label: 'Bottle\nBreast Milk',
+                  label: L.of(context).bottleBreastMilk,
                   icon: Icons.local_drink,
                   color: AppColors.secondary,
                   onTap: () =>
@@ -134,7 +134,7 @@ class FeedingLogScreen extends ConsumerWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: _QuickAddButton(
-                  label: 'Bottle\nFormula',
+                  label: L.of(context).bottleFormula,
                   icon: Icons.local_drink_outlined,
                   color: AppColors.accent,
                   onTap: () =>
@@ -147,7 +147,7 @@ class FeedingLogScreen extends ConsumerWidget {
 
           // History
           if (entries.isNotEmpty) ...[
-            Text('History', style: Theme.of(context).textTheme.titleLarge),
+            Text(L.of(context).history, style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 12),
             ...entries.map(
               (e) => _FeedingTile(
@@ -408,11 +408,11 @@ class _BreastDurationDialogState extends State<_BreastDurationDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(L.of(context).cancel),
         ),
         ElevatedButton(
           onPressed: () => Navigator.of(context).pop(minutes.round()),
-          child: const Text('Save'),
+          child: Text(L.of(context).save),
         ),
       ],
     );
@@ -458,11 +458,11 @@ class _BottleAmountDialogState extends State<_BottleAmountDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(L.of(context).cancel),
         ),
         ElevatedButton(
           onPressed: () => Navigator.of(context).pop(ml),
-          child: const Text('Save'),
+          child: Text(L.of(context).save),
         ),
       ],
     );

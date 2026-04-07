@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/data/doctors_data.dart';
 import '../../../shared/models/consultation.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Multi-step consultation request form.
 ///
@@ -102,7 +103,7 @@ class _ConsultationRequestScreenState
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text('Consult ${doctor.fullName}'),
+        title: Text('${L.of(context).consult} ${doctor.fullName}'),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () => _confirmExit(context),
@@ -119,7 +120,7 @@ class _ConsultationRequestScreenState
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Step ${_currentStep + 1} of $_totalSteps',
+                      L.of(context).stepOf(_currentStep + 1, _totalSteps),
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
@@ -179,7 +180,7 @@ class _ConsultationRequestScreenState
                   Expanded(
                     child: OutlinedButton(
                       onPressed: _prevStep,
-                      child: const Text('Back'),
+                      child: Text(L.of(context).back),
                     ),
                   ),
                 if (_currentStep > 0) const SizedBox(width: 12),
@@ -191,8 +192,8 @@ class _ConsultationRequestScreenState
                         : _nextStep,
                     child: Text(
                       _currentStep == _totalSteps - 1
-                          ? 'Submit & Pay ${doctor.priceFormatted}'
-                          : 'Continue',
+                          ? '${L.of(context).submitAndPay} ${doctor.priceFormatted}'
+                          : L.of(context).continueButton,
                     ),
                   ),
                 ),
@@ -209,19 +210,19 @@ class _ConsultationRequestScreenState
   // =========================================================
   Widget _buildStep1Who() {
     return _StepBody(
-      title: 'Who is this consultation for?',
+      title: L.of(context).whoIsConsultationFor,
       children: [
         _ChoiceRow(
-          options: const ['Self', 'My child', 'My partner'],
+          options: [L.of(context).selfOption, L.of(context).myChild, L.of(context).myPartner],
           selected: _relationship,
           onSelect: (v) => setState(() => _relationship = v.toLowerCase()),
         ),
         const SizedBox(height: 20),
         TextField(
           controller: _nameController,
-          decoration: const InputDecoration(
-            labelText: 'Patient name',
-            prefixIcon: Icon(Icons.person_outline),
+          decoration: InputDecoration(
+            labelText: L.of(context).patientName,
+            prefixIcon: const Icon(Icons.person_outline),
           ),
         ),
         const SizedBox(height: 14),
@@ -233,8 +234,8 @@ class _ConsultationRequestScreenState
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   labelText: _relationship == 'my child'
-                      ? 'Age (months)'
-                      : 'Age (years)',
+                      ? L.of(context).ageMonths
+                      : L.of(context).ageYears,
                   prefixIcon: const Icon(Icons.cake_outlined),
                 ),
               ),
@@ -244,12 +245,12 @@ class _ConsultationRequestScreenState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Sex',
+                  Text(L.of(context).sex,
                       style:
-                          TextStyle(fontSize: 12, color: AppColors.textHint)),
+                          const TextStyle(fontSize: 12, color: AppColors.textHint)),
                   const SizedBox(height: 8),
                   _ChoiceRow(
-                    options: const ['Female', 'Male'],
+                    options: [L.of(context).female, L.of(context).male],
                     selected: _sex,
                     onSelect: (v) => setState(() => _sex = v),
                   ),
@@ -268,7 +269,7 @@ class _ConsultationRequestScreenState
   Widget _buildStep2WhatsWrong() {
     final reqs = IntakeRequirements.forSpecialty(widget.doctor.specialty);
     return _StepBody(
-      title: "What's going on?",
+      title: L.of(context).whatsGoingOn,
       children: [
         Container(
           padding: const EdgeInsets.all(12),
@@ -280,7 +281,7 @@ class _ConsultationRequestScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'What ${widget.doctor.fullName} needs:',
+                L.of(context).whatDoctorNeeds(widget.doctor.fullName),
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 13,
@@ -297,7 +298,7 @@ class _ConsultationRequestScreenState
                         const SizedBox(width: 6),
                         Expanded(
                             child:
-                                Text(r, style: const TextStyle(fontSize: 12))),
+                                Text(r.of(context), style: const TextStyle(fontSize: 12))),
                       ],
                     ),
                   )),
@@ -307,29 +308,29 @@ class _ConsultationRequestScreenState
         const SizedBox(height: 16),
         TextField(
           controller: _mainConcernController,
-          decoration: const InputDecoration(
-            labelText: 'Main concern (in one sentence)',
-            hintText: 'e.g., "My 6-month-old has a rash on her chest"',
-            prefixIcon: Icon(Icons.medical_services_outlined),
+          decoration: InputDecoration(
+            labelText: L.of(context).mainConcernLabel,
+            hintText: L.of(context).mainConcernHint,
+            prefixIcon: const Icon(Icons.medical_services_outlined),
           ),
           maxLines: 2,
         ),
         const SizedBox(height: 14),
         TextField(
           controller: _symptomDetailsController,
-          decoration: const InputDecoration(
-            labelText: 'Describe symptoms in detail',
-            hintText: 'When did it start? Is it getting worse? Any pattern?',
+          decoration: InputDecoration(
+            labelText: L.of(context).describeSymptomsLabel,
+            hintText: L.of(context).describeSymptomsHint,
           ),
           maxLines: 4,
         ),
         const SizedBox(height: 14),
         TextField(
           controller: _symptomDurationController,
-          decoration: const InputDecoration(
-            labelText: 'How long has this been going on?',
-            hintText: 'e.g., "3 days", "since birth", "comes and goes"',
-            prefixIcon: Icon(Icons.timer_outlined),
+          decoration: InputDecoration(
+            labelText: L.of(context).howLongLabel,
+            hintText: L.of(context).howLongHint,
+            prefixIcon: const Icon(Icons.timer_outlined),
           ),
         ),
       ],
@@ -341,25 +342,23 @@ class _ConsultationRequestScreenState
   // =========================================================
   Widget _buildStep3WhatTried() {
     return _StepBody(
-      title: "What have you tried so far?",
+      title: L.of(context).whatHaveYouTried,
       children: [
         TextField(
           controller: _whatTriedController,
-          decoration: const InputDecoration(
-            labelText: 'What have you done to address this?',
-            hintText:
-                'e.g., "Applied hydrocortisone cream, gave Tylenol for fever"',
+          decoration: InputDecoration(
+            labelText: L.of(context).whatDoneToAddress,
+            hintText: L.of(context).whatDoneHint,
           ),
           maxLines: 3,
         ),
         const SizedBox(height: 14),
         TextField(
           controller: _medicationsController,
-          decoration: const InputDecoration(
-            labelText: 'Current medications & supplements',
-            hintText:
-                'List everything being taken (prescription, OTC, vitamins)',
-            prefixIcon: Icon(Icons.medication_outlined),
+          decoration: InputDecoration(
+            labelText: L.of(context).currentMedsSupplements,
+            hintText: L.of(context).currentMedsHint,
+            prefixIcon: const Icon(Icons.medication_outlined),
           ),
           maxLines: 3,
         ),
@@ -372,33 +371,32 @@ class _ConsultationRequestScreenState
   // =========================================================
   Widget _buildStep4History() {
     return _StepBody(
-      title: 'Medical history',
+      title: L.of(context).medicalHistory,
       children: [
         TextField(
           controller: _medicalHistoryController,
-          decoration: const InputDecoration(
-            labelText: 'Medical history',
-            hintText:
-                'Chronic conditions, past diagnoses, surgeries, hospitalizations',
+          decoration: InputDecoration(
+            labelText: L.of(context).medicalHistory,
+            hintText: L.of(context).medicalHistoryHint,
           ),
           maxLines: 3,
         ),
         const SizedBox(height: 14),
         TextField(
           controller: _allergiesController,
-          decoration: const InputDecoration(
-            labelText: 'Allergies',
-            hintText: 'Drug allergies, food allergies, environmental',
-            prefixIcon: Icon(Icons.warning_amber),
+          decoration: InputDecoration(
+            labelText: L.of(context).allergies,
+            hintText: L.of(context).allergiesHint,
+            prefixIcon: const Icon(Icons.warning_amber),
           ),
         ),
         const SizedBox(height: 14),
         TextField(
           controller: _familyHistoryController,
-          decoration: const InputDecoration(
-            labelText: 'Relevant family history',
-            hintText: 'Diabetes, thyroid, heart disease, cancer, etc.',
-            prefixIcon: Icon(Icons.family_restroom),
+          decoration: InputDecoration(
+            labelText: L.of(context).relevantFamilyHistory,
+            hintText: L.of(context).familyHistoryHint,
+            prefixIcon: const Icon(Icons.family_restroom),
           ),
           maxLines: 2,
         ),
@@ -411,13 +409,13 @@ class _ConsultationRequestScreenState
   // =========================================================
   Widget _buildStep5Uploads() {
     return _StepBody(
-      title: 'Upload evidence',
+      title: L.of(context).uploadEvidence,
       children: [
         // Lab results
         _UploadSection(
-          title: 'Lab Results',
+          title: L.of(context).labResults,
           icon: Icons.science_outlined,
-          subtitle: 'Blood work, imaging, test results',
+          subtitle: L.of(context).labResultsSubtitle,
           urls: _labResultUrls,
           onAdd: () {
             // TODO: Firebase Storage upload via image_picker
@@ -427,9 +425,9 @@ class _ConsultationRequestScreenState
         const SizedBox(height: 14),
         // Photos
         _UploadSection(
-          title: 'Photos',
+          title: L.of(context).photos,
           icon: Icons.camera_alt_outlined,
-          subtitle: 'Rash, swelling, affected area',
+          subtitle: L.of(context).photosSubtitle,
           urls: _photoUrls,
           onAdd: () {
             setState(() => _photoUrls.add('placeholder_${_photoUrls.length}'));
@@ -438,9 +436,9 @@ class _ConsultationRequestScreenState
         const SizedBox(height: 14),
         TextField(
           controller: _additionalNotesController,
-          decoration: const InputDecoration(
-            labelText: 'Anything else the doctor should know?',
-            hintText: 'Additional context, worries, questions...',
+          decoration: InputDecoration(
+            labelText: L.of(context).anythingElseDoctor,
+            hintText: L.of(context).additionalContextHint,
           ),
           maxLines: 3,
         ),
@@ -454,7 +452,7 @@ class _ConsultationRequestScreenState
   Widget _buildStep6Review() {
     final doctor = widget.doctor;
     return _StepBody(
-      title: 'Review & submit',
+      title: L.of(context).reviewAndSubmit,
       children: [
         // Doctor card
         Container(
@@ -485,7 +483,7 @@ class _ConsultationRequestScreenState
                   children: [
                     Text(doctor.fullName,
                         style: const TextStyle(fontWeight: FontWeight.w700)),
-                    Text(doctor.specialty.label,
+                    Text(doctor.specialty.label.of(context),
                         style: TextStyle(
                             fontSize: 12, color: AppColors.textHint)),
                   ],
@@ -505,8 +503,8 @@ class _ConsultationRequestScreenState
         const SizedBox(height: 16),
 
         // Urgency
-        const Text('Urgency',
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14)),
+        Text(L.of(context).urgency,
+            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14)),
         const SizedBox(height: 8),
         ...ConsultationUrgency.values.map((u) => Padding(
               padding: const EdgeInsets.only(bottom: 8),
@@ -563,12 +561,12 @@ class _ConsultationRequestScreenState
 
         const SizedBox(height: 16),
         // Summary
-        _SummaryRow(label: 'Patient', value: _nameController.text),
-        _SummaryRow(label: 'Concern', value: _mainConcernController.text),
+        _SummaryRow(label: L.of(context).patient, value: _nameController.text),
+        _SummaryRow(label: L.of(context).concern, value: _mainConcernController.text),
         _SummaryRow(
-            label: 'Attachments',
-            value: '${_labResultUrls.length} labs, ${_photoUrls.length} photos'),
-        _SummaryRow(label: 'Response time', value: doctor.responseTime),
+            label: L.of(context).attachments,
+            value: L.of(context).labsAndPhotosCount(_labResultUrls.length, _photoUrls.length)),
+        _SummaryRow(label: L.of(context).responseTime, value: doctor.responseTime.of(context)),
         const SizedBox(height: 12),
 
         // What's included
@@ -578,23 +576,23 @@ class _ConsultationRequestScreenState
             color: AppColors.success.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: const Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Included in your consultation:',
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13)),
-              SizedBox(height: 8),
-              _IncludedItem('Full case review by the doctor'),
-              _IncludedItem('Written assessment & recommendations'),
-              _IncludedItem('1 follow-up question'),
-              _IncludedItem('When to seek emergency care guidance'),
+              Text(L.of(context).includedInConsultation,
+                  style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13)),
+              const SizedBox(height: 8),
+              _IncludedItem(L.of(context).includedCaseReview),
+              _IncludedItem(L.of(context).includedAssessment),
+              _IncludedItem(L.of(context).includedFollowUp),
+              _IncludedItem(L.of(context).includedEmergencyGuidance),
             ],
           ),
         ),
 
         const SizedBox(height: 12),
         Text(
-          'By submitting, you agree that this is not an emergency and does not replace in-person care.',
+          L.of(context).submitDisclaimer,
           style:
               TextStyle(fontSize: 11, color: AppColors.textHint, height: 1.4),
           textAlign: TextAlign.center,
@@ -608,10 +606,9 @@ class _ConsultationRequestScreenState
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('Consultation Submitted'),
+        title: Text(L.of(context).consultationSubmitted),
         content: Text(
-          '${widget.doctor.fullName} will review your case and respond ${widget.doctor.responseTime.toLowerCase()}.\n\n'
-          'You\'ll receive a notification when the response is ready.',
+          L.of(context).consultationSubmittedBody(widget.doctor.fullName, widget.doctor.responseTime.of(context).toLowerCase()),
         ),
         actions: [
           ElevatedButton(
@@ -619,7 +616,7 @@ class _ConsultationRequestScreenState
               Navigator.of(context).pop();
               context.go('/');
             },
-            child: const Text('Got it'),
+            child: Text(L.of(context).gotIt),
           ),
         ],
       ),
@@ -630,14 +627,14 @@ class _ConsultationRequestScreenState
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('Discard consultation?'),
-        content: const Text(
-          'Your progress will be lost. Are you sure?',
+        title: Text(L.of(context).discardConsultation),
+        content: Text(
+          L.of(context).progressWillBeLost,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Keep editing'),
+            child: Text(L.of(context).keepEditing),
           ),
           TextButton(
             onPressed: () {
@@ -645,7 +642,7 @@ class _ConsultationRequestScreenState
               context.pop();
             },
             style: TextButton.styleFrom(foregroundColor: AppColors.error),
-            child: const Text('Discard'),
+            child: Text(L.of(context).discard),
           ),
         ],
       ),
@@ -770,7 +767,7 @@ class _UploadSection extends StatelessWidget {
               OutlinedButton.icon(
                 onPressed: onAdd,
                 icon: const Icon(Icons.add, size: 16),
-                label: const Text('Add'),
+                label: Text(L.of(context).add),
                 style: OutlinedButton.styleFrom(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
