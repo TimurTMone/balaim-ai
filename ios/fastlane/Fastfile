@@ -8,11 +8,19 @@ platform :ios do
       sh("flutter build ipa --release")
     end
 
-    # Upload to TestFlight using App Store Connect API key
+    # App Store Connect API credentials — all env-driven so key rotations
+    # don't require code changes. Defaults are the current production key.
+    key_id     = ENV["APP_STORE_CONNECT_KEY_ID"]     || "S33J7V6RL3"
+    issuer_id  = ENV["APP_STORE_CONNECT_ISSUER_ID"]
+    key_file   = File.expand_path("~/private_keys/AuthKey_#{key_id}.p8")
+
+    raise "APP_STORE_CONNECT_ISSUER_ID is not set. Export it from ~/.zshrc." if issuer_id.nil? || issuer_id.empty?
+    raise "App Store Connect private key not found at #{key_file}." unless File.exist?(key_file)
+
     api_key = app_store_connect_api_key(
-      key_id: "J7P3F59H9M",
-      issuer_id: ENV["APP_STORE_CONNECT_ISSUER_ID"],
-      key_filepath: File.expand_path("~/private_keys/AuthKey_J7P3F59H9M.p8"),
+      key_id: key_id,
+      issuer_id: issuer_id,
+      key_filepath: key_file,
     )
 
     upload_to_testflight(
