@@ -11,6 +11,49 @@ final aiServiceProvider = Provider<AiService>((ref) {
   return AiService(ref);
 });
 
+enum TriageUrgency { low, medium, high, emergency }
+
+class Triage {
+  final TriageUrgency urgency;
+  final String reason;
+  const Triage({required this.urgency, required this.reason});
+
+  static TriageUrgency? parseUrgency(String? s) {
+    switch (s) {
+      case 'low':
+        return TriageUrgency.low;
+      case 'medium':
+        return TriageUrgency.medium;
+      case 'high':
+        return TriageUrgency.high;
+      case 'emergency':
+        return TriageUrgency.emergency;
+    }
+    return null;
+  }
+
+  bool get isRedFlag =>
+      urgency == TriageUrgency.high || urgency == TriageUrgency.emergency;
+}
+
+/// A single turn in the conversation history sent to the Cloud Function.
+class ChatHistoryMessage {
+  final bool isAi;
+  final String text;
+  const ChatHistoryMessage({required this.isAi, required this.text});
+
+  Map<String, String> toJson() => {
+        'role': isAi ? 'assistant' : 'user',
+        'text': text,
+      };
+}
+
+class ChatResult {
+  final String response;
+  final Triage? triage;
+  const ChatResult({required this.response, this.triage});
+}
+
 class AiService {
   final Ref _ref;
 
@@ -18,7 +61,15 @@ class AiService {
 
   /// Call the Cloud Function for AI chat.
   /// Uses real Cloud Function when Firebase is connected, demo responses otherwise.
-  Future<String> chat(String message) async {
+  /// [locale] is the user's language code ('en', 'ru', 'ky') — the AI responds in that language.
+  /// [briefMode] when true asks for 1-2 sentence replies (3am mode).
+  /// [history] is the recent conversation (excluding the current message).
+  Future<ChatResult> chat(
+    String message, {
+    String locale = 'en',
+    bool briefMode = false,
+    List<ChatHistoryMessage> history = const [],
+  }) async {
     final profile = _ref.read(userProfileProvider);
     final tracking = _ref.read(trackingEntriesProvider);
     final todayTracking = tracking.where((e) {
@@ -32,6 +83,8 @@ class AiService {
     if (isFirebaseInitialized) {
       try {
         final userContext = {
+          'locale': locale,
+          'briefMode': briefMode,
           'week': profile.currentWeek,
           'stage': profile.stage.name,
           'babyName': profile.babyName,
@@ -46,8 +99,25 @@ class AiService {
 
         final result = await FirebaseFunctions.instance
             .httpsCallable('balamChat')
-            .call({'message': message, 'userContext': userContext});
-        return result.data['response'] as String;
+            .call({
+          'message': message,
+          'userContext': userContext,
+          'history': history.map((h) => h.toJson()).toList(),
+        });
+        final data = result.data as Map;
+        final responseText = data['response'] as String;
+        final triageData = data['triage'];
+        Triage? triage;
+        if (triageData is Map) {
+          final urgency = Triage.parseUrgency(triageData['urgency'] as String?);
+          if (urgency != null) {
+            triage = Triage(
+              urgency: urgency,
+              reason: (triageData['reason'] as String?) ?? '',
+            );
+          }
+        }
+        return ChatResult(response: responseText, triage: triage);
       } catch (e) {
         debugPrint('[AI] Cloud Function error, falling back to demo: $e');
         // Fall through to demo
@@ -55,7 +125,55 @@ class AiService {
     }
 
     // Demo mode: intelligent responses based on keywords
-    return _demoResponse(message, profile);
+    final response = await _demoResponse(message, profile);
+    final text = locale != 'en'
+        ? '${_demoLocaleNotice(locale)}\n\n$response'
+        : response;
+    return ChatResult(response: text, triage: _demoTriage(message));
+  }
+
+  /// Heuristic triage for demo mode — catches obvious red flags without Claude.
+  Triage? _demoTriage(String message) {
+    final m = message.toLowerCase();
+    const emergency = [
+      'not breathing',
+      'unconscious',
+      'unresponsive',
+      'seizure',
+      'blue lips',
+      'choking',
+    ];
+    const high = [
+      'fever',
+      'temperature',
+      'vomiting',
+      'blood',
+      'rash',
+      'dehydrated',
+      'not eating',
+      'not moving',
+      'severe pain',
+    ];
+    for (final k in emergency) {
+      if (m.contains(k)) return Triage(urgency: TriageUrgency.emergency, reason: 'Demo heuristic: $k');
+    }
+    for (final k in high) {
+      if (m.contains(k)) return Triage(urgency: TriageUrgency.high, reason: 'Demo heuristic: $k');
+    }
+    return null;
+  }
+
+  /// Brief bilingual notice shown in demo mode when user selected a non-English language.
+  /// Demo responses are pre-written in English; live Cloud Function replies in the user's language.
+  String _demoLocaleNotice(String locale) {
+    switch (locale) {
+      case 'ru':
+        return '_Демо-режим: полные ответы на русском появятся после подключения к интернету._';
+      case 'ky':
+        return '_Демо режим: кыргызча толук жооптор интернет туташкандан кийин болот._';
+      default:
+        return '';
+    }
   }
 
   double? _latestValue(List<TrackingEntry> entries, TrackingType type) {

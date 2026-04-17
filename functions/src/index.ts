@@ -1,6 +1,6 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-import { balamChat } from "./ai/balam-chat";
+import { balamChat as balamChatInternal } from "./ai/balam-chat";
 import { generateDailyInsight } from "./ai/daily-insights";
 
 admin.initializeApp();
@@ -12,10 +12,10 @@ admin.initializeApp();
 /**
  * Balam AI Chat — personalized parenting AI powered by Claude
  *
- * Accepts: { message: string, context: { week, stage, trackingData } }
- * Returns: { response: string }
+ * Accepts: { message, userContext: { locale, briefMode, stage, week, babyName, ageMonths, recentTracking }, history: [{role, text}] }
+ * Returns: { response: string, triage: { urgency, reason } | null }
  */
-export const chat = functions
+export const balamChat = functions
   .runWith({ secrets: ["ANTHROPIC_API_KEY"] })
   .https.onCall(async (data, context) => {
     // Auth check
@@ -26,7 +26,7 @@ export const chat = functions
       );
     }
 
-    const { message, userContext } = data;
+    const { message, userContext, history } = data;
 
     if (!message || typeof message !== "string") {
       throw new functions.https.HttpsError(
@@ -35,12 +35,16 @@ export const chat = functions
       );
     }
 
-    const response = await balamChat(message, {
-      uid: context.auth.uid,
-      ...userContext,
-    });
+    const result = await balamChatInternal(
+      message,
+      {
+        uid: context.auth.uid,
+        ...userContext,
+      },
+      Array.isArray(history) ? history : []
+    );
 
-    return { response };
+    return result;
   });
 
 /**

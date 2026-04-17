@@ -2,6 +2,8 @@ import Anthropic from "@anthropic-ai/sdk";
 
 interface UserContext {
   uid: string;
+  locale?: string;
+  briefMode?: boolean;
   week?: number;
   stage?: string;
   babyName?: string;
@@ -13,6 +15,49 @@ interface UserContext {
     lastKickCount?: number;
   };
 }
+
+export interface ChatHistoryMessage {
+  role: "user" | "assistant";
+  text: string;
+}
+
+export type TriageUrgency = "low" | "medium" | "high" | "emergency";
+
+export interface Triage {
+  urgency: TriageUrgency;
+  reason: string;
+}
+
+export interface BalamChatResult {
+  response: string;
+  triage: Triage | null;
+}
+
+const LANGUAGE_NAMES: Record<string, string> = {
+  en: "English",
+  ru: "Russian (Русский)",
+  ky: "Kyrgyz (Кыргызча)",
+};
+
+const BRIEF_MODE_INSTRUCTION = `
+BRIEF MODE (3am mode — parent is exhausted):
+- Maximum 2 short sentences.
+- Lead with reassurance.
+- No bullet lists, no headings, no emojis beyond one.
+- If it's a red-flag (fever >38.5, unresponsiveness, severe symptoms), be direct about calling a doctor.`;
+
+const TRIAGE_INSTRUCTION = `
+RED-FLAG TRIAGE (CRITICAL — always include):
+After your normal response, append exactly one final line in this exact format:
+<triage>{"urgency":"low"|"medium"|"high"|"emergency","reason":"brief English reason"}</triage>
+
+Guidelines:
+- "emergency": immediate danger — difficulty breathing, unresponsiveness, seizures, severe bleeding, fever >39.5°C in infant under 3mo, signs of dehydration in newborn. Recommend calling emergency services.
+- "high": warrants seeing a doctor within 24h — fever >38.5°C, persistent vomiting, sudden behavioral change, significant reduced movement in pregnancy, concerning developmental delay.
+- "medium": schedule a routine consult this week — recurring concerns, mild symptoms that persist.
+- "low": normal parenting question, reassurance topic.
+
+The triage line is metadata — never reference it in the visible response. The reason must always be in English (for analytics).`;
 
 const SYSTEM_PROMPT_BASE = `You are Balam, a Montessori-trained AI parenting teacher. Your name comes from the Mayan word for jaguar — a protector and guide.
 
@@ -186,13 +231,42 @@ function buildSystemPrompt(context: UserContext): string {
     prompt += buildToddlerPrompt(ageMonths, context.babyName);
   }
 
+  const languageName = LANGUAGE_NAMES[context.locale ?? "en"] ?? "English";
+  prompt += `\n\nLANGUAGE (CRITICAL): The user has selected ${languageName}. Respond ONLY in ${languageName}. Keep medical terms and Montessori vocabulary natural to that language. Never mix languages in one response.`;
+
+  if (context.briefMode) {
+    prompt += BRIEF_MODE_INSTRUCTION;
+  }
+
+  prompt += TRIAGE_INSTRUCTION;
+
   return prompt;
+}
+
+const TRIAGE_RE = /<triage>\s*(\{[\s\S]*?\})\s*<\/triage>\s*$/i;
+
+function extractTriage(raw: string): { text: string; triage: Triage | null } {
+  const match = raw.match(TRIAGE_RE);
+  if (!match) return { text: raw.trim(), triage: null };
+  try {
+    const parsed = JSON.parse(match[1]);
+    const urgency = parsed.urgency as TriageUrgency;
+    const valid = ["low", "medium", "high", "emergency"].includes(urgency);
+    if (!valid) return { text: raw.replace(TRIAGE_RE, "").trim(), triage: null };
+    return {
+      text: raw.replace(TRIAGE_RE, "").trim(),
+      triage: { urgency, reason: String(parsed.reason ?? "") },
+    };
+  } catch {
+    return { text: raw.replace(TRIAGE_RE, "").trim(), triage: null };
+  }
 }
 
 export async function balamChat(
   message: string,
-  context: UserContext
-): Promise<string> {
+  context: UserContext,
+  history: ChatHistoryMessage[] = []
+): Promise<BalamChatResult> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     throw new Error("ANTHROPIC_API_KEY not configured");
@@ -200,7 +274,7 @@ export async function balamChat(
 
   const client = new Anthropic({ apiKey });
 
-  // Build contextual user message
+  // Build contextual user message (prepended to current turn only)
   let contextBlock = "";
   if (context.week) {
     contextBlock += `\n[User is at pregnancy week ${context.week}]`;
@@ -228,20 +302,34 @@ export async function balamChat(
 
   const systemPrompt = buildSystemPrompt(context);
 
+  // Build message history: keep last 20, always ending with current user message.
+  // Drop any initial assistant welcome message — Anthropic requires messages to start with 'user'.
+  const trimmedHistory = history.slice(-20);
+  while (trimmedHistory.length > 0 && trimmedHistory[0].role !== "user") {
+    trimmedHistory.shift();
+  }
+  const messages = trimmedHistory.map((m) => ({
+    role: m.role,
+    content: m.text,
+  }));
+  messages.push({
+    role: "user",
+    content: contextBlock
+      ? `${contextBlock}\n\nParent's question: ${message}`
+      : message,
+  });
+
   const response = await client.messages.create({
     model: "claude-sonnet-4-6-20250514",
-    max_tokens: 1024,
+    max_tokens: context.briefMode ? 256 : 1024,
     system: systemPrompt,
-    messages: [
-      {
-        role: "user",
-        content: contextBlock
-          ? `${contextBlock}\n\nParent's question: ${message}`
-          : message,
-      },
-    ],
+    messages,
   });
 
   const textBlock = response.content.find((block) => block.type === "text");
-  return textBlock ? textBlock.text : "I'm having trouble responding right now. Please try again.";
+  const raw = textBlock
+    ? textBlock.text
+    : "I'm having trouble responding right now. Please try again.";
+  const { text, triage } = extractTriage(raw);
+  return { response: text, triage };
 }

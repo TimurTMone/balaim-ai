@@ -1,6 +1,8 @@
 import '../../../l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/constants/app_constants.dart' show ParentingStage;
 import '../../../shared/models/user_profile.dart';
@@ -213,9 +215,19 @@ class _AiChatScreenState extends ConsumerState<AiChatScreen> {
     final messages = ref.watch(chatMessagesProvider);
     final profile = ref.watch(userProfileProvider);
     final chips = _getSuggestionChips(profile);
+    final isNight = ChatMessagesNotifier.isNightMode();
+
+    final scaffoldBg = isNight ? const Color(0xFF0E1116) : AppColors.background;
+    final surfaceBg = isNight ? const Color(0xFF181C22) : AppColors.surface;
+    final textPrimary = isNight ? Colors.white : AppColors.textPrimary;
+    final textHint = isNight ? Colors.white60 : AppColors.textHint;
+    final messageFontSize = isNight ? 18.0 : 15.0;
 
     return Scaffold(
+      backgroundColor: scaffoldBg,
       appBar: AppBar(
+        backgroundColor: isNight ? surfaceBg : null,
+        foregroundColor: isNight ? Colors.white : null,
         title: Row(
           children: [
             Container(
@@ -231,10 +243,11 @@ class _AiChatScreenState extends ConsumerState<AiChatScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(L.of(context).balamAI, style: TextStyle(fontSize: 16)),
+                Text(L.of(context).balamAI,
+                    style: TextStyle(fontSize: 16, color: textPrimary)),
                 Text(
-                  _getSubtitle(profile),
-                  style: const TextStyle(fontSize: 11, color: AppColors.textHint),
+                  isNight ? L.of(context).nightModeBadge : _getSubtitle(profile),
+                  style: TextStyle(fontSize: 11, color: textHint),
                 ),
               ],
             ),
@@ -243,18 +256,20 @@ class _AiChatScreenState extends ConsumerState<AiChatScreen> {
       ),
       body: Column(
         children: [
-          // Suggestion chips
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              children: chips.map((chip) => _SuggestionChip(
-                label: chip.label,
-                onTap: () => _send(chip.message),
-              )).toList(),
+          // Suggestion chips (hidden in 3am mode — user needs focus, not options)
+          if (!isNight) ...[
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                children: chips.map((chip) => _SuggestionChip(
+                  label: chip.label,
+                  onTap: () => _send(chip.message),
+                )).toList(),
+              ),
             ),
-          ),
-          const Divider(height: 1),
+            const Divider(height: 1),
+          ],
 
           // Messages
           Expanded(
@@ -264,7 +279,11 @@ class _AiChatScreenState extends ConsumerState<AiChatScreen> {
               itemCount: messages.length,
               itemBuilder: (context, index) {
                 final msg = messages[index];
-                return _MessageBubble(message: msg);
+                return _MessageBubble(
+                  message: msg,
+                  night: isNight,
+                  fontSize: messageFontSize,
+                );
               },
             ),
           ),
@@ -272,23 +291,27 @@ class _AiChatScreenState extends ConsumerState<AiChatScreen> {
           // Input
           Container(
             padding: const EdgeInsets.fromLTRB(16, 8, 8, 32),
-            decoration: const BoxDecoration(
-              color: AppColors.surface,
-              border: Border(top: BorderSide(color: AppColors.divider)),
+            decoration: BoxDecoration(
+              color: surfaceBg,
+              border: Border(
+                top: BorderSide(color: isNight ? Colors.white12 : AppColors.divider),
+              ),
             ),
             child: Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: _controller,
+                    style: TextStyle(color: textPrimary, fontSize: messageFontSize),
                     decoration: InputDecoration(
                       hintText: L.of(context).askBalamAnything,
+                      hintStyle: TextStyle(color: textHint),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(24),
                         borderSide: BorderSide.none,
                       ),
                       filled: true,
-                      fillColor: AppColors.background,
+                      fillColor: isNight ? const Color(0xFF242830) : AppColors.background,
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 20,
                         vertical: 12,
@@ -326,11 +349,21 @@ class _ChipData {
 
 class _MessageBubble extends StatelessWidget {
   final ChatMessage message;
+  final bool night;
+  final double fontSize;
 
-  const _MessageBubble({required this.message});
+  const _MessageBubble({
+    required this.message,
+    this.night = false,
+    this.fontSize = 15,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final aiSurface = night ? const Color(0xFF1E232B) : AppColors.surface;
+    final aiText = night ? Colors.white : AppColors.textPrimary;
+    final aiBorder = night ? Colors.white12 : AppColors.divider;
+
     if (message.isLoading) {
       return Padding(
         padding: const EdgeInsets.only(bottom: 12),
@@ -349,9 +382,9 @@ class _MessageBubble extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: aiSurface,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.divider),
+                border: Border.all(color: aiBorder),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -371,44 +404,151 @@ class _MessageBubble extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: Row(
-        mainAxisAlignment:
-            message.isAi ? MainAxisAlignment.start : MainAxisAlignment.end,
+      child: Column(
+        crossAxisAlignment:
+            message.isAi ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+        children: [
+          Row(
+            mainAxisAlignment:
+                message.isAi ? MainAxisAlignment.start : MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (message.isAi)
+                Container(
+                  width: 32,
+                  height: 32,
+                  margin: const EdgeInsets.only(right: 8),
+                  decoration: const BoxDecoration(
+                    color: AppColors.secondary,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.auto_awesome, color: Colors.white, size: 16),
+                ),
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: message.isAi ? aiSurface : AppColors.primary,
+                    borderRadius: BorderRadius.only(
+                      topLeft: const Radius.circular(16),
+                      topRight: const Radius.circular(16),
+                      bottomLeft: Radius.circular(message.isAi ? 4 : 16),
+                      bottomRight: Radius.circular(message.isAi ? 16 : 4),
+                    ),
+                    border: message.isAi ? Border.all(color: aiBorder) : null,
+                  ),
+                  child: Text(
+                    message.text,
+                    style: TextStyle(
+                      color: message.isAi ? aiText : Colors.white,
+                      fontSize: fontSize,
+                      height: 1.5,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          if (message.isAi && message.triage != null && message.triage!.isRedFlag) ...[
+            const SizedBox(height: 10),
+            _TriageBanner(triage: message.triage!, night: night),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _TriageBanner extends StatelessWidget {
+  final Triage triage;
+  final bool night;
+
+  const _TriageBanner({required this.triage, required this.night});
+
+  @override
+  Widget build(BuildContext context) {
+    final l = L.of(context);
+    final isEmergency = triage.urgency == TriageUrgency.emergency;
+    final bg = isEmergency ? AppColors.error : AppColors.accentDark;
+    final title = isEmergency ? l.triageEmergencyTitle : l.triageHighTitle;
+    final body = isEmergency ? l.triageEmergencyBody : l.triageHighBody;
+
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: bg.withValues(alpha: night ? 0.22 : 0.12),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: bg.withValues(alpha: 0.5)),
+      ),
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (message.isAi)
-            Container(
-              width: 32,
-              height: 32,
-              margin: const EdgeInsets.only(right: 8),
-              decoration: const BoxDecoration(
-                color: AppColors.secondary,
-                shape: BoxShape.circle,
+          Row(
+            children: [
+              Icon(
+                isEmergency ? Icons.emergency : Icons.medical_services,
+                color: bg,
+                size: 18,
               ),
-              child: const Icon(Icons.auto_awesome, color: Colors.white, size: 16),
-            ),
-          Flexible(
-            child: Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: message.isAi ? AppColors.surface : AppColors.primary,
-                borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(16),
-                  topRight: const Radius.circular(16),
-                  bottomLeft: Radius.circular(message.isAi ? 4 : 16),
-                  bottomRight: Radius.circular(message.isAi ? 16 : 4),
-                ),
-                border: message.isAi ? Border.all(color: AppColors.divider) : null,
-              ),
-              child: Text(
-                message.text,
-                style: TextStyle(
-                  color: message.isAi ? AppColors.textPrimary : Colors.white,
-                  fontSize: 15,
-                  height: 1.5,
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    color: night ? Colors.white : bg,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                  ),
                 ),
               ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(
+            body,
+            style: TextStyle(
+              color: night ? Colors.white70 : AppColors.textSecondary,
+              fontSize: 13,
+              height: 1.4,
             ),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              FilledButton(
+                onPressed: () => context.go('/professionals'),
+                style: FilledButton.styleFrom(
+                  backgroundColor: bg,
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+                child: Text(
+                  l.triageConsultCta,
+                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                ),
+              ),
+              if (isEmergency) ...[
+                const SizedBox(width: 8),
+                OutlinedButton(
+                  onPressed: () async {
+                    final uri = Uri.parse('tel:112');
+                    if (await canLaunchUrl(uri)) {
+                      await launchUrl(uri);
+                    }
+                  },
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: bg,
+                    side: BorderSide(color: bg),
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  ),
+                  child: Text(
+                    l.triageCallEmergencyCta,
+                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ],
+            ],
           ),
         ],
       ),
