@@ -1,4 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/theme/app_colors.dart';
@@ -6,6 +9,26 @@ import '../../../core/l10n/content_localizations.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/models/lab_result.dart';
 import 'lab_entry_screen.dart';
+
+const _sampleLabAsset = 'assets/demo/sample_lab_report.pdf';
+
+Future<void> _openSampleLabPdf(BuildContext context) async {
+  try {
+    final bytes = await rootBundle.load(_sampleLabAsset);
+    final dir = await getTemporaryDirectory();
+    final file = File('${dir.path}/sample_lab_report.pdf');
+    await file.writeAsBytes(bytes.buffer.asUint8List(), flush: true);
+    final uri = Uri.file(file.path);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw 'launchUrl returned false';
+    }
+  } catch (e) {
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Could not open PDF: $e'), behavior: SnackBarBehavior.floating),
+    );
+  }
+}
 
 /// Beautiful, mom-friendly lab result analysis screen.
 /// Color-coded, expandable explanations, 3 languages, medical disclaimer.
@@ -87,6 +110,15 @@ class LabAnalysisScreen extends StatelessWidget {
                           style: TextStyle(fontSize: 13, color: AppColors.textHint)),
                     ],
                   ),
+                ),
+                IconButton.filledTonal(
+                  onPressed: () => _openSampleLabPdf(context),
+                  tooltip: const L3(
+                    en: 'View attached report',
+                    ru: 'Открыть отчёт',
+                    ky: 'Отчетту ачуу',
+                  ).of(context),
+                  icon: const Icon(Icons.picture_as_pdf, color: AppColors.primary),
                 ),
               ],
             ),

@@ -106,7 +106,7 @@ class NotificationService {
       sound: true,
     );
 
-    debugPrint('[FCM] Notification service initialized. Token: ${token?.substring(0, 20)}...');
+    debugPrint('[FCM] Notification service initialized.');
   }
 
   // ── Token management ──

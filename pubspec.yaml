@@ -93,6 +93,7 @@ flutter:
     - assets/animations/
     - assets/icons/
     - assets/branding/
+    - assets/demo/
 
 flutter_launcher_icons:
   android: "launcher_icon"
