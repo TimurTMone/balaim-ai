@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/services/auth_service.dart';
+import '../../../core/services/consultation_service.dart';
+import '../../../shared/models/consultation.dart';
 import '../../../shared/widgets/notification_bell.dart';
 import '../../../l10n/app_localizations.dart';
+import '../providers/doctor_provider.dart';
 import 'case_review_screen.dart';
 
 /// Doctor's home screen — shows pending cases, stats, and completed history.
@@ -15,13 +18,27 @@ class DoctorDashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final doctorName = AuthService().currentDisplayName ?? 'Doctor';
+    final profile = ref.watch(currentDoctorProfileProvider);
+    final doctorName = profile?.fullName ?? AuthService().currentDisplayName ?? 'Doctor';
 
-    // Demo data — in production, these come from ConsultationService streams
-    final pendingCases = _demoPendingCases();
-    final needsFollowUp = _demoFollowUpCases();
-    final completedCount = 12;
-    final totalEarnings = 2400.0;
+    final queueAsync = ref.watch(doctorQueueProvider);
+    final completedAsync = ref.watch(doctorCompletedProvider);
+
+    final queue = queueAsync.asData?.value ?? const [];
+    // Split: follow-up (patient waiting for doctor's follow-up answer) vs new cases.
+    final needsFollowUp = queue
+        .where((c) => c['status'] == ConsultationStatus.followUpAsked.name)
+        .toList();
+    final pendingCases = queue
+        .where((c) => c['status'] != ConsultationStatus.followUpAsked.name)
+        .toList();
+
+    final completedList = completedAsync.asData?.value ?? const [];
+    final completedCount = completedList.length;
+    final totalEarnings = completedList.fold<double>(
+      0,
+      (sum, c) => sum + ((c['pricePaid'] as num?)?.toDouble() ?? 0) * 0.8,
+    );
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -270,68 +287,16 @@ class DoctorDashboardScreen extends ConsumerWidget {
   }
 
   void _openCase(BuildContext context, Map<String, dynamic> caseData) {
+    // Auto-transition submitted → inReview when the doctor opens the case.
+    if (caseData['status'] == ConsultationStatus.submitted.name &&
+        caseData['id'] != null) {
+      ConsultationService().markInReview(caseData['id'] as String);
+    }
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => CaseReviewScreen(caseData: caseData),
       ),
     );
-  }
-
-  // Demo data — replaced by Firestore streams in production
-  List<Map<String, dynamic>> _demoPendingCases() {
-    return [
-      {
-        'id': 'demo-case-1',
-        'patientName': 'Sarah J.',
-        'patientAge': 28,
-        'mainConcern': 'Thyroid levels seem off after pregnancy',
-        'urgency': 'soon',
-        'specialty': 'endocrinology',
-        'status': 'submitted',
-        'createdAt': DateTime.now().subtract(const Duration(hours: 3)).toIso8601String(),
-        'hasLabResults': true,
-        'hasPhotos': false,
-      },
-      {
-        'id': 'demo-case-2',
-        'patientName': 'Mike T.',
-        'patientAge': 0,
-        'relationship': 'my child',
-        'mainConcern': '3-month-old has a small lump near groin',
-        'urgency': 'urgent',
-        'specialty': 'pediatricSurgery',
-        'status': 'submitted',
-        'createdAt': DateTime.now().subtract(const Duration(hours: 1)).toIso8601String(),
-        'hasLabResults': false,
-        'hasPhotos': true,
-      },
-      {
-        'id': 'demo-case-3',
-        'patientName': 'Elena K.',
-        'patientAge': 32,
-        'mainConcern': 'Persistent fatigue and weight gain 6 months postpartum',
-        'urgency': 'routine',
-        'specialty': 'endocrinology',
-        'status': 'submitted',
-        'createdAt': DateTime.now().subtract(const Duration(hours: 18)).toIso8601String(),
-        'hasLabResults': true,
-        'hasPhotos': false,
-      },
-    ];
-  }
-
-  List<Map<String, dynamic>> _demoFollowUpCases() {
-    return [
-      {
-        'id': 'demo-case-fu-1',
-        'patientName': 'Anna M.',
-        'mainConcern': 'TSH levels question',
-        'urgency': 'routine',
-        'followUpQuestion': 'Should I adjust my medication dose if symptoms improve?',
-        'status': 'followUpAsked',
-        'createdAt': DateTime.now().subtract(const Duration(days: 2)).toIso8601String(),
-      },
-    ];
   }
 }
 

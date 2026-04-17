@@ -32,6 +32,8 @@ import '../../features/community/views/community_screen.dart';
 import '../../features/admin/views/admin_dashboard_screen.dart';
 import '../../features/admin/views/admin_metrics_screen.dart';
 import '../../features/professionals/views/professionals_screen.dart';
+import '../../features/professionals/views/my_consultations_screen.dart';
+import '../../features/professionals/views/consultation_detail_screen.dart';
 import '../../features/doctor/views/doctor_dashboard_screen.dart';
 import '../../features/marketplace/views/marketplace_screen.dart';
 import '../router/shell_screen.dart';
@@ -159,6 +161,17 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/moments',
         builder: (context, state) => const MomentsScreen(),
+      ),
+
+      GoRoute(
+        path: '/my-consultations',
+        builder: (context, state) => const MyConsultationsScreen(),
+      ),
+      GoRoute(
+        path: '/my-consultations/:id',
+        builder: (context, state) => ConsultationDetailScreen(
+          consultationId: state.pathParameters['id']!,
+        ),
       ),
 
       // Admin shell

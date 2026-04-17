@@ -60,10 +60,17 @@ class NotificationService {
 
     debugPrint('[FCM] Permission: ${settings.authorizationStatus}');
 
-    // Get & save token
-    final token = await _messaging.getToken();
-    if (token != null && userId != null) {
-      await _saveToken(userId, token);
+    // Get & save token.
+    // iOS Simulator cannot obtain an APNS token — the call throws
+    // `firebase_messaging/apns-token-not-set`. Treat any failure as "no token"
+    // so the app continues to launch cleanly during development.
+    try {
+      final token = await _messaging.getToken();
+      if (token != null && userId != null) {
+        await _saveToken(userId, token);
+      }
+    } catch (e) {
+      debugPrint('[FCM] getToken skipped (likely simulator): $e');
     }
 
     // Listen for token refresh

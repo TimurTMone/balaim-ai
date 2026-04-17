@@ -729,7 +729,7 @@ class _ConsultationRequestScreenState
     }
 
     if (!mounted) return;
-    showDialog(
+    await showDialog(
       context: context,
       builder: (_) => AlertDialog(
         title: Text(L.of(context).consultationSubmitted),
@@ -738,15 +738,15 @@ class _ConsultationRequestScreenState
         ),
         actions: [
           ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              context.go('/');
-            },
+            onPressed: () => Navigator.of(context).pop(),
             child: Text(L.of(context).gotIt),
           ),
         ],
       ),
     );
+    if (!mounted) return;
+    // Land on the live consultation page so the patient can track status.
+    context.go('/my-consultations/${consultation.id}');
   }
 
   void _confirmExit(BuildContext context) {
