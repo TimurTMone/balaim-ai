@@ -12,16 +12,19 @@ import 'lab_entry_screen.dart';
 
 const _sampleLabAsset = 'assets/demo/sample_lab_report.pdf';
 
-Future<void> _openSampleLabPdf(BuildContext context) async {
+/// Opens the bundled sample lab PDF via the native iOS share sheet, which
+/// auto-previews the file with Quick Look. More reliable than launchUrl for
+/// local file:// URLs on iOS release builds.
+Future<void> _openSampleLabPdf(BuildContext context, Rect? originRect) async {
   try {
     final bytes = await rootBundle.load(_sampleLabAsset);
     final dir = await getTemporaryDirectory();
     final file = File('${dir.path}/sample_lab_report.pdf');
     await file.writeAsBytes(bytes.buffer.asUint8List(), flush: true);
-    final uri = Uri.file(file.path);
-    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      throw 'launchUrl returned false';
-    }
+    await Share.shareXFiles(
+      [XFile(file.path, mimeType: 'application/pdf', name: 'sample_lab_report.pdf')],
+      sharePositionOrigin: originRect,
+    );
   } catch (e) {
     if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
@@ -111,16 +114,34 @@ class LabAnalysisScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                IconButton.filledTonal(
-                  onPressed: () => _openSampleLabPdf(context),
-                  tooltip: const L3(
-                    en: 'View attached report',
-                    ru: 'Открыть отчёт',
-                    ky: 'Отчетту ачуу',
-                  ).of(context),
-                  icon: const Icon(Icons.picture_as_pdf, color: AppColors.primary),
-                ),
               ],
+            ),
+          ),
+          const SizedBox(height: 12),
+
+          // ── Attached lab report (prominent) ──
+          Builder(
+            builder: (btnCtx) => SizedBox(
+              width: double.infinity,
+              child: FilledButton.icon(
+                onPressed: () {
+                  final box = btnCtx.findRenderObject() as RenderBox?;
+                  final origin = box == null
+                      ? null
+                      : box.localToGlobal(Offset.zero) & box.size;
+                  _openSampleLabPdf(btnCtx, origin);
+                },
+                icon: const Icon(Icons.picture_as_pdf),
+                label: Text(const L3(
+                  en: 'View original lab report (PDF)',
+                  ru: 'Открыть оригинальный отчёт (PDF)',
+                  ky: 'Түпнуска отчетту ачуу (PDF)',
+                ).of(btnCtx)),
+                style: FilledButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+              ),
             ),
           ),
           const SizedBox(height: 16),

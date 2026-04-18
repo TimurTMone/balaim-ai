@@ -115,8 +115,9 @@ class ProfileScreen extends ConsumerWidget {
             ),
           const SizedBox(height: 24),
 
-          // Stage switcher — only shown in demo mode
-          if (demoUser != null) Container(
+          // Stage switcher — available to everyone. Parents move through
+          // stages (pregnant → newborn → toddler) and the app needs to follow.
+          Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: AppColors.accent.withValues(alpha: 0.08),
