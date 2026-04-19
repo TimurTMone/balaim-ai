@@ -4,6 +4,16 @@ interface UserContext {
   uid: string;
   locale?: string;
   briefMode?: boolean;
+  // Household-member-scoped fields (build 14+). When memberRole is set to a
+  // non-child role (self / partner / mother / father / grandmother / grandfather
+  // / sibling / uncleAunt / other), the adult-coach system prompt branch fires.
+  memberName?: string;
+  memberRole?: string;
+  memberAgeYears?: number;
+  memberAgeMonths?: number;
+  memberConditions?: string[];
+  memberMedications?: string[];
+  // Legacy child-context fields (still sent when the selected member is a child)
   week?: number;
   stage?: string;
   babyName?: string;
@@ -13,6 +23,8 @@ interface UserContext {
     water?: number;
     sleep?: number;
     lastKickCount?: number;
+    bloodPressure?: number;
+    bloodGlucose?: number;
   };
 }
 
@@ -218,10 +230,88 @@ BONDING:
 - You cannot hold a baby too much.`;
 }
 
+const ADULT_ROLES = new Set([
+  "self",
+  "partner",
+  "mother",
+  "father",
+  "grandmother",
+  "grandfather",
+  "sibling",
+  "uncleAunt",
+  "other",
+]);
+
+function buildAdultCoachPrompt(context: UserContext): string {
+  const name = context.memberName ?? "this family member";
+  const age = context.memberAgeYears ?? "unknown age";
+  const conditions = (context.memberConditions ?? []).join(", ") || "none reported";
+  const meds = (context.memberMedications ?? []).join(", ") || "none reported";
+  const role = context.memberRole ?? "self";
+
+  const t = context.recentTracking ?? {};
+  const vitalsLines: string[] = [];
+  if (t.weight) vitalsLines.push(`weight ${t.weight}kg`);
+  if (t.bloodPressure) vitalsLines.push(`BP ${t.bloodPressure}`);
+  if (t.bloodGlucose) vitalsLines.push(`glucose ${t.bloodGlucose}`);
+  const vitals = vitalsLines.length > 0 ? vitalsLines.join(", ") : "none logged";
+
+  return `
+
+ADULT FAMILY MEMBER CONTEXT (${role}):
+You are speaking with the primary account holder about ${name}, age ${age}.
+Known conditions: ${conditions}.
+Current medications: ${meds}.
+Latest logged vitals: ${vitals}.
+
+ROLE SHIFT — you are a FAMILY HEALTH COACH for an adult now, not a
+Montessori parenting teacher. Do not reference Montessori, tummy time,
+developmental milestones, pediatric stages, or anything child-specific.
+
+PRIMARY DOMAIN — adult metabolic and preventive health:
+- Type 2 diabetes / prediabetes management: fasting glucose thresholds
+  (normal <100 mg/dL, prediabetes 100-125, diabetes ≥126), HbA1c, carb
+  awareness, meal timing, exercise's role.
+- Hypertension: stages (normal <120/80, elevated 120-129/<80, stage 1
+  130-139/80-89, stage 2 ≥140/90, hypertensive crisis ≥180/120), lifestyle
+  wedges (sodium, weight, movement, sleep, stress).
+- Lipids / cardiovascular risk, sleep, mental health, medication adherence.
+
+TRIAGE THRESHOLDS (adults) — these inform your <triage> block:
+- emergency: chest pain + shortness of breath, stroke FAST signs,
+  BP ≥180/120 with symptoms, fasting glucose >400 or <55, severe
+  hypoglycemia, unresponsiveness.
+- high: fasting glucose persistently >180, HbA1c >9, BP >160/100 without
+  symptoms, new diabetes diagnosis in an untreated adult, 3+ missed doses
+  of a critical med.
+- medium: fasting glucose 126-180, BP 140-159/90-99, one borderline lab
+  value trending wrong direction.
+- low: reassurance / education / general wellness questions.
+
+TONE — calm, specific, respectful of the user's intelligence. Assume the
+primary account holder is the caregiver (often a daughter) asking about
+${name}. Speak about ${name}, not to them.
+
+SPECIALIST REFERRAL — when a consult is appropriate, recommend the right
+specialty explicitly: endocrinology for metabolic/diabetes, internal
+medicine for general, cardiology for heart, mental health for
+depression/anxiety. Jane Mone NP (endocrinology, trilingual) is the
+in-app option for metabolic questions.
+
+NEVER: suggest stopping medications the user mentions, propose specific
+dose changes, or diagnose. Frame clinical actions as "worth discussing
+with a doctor", not "you should".`;
+}
+
 function buildSystemPrompt(context: UserContext): string {
   let prompt = SYSTEM_PROMPT_BASE;
 
-  if (context.stage === "pregnant" || context.stage === "tryingToConceive") {
+  const memberRole = context.memberRole ?? "child";
+  const isAdult = ADULT_ROLES.has(memberRole) && memberRole !== "child";
+
+  if (isAdult) {
+    prompt += buildAdultCoachPrompt(context);
+  } else if (context.stage === "pregnant" || context.stage === "tryingToConceive") {
     prompt += STAGE_PROMPT_PREGNANT;
   } else if (context.stage === "newborn") {
     const ageMonths = context.ageMonths ?? 3;

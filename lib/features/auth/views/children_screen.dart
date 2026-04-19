@@ -16,12 +16,12 @@ class ChildrenScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(L.of(context).myChildren),
+        title: const Text('My Family'),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showAddChildDialog(context, ref),
-        icon: const Icon(Icons.add),
-        label: Text(L.of(context).addChild),
+        icon: const Icon(Icons.person_add),
+        label: const Text('Add member'),
       ),
       body: children.isEmpty
           ? Center(
@@ -62,8 +62,37 @@ class ChildrenScreen extends ConsumerWidget {
 
   void _showAddChildDialog(BuildContext context, WidgetRef ref) {
     final nameController = TextEditingController();
+    var selectedRole = MemberRole.child;
     var selectedStage = ParentingStage.pregnant;
     DateTime? selectedDate;
+
+    // Ordered role list for the chip picker (most common first).
+    const roles = [
+      MemberRole.child,
+      MemberRole.partner,
+      MemberRole.mother,
+      MemberRole.father,
+      MemberRole.grandmother,
+      MemberRole.grandfather,
+      MemberRole.sibling,
+      MemberRole.uncleAunt,
+      MemberRole.other,
+    ];
+
+    String roleLabel(MemberRole r) {
+      switch (r) {
+        case MemberRole.child:      return 'Child';
+        case MemberRole.partner:    return 'Partner';
+        case MemberRole.mother:     return 'Mom';
+        case MemberRole.father:     return 'Dad';
+        case MemberRole.grandmother:return 'Grandma';
+        case MemberRole.grandfather:return 'Grandpa';
+        case MemberRole.sibling:    return 'Sibling';
+        case MemberRole.uncleAunt:  return 'Aunt/Uncle';
+        case MemberRole.other:      return 'Other';
+        case MemberRole.self:       return 'Me';
+      }
+    }
 
     showModalBottomSheet(
       context: context,
@@ -76,88 +105,145 @@ class ChildrenScreen extends ConsumerWidget {
             color: AppColors.surface,
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(L.of(context).addChild, style: Theme.of(ctx).textTheme.headlineSmall),
-              const SizedBox(height: 20),
-              TextField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  labelText: L.of(context).childName,
-                  prefixIcon: const Icon(Icons.child_care),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(L.of(context).stage, style: const TextStyle(fontWeight: FontWeight.w600)),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: ParentingStage.values.map((stage) {
-                  final isSelected = selectedStage == stage;
-                  return GestureDetector(
-                    onTap: () => setSheetState(() => selectedStage = stage),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                      decoration: BoxDecoration(
-                        color: isSelected ? AppColors.primary : AppColors.background,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: isSelected ? AppColors.primary : AppColors.divider),
-                      ),
-                      child: Text(
-                        stage.label,
-                        style: TextStyle(
-                          color: isSelected ? Colors.white : AppColors.textPrimary,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Add family member',
+                    style: Theme.of(ctx).textTheme.headlineSmall),
+                const SizedBox(height: 6),
+                Text('Anyone you care about — a child, your partner, your parents.',
+                    style: TextStyle(color: AppColors.textHint, fontSize: 13)),
+                const SizedBox(height: 20),
+
+                // Role chips
+                const Text('Who is this?', style: TextStyle(fontWeight: FontWeight.w600)),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: roles.map((r) {
+                    final isSelected = selectedRole == r;
+                    return GestureDetector(
+                      onTap: () => setSheetState(() => selectedRole = r),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        decoration: BoxDecoration(
+                          color: isSelected ? AppColors.primary : AppColors.background,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: isSelected ? AppColors.primary : AppColors.divider),
+                        ),
+                        child: Text(
+                          roleLabel(r),
+                          style: TextStyle(
+                            color: isSelected ? Colors.white : AppColors.textPrimary,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 16),
-              OutlinedButton.icon(
-                onPressed: () async {
-                  final picked = await showDatePicker(
-                    context: ctx,
-                    initialDate: selectedStage == ParentingStage.pregnant
-                        ? DateTime.now().add(const Duration(days: 120))
-                        : DateTime.now().subtract(const Duration(days: 90)),
-                    firstDate: DateTime(2020),
-                    lastDate: DateTime(2028),
-                  );
-                  if (picked != null) setSheetState(() => selectedDate = picked);
-                },
-                icon: const Icon(Icons.calendar_today),
-                label: Text(selectedDate != null
-                    ? '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}'
-                    : selectedStage == ParentingStage.pregnant
-                        ? L.of(context).selectDueDate
-                        : L.of(context).selectBirthDate),
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (nameController.text.trim().isEmpty) return;
-                    final child = Child(
-                      id: 'child-${DateTime.now().millisecondsSinceEpoch}',
-                      name: nameController.text.trim(),
-                      stage: selectedStage,
-                      dueDate: selectedStage == ParentingStage.pregnant ? selectedDate : null,
-                      birthDate: selectedStage != ParentingStage.pregnant ? selectedDate : null,
                     );
-                    ref.read(userProfileProvider.notifier).addChild(child);
-                    Navigator.of(ctx).pop();
-                  },
-                  child: Text(L.of(context).addChild),
+                  }).toList(),
                 ),
-              ),
-            ],
+                const SizedBox(height: 20),
+
+                TextField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    labelText: 'Name',
+                    prefixIcon: const Icon(Icons.person_outline),
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Stage picker only makes sense for a child.
+                if (selectedRole == MemberRole.child) ...[
+                  Text(L.of(context).stage, style: const TextStyle(fontWeight: FontWeight.w600)),
+                  const SizedBox(height: 8),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: ParentingStage.values.map((stage) {
+                      final isSelected = selectedStage == stage;
+                      return GestureDetector(
+                        onTap: () => setSheetState(() => selectedStage = stage),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                          decoration: BoxDecoration(
+                            color: isSelected ? AppColors.primary : AppColors.background,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: isSelected ? AppColors.primary : AppColors.divider),
+                          ),
+                          child: Text(
+                            stage.label,
+                            style: TextStyle(
+                              color: isSelected ? Colors.white : AppColors.textPrimary,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 16),
+                ],
+
+                OutlinedButton.icon(
+                  onPressed: () async {
+                    final isPregnancy =
+                        selectedRole == MemberRole.child && selectedStage == ParentingStage.pregnant;
+                    final picked = await showDatePicker(
+                      context: ctx,
+                      initialDate: isPregnancy
+                          ? DateTime.now().add(const Duration(days: 120))
+                          : selectedRole == MemberRole.child
+                              ? DateTime.now().subtract(const Duration(days: 90))
+                              : DateTime.now().subtract(const Duration(days: 365 * 40)),
+                      firstDate: DateTime(1920),
+                      lastDate: DateTime(2030),
+                    );
+                    if (picked != null) setSheetState(() => selectedDate = picked);
+                  },
+                  icon: const Icon(Icons.calendar_today),
+                  label: Text(selectedDate != null
+                      ? '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}'
+                      : selectedRole != MemberRole.child
+                          ? 'Date of birth (optional)'
+                          : selectedStage == ParentingStage.pregnant
+                              ? L.of(context).selectDueDate
+                              : L.of(context).selectBirthDate),
+                ),
+                const SizedBox(height: 24),
+
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (nameController.text.trim().isEmpty) return;
+                      final isChild = selectedRole == MemberRole.child;
+                      final member = HouseholdMember(
+                        id: 'member-${DateTime.now().millisecondsSinceEpoch}',
+                        name: nameController.text.trim(),
+                        role: selectedRole,
+                        stage: isChild ? selectedStage : null,
+                        dueDate: isChild && selectedStage == ParentingStage.pregnant
+                            ? selectedDate
+                            : null,
+                        birthDate: !isChild ||
+                                (isChild && selectedStage != ParentingStage.pregnant)
+                            ? selectedDate
+                            : null,
+                      );
+                      ref.read(userProfileProvider.notifier).addChild(member);
+                      Navigator.of(ctx).pop();
+                    },
+                    child: const Text('Add family member'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

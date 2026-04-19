@@ -6,15 +6,31 @@ enum TrackingType {
   mood,
   symptoms,
   bloodPressure,
+  bloodGlucose,
+  medTaken,
   feeding,
   diaper,
   medication,
   contraction,
 }
 
+extension TrackingTypeX on TrackingType {
+  /// Types that apply to adult household members (health-coach menu).
+  bool get isAdultVital =>
+      this == TrackingType.weight ||
+      this == TrackingType.bloodPressure ||
+      this == TrackingType.bloodGlucose ||
+      this == TrackingType.medTaken;
+}
+
 class TrackingEntry {
   final String id;
   final String userId;
+
+  /// Household member this entry belongs to. Nullable for legacy
+  /// entries; new entries should always set it.
+  final String? memberId;
+
   final TrackingType type;
   final double? value;
   final String? unit;
@@ -26,6 +42,7 @@ class TrackingEntry {
   const TrackingEntry({
     required this.id,
     required this.userId,
+    this.memberId,
     required this.type,
     this.value,
     this.unit,
@@ -39,6 +56,7 @@ class TrackingEntry {
     return {
       'id': id,
       'userId': userId,
+      'memberId': memberId,
       'type': type.name,
       'value': value,
       'unit': unit,
@@ -53,6 +71,7 @@ class TrackingEntry {
     return TrackingEntry(
       id: data['id'] as String,
       userId: data['userId'] as String,
+      memberId: data['memberId'] as String?,
       type: TrackingType.values.firstWhere(
         (t) => t.name == data['type'],
       ),

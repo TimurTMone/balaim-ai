@@ -82,18 +82,34 @@ class AiService {
     // Try real Cloud Function first
     if (isFirebaseInitialized) {
       try {
+        // Member context: who is this conversation about?
+        final member = profile.selectedMember;
+        final memberRole = member?.role.name ?? 'child';
+        final isChildContext = memberRole == 'child' || memberRole == 'self' && profile.babyName != null;
+
         final userContext = {
           'locale': locale,
           'briefMode': briefMode,
-          'week': profile.currentWeek,
-          'stage': profile.stage.name,
-          'babyName': profile.babyName,
-          'ageMonths': profile.babyAgeMonths,
+          // Member-scoped fields (new, required by build-14 adult branch)
+          'memberName': member?.name ?? profile.babyName,
+          'memberRole': memberRole,
+          'memberAgeYears': member?.ageYears,
+          'memberAgeMonths': member?.ageMonths,
+          'memberConditions': member?.conditions ?? const [],
+          'memberMedications': member?.medications ?? const [],
+          // Legacy baby-specific fields kept when we're still in a child context
+          // so the existing Montessori/pediatric system prompt has what it needs.
+          if (isChildContext) 'week': profile.currentWeek,
+          if (isChildContext) 'stage': profile.stage.name,
+          if (isChildContext) 'babyName': profile.babyName,
+          if (isChildContext) 'ageMonths': profile.babyAgeMonths,
           'recentTracking': {
             'weight': _latestValue(todayTracking, TrackingType.weight),
             'water': _latestValue(todayTracking, TrackingType.water),
             'sleep': _latestValue(todayTracking, TrackingType.sleep),
             'lastKickCount': _latestValue(todayTracking, TrackingType.kicks),
+            'bloodPressure': _latestValue(todayTracking, TrackingType.bloodPressure),
+            'bloodGlucose': _latestValue(todayTracking, TrackingType.bloodGlucose),
           },
         };
 
